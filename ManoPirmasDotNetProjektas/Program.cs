@@ -8,23 +8,26 @@
 // myFirstFloat (float)
 
 var myFirstString = "mano pirmasis tekstas C# kalboje !";
-
 var myFirstInt = 3;
-
 var myFirstBool = true;
 
-double myFirstDouble = 3.0; // C# default skaicius su kableliu yra double
+// C# default skaicius su kableliu yra double
+double myFirstDouble = 3.0;
 
-decimal myFirstDecimal = (decimal)3.0; //kad skaiciu su kableliu paverstume
+//kad skaiciu su kableliu paverstume
 //i decimal reikia ji castinti i decimal t.y. (decimal)xxx.xxxxx;
+decimal myFirstDecimal = (decimal)3.0;
 
-decimal mySecondDecimal = 3.0m; //arba skaiciaus gale parasyti m raide, nurodant
+//arba skaiciaus gale parasyti m raide, nurodant
 // kad tai yra decimal tipo skaicius
+decimal mySecondDecimal = 3.0m;
 
-float myFirstFloat = (float)3.0; //tapati sutuaci kaip su decimal tik su float'u
+//tapati sutuaci kaip su decimal tik su float'u
 // castinam i float 
+float myFirstFloat = (float)3.0;
 
-float mySecondFloat = 3.0f; //apsirasome kad tai yra float.
+//apsirasome kad tai yra float.
+float mySecondFloat = 3.0f;
 
 // 2 uzduotis: sukurti string tipo kintamaji (naudoti var raktazodi) kurio reiksme '5000',
 // ta kintamaji konvertuoti i int tipa ir priskirti myFirstInt kintamajui
@@ -35,20 +38,24 @@ myFirstInt = int.Parse(penkiTukstanciai);
 // 3 uzduotis: priskirti stringa su reiksme "6000" myFirstInt kintamajam
 // naudojant tryParse
 
-if (int.TryParse("6000", out myFirstInt)) //galima ties out parametru tiesiai priskirti kintamaji
+//galima ties out parametru tiesiai priskirti kintamaji
+if (int.TryParse("6000", out myFirstInt))
 {
     System.Console.WriteLine(myFirstInt);
 }
 
-if (int.TryParse("7000", out int parsedInt)) //galima out parametre susikurti kintamaji ir ji panaudoti poto
+//galima out parametre susikurti kintamaji ir ji panaudoti poto
+if (int.TryParse("7000", out int parsedInt))
 {
     myFirstInt = parsedInt;
     System.Console.WriteLine(myFirstInt);
 }
 
+
+// pavizdys kai konvertuoti, nesigaus.
 var blogasStringasKonvertacijaiIIntegeri = "1ooooo tukstanciu";
 
-if (int.TryParse(blogasStringasKonvertacijaiIIntegeri, out parsedInt)) // pavizdys kai konvertuoti, nesigaus.
+if (int.TryParse(blogasStringasKonvertacijaiIIntegeri, out parsedInt))
 {
     myFirstInt = parsedInt;
     System.Console.WriteLine(myFirstInt);
