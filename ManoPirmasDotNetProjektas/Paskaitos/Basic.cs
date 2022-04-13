@@ -4,7 +4,12 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
 {
     internal static class Basic
     {
-        public static void PirmosPaskaitosUzduotys()
+     
+        /// <summary>
+        /// sitas metodas iskvies uzduotis kurias darem per pirma paskaita, kurioje aptareme C# pagrindus.
+        /// </summary>
+        /// <param name="param">tiesiog parametras</param>
+        public static void PirmosPaskaitosUzduotys(string param = "default tekstas")
         {
             // 1 uzduotis: deklaruoti ir inicijuoti kintamuosius.
             // kintamieji:
@@ -72,6 +77,43 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             {
                 Console.WriteLine($"Nesigavo isparsinti {blogasStringasKonvertacijaiIIntegeri} i skaiciu");
             }
+
+            //Bitwise and normal OR diferences:
+            if (Basic.OperatorsTestOne() || Basic.OperatorsTestTwo())
+            {
+                Console.WriteLine("True");
+            }
+
+            Console.WriteLine("\n \n BitWise OR \n \n ");
+
+            if (Basic.OperatorsTestOne() | Basic.OperatorsTestTwo())
+            {
+                Console.WriteLine("True");
+            }
+
+            //one line comment: du slasai //
+
+            /*
+              
+              multi line komentaras              
+             
+            */
+
+
+
+
+        }
+
+        public static bool OperatorsTestOne()
+        {
+            Console.WriteLine("OperatorsTestOne");
+            return true;
+        }
+
+        public static bool OperatorsTestTwo()
+        {
+            Console.WriteLine("OperatorsTestTwo");
+            return true;
         }
     }
 }

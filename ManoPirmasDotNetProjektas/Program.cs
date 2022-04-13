@@ -1,3 +1,4 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos;
 
-Basic.PirmosPaskaitosUzduotys();
+Basic.PirmosPaskaitosUzduotys("tekstas");
+
