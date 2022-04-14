@@ -341,8 +341,12 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
 
             var skaicius = "penki";
 
+            Console.WriteLine($"\n\n\n0:\nNumber chosen {skaicius}");
+
             //1. Naudojant tik if'us i konsole isprintinti 
             // kokia reiksme priskirta kintamajui 0-9
+
+            Console.WriteLine("\n\n\n1:\n");
 
             if (skaicius == "nulis")
             {
@@ -389,6 +393,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
 
             //2. naudojant if-else if-else isprintinti,
             // kokia reiksme priskirta kintamajui 0-9, else 999999
+
+            Console.WriteLine("\n\n\n2:\n");
+
             if (skaicius == "nulis")
             {
                 Console.WriteLine(0);
@@ -435,6 +442,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             }
 
             //3. perkelti sia logika i switcha (klasikini)
+
+            Console.WriteLine("\n\n\n3:\n");
+
             switch (skaicius)
             {
                 case "nulis":
@@ -475,6 +485,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             //4. kintamajui (int tipo), pavadinimu "parsedSkaicius" priskirti reiksme is string "skaicius" naudojant 
             // switch expression
 
+            Console.WriteLine("\n\n\n4:\n");
+
             var parsedSkaicius = (skaicius) switch
             {
                 "nulis" => 0,
@@ -493,15 +505,106 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             Console.WriteLine($"Switch expression parsed number: {parsedSkaicius}");
 
             //5. Susikurti stringu sarasa (List<string>), taippat susikurti stringu masyva (string[]),
-            //abiems priskirti skaiciu tekstus nuo "nulis" iki "devyni"
+            //abiems priskirti skaiciu tekstus nuo "nulis" iki "devyni"            
+
+            Console.WriteLine("\n\n\n5:\n(no console prints)");
+
+            var stringList = new List<string>();
+            stringList.Add("nulis");
+            stringList.Add("vienas");
+            stringList.Add("du");
+            stringList.Add("trys");
+            stringList.Add("keturi");
+            stringList.Add("penki");
+            stringList.Add("sesi");
+            stringList.Add("septyni");
+            stringList.Add("astuoni");
+            stringList.Add("devyni");
+
+            var stringArray = new string[10];
+            stringArray[0] = "nulis";
+            stringArray[1] = "vienas";
+            stringArray[2] = "du";
+            stringArray[3] = "trys";
+            stringArray[4] = "keturi";
+            stringArray[5] = "penki";
+            stringArray[6] = "sesi";
+            stringArray[7] = "septyni";
+            stringArray[8] = "astuoni";
+            stringArray[9] = "devyni";
 
             //6. Naudojant foreach cikla bei switch expression isprintinti visus skaiciu zodzius kaip skaicius is 5. uzduotyje susikurto
             // saraso ar masyvo
             // t.y. "keturi" => 4..
 
+            Console.WriteLine("\n\n\n6:\n");
+
+            foreach (string str in stringArray)
+            {
+                Console.WriteLine((str) switch
+                {
+                    "nulis" => 0,
+                    "vienas" => 1,
+                    "du" => 2,
+                    "trys" => 3,
+                    "keturi" => 4,
+                    "penki" => 5,
+                    "sesi" => 6,
+                    "septyni" => 7,
+                    "astuoni" => 8,
+                    "devyni" => 9,
+                    _ => 999999
+                });
+            }
+
             //7.1. panaudoti ShortHand if'a t.y. ( condition ? true : false )
+
+            Console.WriteLine("\n\n\n7.1:\n");
+
+            var alwaysFalse = true == false ? true : false;
+
+            Console.WriteLine($"alwaysFalse (shorthand): {alwaysFalse}");
+
             //7.2. prasmingai, kur matytusis skirtumas tarp veikimo panaudoti, do-while ir while ciklus
+
+            Console.WriteLine("\n\n\n7.2:\n");
+
+            //will not print 
+            counter = 0;
+            while(counter > 5)
+            {
+                counter++;
+                Console.WriteLine($"counter (while): {counter}");
+            }
+
+            //will print nuber 1
+            do
+            {
+                counter++;
+                Console.WriteLine($"counter (do-while): {counter}");
+            }
+            while (counter > 5);
+
             //7.3. prasmingai, kad matytusi skirtumas tarp veikimo, panaudoti, continue ir break, ant betkokio ciklo
+
+            Console.WriteLine("\n\n\n7.3:\n");
+
+            for(int i = 0; i < 1000000000; i++)
+            {              
+                if (i % 2 == 1) //skipinam nelyginius skaicius
+                {
+                    continue;
+                }
+
+                if(i > 100) //nenorim kad printintu milijarda skaitmenu, tai stabdom ties simtu.
+                {
+                    break;
+                }
+
+                Console.WriteLine($"i = {i}");                
+            }
+
+
             #endregion
 
         }
