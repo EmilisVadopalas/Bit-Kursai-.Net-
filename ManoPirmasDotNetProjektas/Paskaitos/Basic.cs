@@ -339,17 +339,158 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             // "devyni"
             // "simtas"
 
+            var skaicius = "penki";
 
             //1. Naudojant tik if'us i konsole isprintinti 
             // kokia reiksme priskirta kintamajui 0-9
 
+            if (skaicius == "nulis")
+            {
+                Console.WriteLine(0);
+            }
+            if (skaicius == "vienas")
+            {
+                Console.WriteLine(1);
+            }
+            if (skaicius == "du")
+            {
+                Console.WriteLine(2);
+            }
+            if (skaicius == "trys")
+            {
+                Console.WriteLine(3);
+            }
+            if (skaicius == "keturi")
+            {
+                Console.WriteLine(4);
+            }
+            if (skaicius == "penki")
+            {
+                Console.WriteLine(5);
+            }
+            if (skaicius == "sesi")
+            {
+                Console.WriteLine(6);
+            }
+            if (skaicius == "septyni")
+            {
+                Console.WriteLine(7);
+            }
+            if (skaicius == "astuoni")
+            {
+                Console.WriteLine(8);
+            }
+            if (skaicius == "devyni")
+            {
+                Console.WriteLine(9);
+            }
+
+
+
             //2. naudojant if-else if-else isprintinti,
             // kokia reiksme priskirta kintamajui 0-9, else 999999
+            if (skaicius == "nulis")
+            {
+                Console.WriteLine(0);
+            }
+            else if (skaicius == "vienas")
+            {
+                Console.WriteLine(1);
+            }
+            else if (skaicius == "du")
+            {
+                Console.WriteLine(2);
+            }
+            else if (skaicius == "trys")
+            {
+                Console.WriteLine(3);
+            }
+            else if (skaicius == "keturi")
+            {
+                Console.WriteLine(4);
+            }
+            else if (skaicius == "penki")
+            {
+                Console.WriteLine(5);
+            }
+            else if (skaicius == "sesi")
+            {
+                Console.WriteLine(6);
+            }
+            else if (skaicius == "septyni")
+            {
+                Console.WriteLine(7);
+            }
+            else if (skaicius == "astuoni")
+            {
+                Console.WriteLine(8);
+            }
+            else if (skaicius == "devyni")
+            {
+                Console.WriteLine(9);
+            }
+            else
+            {
+                Console.WriteLine(999999);
+            }
 
             //3. perkelti sia logika i switcha (klasikini)
+            switch (skaicius)
+            {
+                case "nulis":
+                        Console.WriteLine(0);
+                        break;
+                case "vienas":
+                        Console.WriteLine(1);
+                        break;
+                case "du":
+                        Console.WriteLine(2);
+                        break;
+                case "trys":
+                        Console.WriteLine(3);
+                        break;
+                case "keturi":
+                        Console.WriteLine(4);
+                        break;
+                case "penki":
+                        Console.WriteLine(5);
+                        break;
+                case "sesi":
+                        Console.WriteLine(6);
+                        break;
+                case "septyni":
+                        Console.WriteLine(7);
+                        break;
+                case "astuoni":
+                        Console.WriteLine(8);
+                        break;
+                case "devyni":
+                        Console.WriteLine(9);
+                        break;
+                default:
+                        Console.WriteLine(999999);
+                        break;
+            }
 
             //4. kintamajui (int tipo), pavadinimu "parsedSkaicius" priskirti reiksme is string "skaicius" naudojant 
             // switch expression
+
+            var parsedSkaicius = (skaicius) switch
+            {
+                "nulis" => 0,
+                "vienas" => 1,
+                "du" => 2,
+                "trys" => 3,
+                "keturi" => 4,
+                "penki" => 5,
+                "sesi" => 6,
+                "septyni" => 7,
+                "astuoni" => 8,
+                "devyni" => 9,
+                _ => 999999
+            };
+
+            Console.WriteLine($"Switch expression parsed number: {parsedSkaicius}");
 
             //5. Susikurti stringu sarasa (List<string>), taippat susikurti stringu masyva (string[]),
             //abiems priskirti skaiciu tekstus nuo "nulis" iki "devyni"
