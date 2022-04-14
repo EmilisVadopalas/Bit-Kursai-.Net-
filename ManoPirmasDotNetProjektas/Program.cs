@@ -1,7 +1,7 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos;
 
-Basic.PirmosPaskaitosUzduotys("tekstas");
+//Basic.PirmosPaskaitosUzduotys("tekstas");
 
 
-Basic.OperatorsTestTwo()
+Basic.AntrosPaskaitosUzduotys();
 
