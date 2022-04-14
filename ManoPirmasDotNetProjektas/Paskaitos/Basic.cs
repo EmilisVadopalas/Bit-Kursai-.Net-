@@ -4,7 +4,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
 {
     internal static class Basic
     {
-     
         /// <summary>
         /// sitas metodas iskvies uzduotis kurias darem per pirma paskaita, kurioje aptareme C# pagrindus.
         /// </summary>
@@ -79,14 +78,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             }
 
             //Bitwise and normal OR diferences:
-            if (Basic.OperatorsTestOne() || Basic.OperatorsTestTwo())
+            if (OperatorsTestOne() || OperatorsTestTwo())
             {
                 Console.WriteLine("True");
             }
 
             Console.WriteLine("\n \n BitWise OR \n \n ");
 
-            if (Basic.OperatorsTestOne() | Basic.OperatorsTestTwo())
+            if (OperatorsTestOne() | OperatorsTestTwo())
             {
                 Console.WriteLine("True");
             }
@@ -98,22 +97,75 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
               multi line komentaras              
              
             */
-
-
-
-
         }
 
-        public static bool OperatorsTestOne()
+        /// <summary>
+        /// sitas metodas iskvies uzduotis kurias darem per antra paskaita, kurioje aptareme C# pagrindus.
+        /// </summary>
+        public static void AntrosPaskaitosUzduotys()
+        {
+            // if statement
+            if (1 == 1)
+            {
+                Console.WriteLine("1 == 1 is true");
+            }
+
+            //if-else statement
+            if (1 == 2)
+            {
+                Console.WriteLine("1 == 2 is true");
+            }
+            else
+            {
+                Console.WriteLine("1 == 2 is false");
+            }
+
+            //nested if statement
+            if(1 == 1)
+            {
+                if(2 == 2)
+                {
+                    if(3 == 3)
+                    {
+                        Console.WriteLine("1 == 1 AND 2 == 2 AND 3 == 3 is true");
+                    }
+                }
+            }
+            //same as:
+            if (1 == 1 && 2 == 2 && 3 == 3)
+            {
+                Console.WriteLine("1 == 1 AND 2 == 2 AND 3 == 3 is true");
+            }
+
+            //if-else -if ladder
+            if(1 == 2)
+            {
+                Console.WriteLine("1 == 2 is true");
+            }
+            else if(2 == 2)
+            {
+                Console.WriteLine("2 == 2 is true");
+            }
+            else
+            {
+                Console.WriteLine("2 != 2 AND 1 != 2");
+            }
+        }
+
+        #region Privates
+
+        private static bool OperatorsTestOne()
         {
             Console.WriteLine("OperatorsTestOne");
             return true;
         }
 
-        public static bool OperatorsTestTwo()
+        private static bool OperatorsTestTwo()
         {
             Console.WriteLine("OperatorsTestTwo");
             return true;
         }
+
+        #endregion
     }
 }

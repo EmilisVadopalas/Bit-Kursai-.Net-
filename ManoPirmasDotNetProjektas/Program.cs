@@ -2,3 +2,6 @@
 
 Basic.PirmosPaskaitosUzduotys("tekstas");
 
+
+Basic.OperatorsTestTwo()
+
