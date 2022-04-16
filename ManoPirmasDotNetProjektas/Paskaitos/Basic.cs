@@ -235,7 +235,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
 
             #endregion
 
-
             ///
             /// LOOPS
             ///
@@ -316,10 +315,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             while (counter < 10);
 
             #endregion
-
-
-
-
 
             ///
             ///Uzduotys
@@ -601,12 +596,118 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
                     break;
                 }
 
-                Console.WriteLine($"i = {i}");                
+                Console.WriteLine($"i = {i}");
             }
 
 
             #endregion
 
+        }
+
+        /// <summary>
+        /// sitas metodas iskvies uzduotis kurias darem per trecia paskaita, kurioje aptareme C# pagrindus.
+        /// </summary>
+        public static void TreciosPaskaitosUzduotys()
+        {
+            ///
+            /// ARRAYS
+            ///
+            #region Arrays
+
+            ///
+            ///One dimentional
+            ///
+
+            //kintamojo sukurimas
+            var singleDimensionStringArrray = new string[8];
+
+            //kintamojo sukurimas, reiksmes priskirimas
+            var singleDimensionStringArrrayWithValues = new string[] {"a","s","8","h","test","sd" };
+
+            //kintamojo sukurimas, reiksmes priskirimas, alternatyva, bet nebegalima kairej var rasyt
+            string[] singleDimensionStringArrrayWithValuesShorter = { "a", "s", "8", "h", "test", "sd" };
+
+            ///
+            /// MULTI DIMENTIONAL
+            ///
+
+            //kintamojo sukurimas
+            var multiDimensionStringArrray = new string[6,7];
+
+            //kintamojo sukurimas, reiksmes priskirimas
+            var multiDimensionStringArrrayWithValues = new string[,] 
+            { 
+                { "a", "s", "8", "h", "test", "sd" }, 
+                { "1a", "1s", "18", "1h", "1test", "1sd" } 
+            };
+
+            Console.WriteLine("multiDimensionStringArrrayWithValues" + multiDimensionStringArrrayWithValues[1,0]);
+
+            //kintamojo sukurimas, reiksmes priskirimas, alternatyva, bet nebegalima kairej var rasyt
+            string[,] multiDimensionStringArrrayWithValuesShorter = 
+            { 
+                {  // 0
+                    "a",     //[0,0]
+                    "s",     //[0,1]
+                    "8",     //[0,2]
+                    "h",     //[0,3]
+                    "test",  //[0,4]
+                    "sd"     //[0,5]
+                }, 
+
+
+                { // 1
+                    "a",    //[1,0]
+                    "s",    //[1,1]
+                    "8",    //[1,2]
+                    "h",    //[1,3]
+                    "test", //[1,4]
+                    "sd"    //[1,5]
+                } 
+            };
+
+            ///
+            /// JAGGED ARRAY
+            ///
+
+            //kintamojo sukurimas
+            var jaggedDimensionStringArrray = new string[2][];
+
+            //kintamojo sukurimas, reiksmes priskirimas
+            var jaggedDimensionStringArrrayWithValues = new string[2][] 
+            { 
+                new string[] { "a", "s", "8", "h", "test", "sd" }, 
+                new string[] { "1a", "1s", "18", "1h", "1test", "1sd","1kk" } 
+            };
+
+            //kintamojo sukurimas, reiksmes priskirimas, alternatyva, bet nebegalima kairej var rasyt
+            string[][] jaggedDimensionStringArrrayWithValuesShorter = 
+            { 
+                // 0
+                new string[] { 
+                    "a",    //[0][0]
+                    "s",    //[0][1]
+                    "8",    //[0][2]
+                    "h",    //[0][3]
+                    "test", //[0][4]
+                    "sd"    //[0][5]
+                }, 
+
+                // 1
+                new string[] {
+                    "1a",       //[1][0]
+                    "1s",       //[1][1]
+                    "18",       //[1][2]
+                    "1h",       //[1][3]
+                    "1test",    //[1][4]
+                    "1sd",      //[1][5]
+                    "1kk"       //[1][6]
+                } 
+            };
+
+            Console.WriteLine("jaggedDimensionStringArrrayWithValuesShorter   " + jaggedDimensionStringArrrayWithValuesShorter[1][2]);
+
+            #endregion
         }
 
         #region Privates
