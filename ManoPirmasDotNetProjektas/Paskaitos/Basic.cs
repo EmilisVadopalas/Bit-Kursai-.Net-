@@ -708,6 +708,36 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             Console.WriteLine("jaggedDimensionStringArrrayWithValuesShorter   " + jaggedDimensionStringArrrayWithValuesShorter[1][2]);
 
             #endregion
+
+            ///
+            /// UZDUOTYS
+            ///
+            #region Uzduotys
+
+            //1. susikurti masyva su 100 skaitmenu,
+            // (var myGrades = new int[100];), uzpildyti masyva atsitiktiniais skaiciai, galima naudoti random funkcija.
+
+            var myGrades = new int[100];
+            Random rnd = new Random();
+
+            for (int i = 0; i < 100; i++)
+            {
+                myGrades[i] = rnd.Next(10);
+            }
+
+            //2.1. apsakaiciuotu pazimiu bendra suma sum()
+            //2.2. apskaiciuoti didziausia pazymi max()
+            //2.3. apskaiciuoti maziausia pazymi min()
+            //2.4. apskaiciuoti vidurki avg()
+            //2.5. surasta median https://www.investopedia.com/terms/m/median.asp tai 49ir50 sudeti ir / 2  median()
+            //2.6. surasti dazniausiai pasikartojanti (mode())
+            //2.7. (kas norit) rast saraso standart diviaton
+            //2.8. sort algoritma koki norit (issortint nuo maziausio iki dydziausio)
+
+            //3. Sukurti cikla kuris isvardija kas N-taji nari masyve (N reiksme dinamine, ja galima keisti),
+            // naudojant foreach cikla.
+
+            #endregion
         }
 
         #region Privates
