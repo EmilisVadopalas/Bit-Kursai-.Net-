@@ -725,22 +725,248 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
                 myGrades[i] = rnd.Next(10);
             }
 
-            //2.1. apsakaiciuotu pazimiu bendra suma sum()
+            
+
+            //2.1. apsakaiciuotu pazymiu bendra suma sum()
+            Console.WriteLine($"\n2.1. suma: {myGrades.Suma()}\n");
+
             //2.2. apskaiciuoti didziausia pazymi max()
+            Console.WriteLine($"\n2.1. dydziausias Skaicius: {myGrades.DydziausiasSkaicius()}\n");
+
             //2.3. apskaiciuoti maziausia pazymi min()
+            Console.WriteLine($"\n2.1. maziausias Skaicius: {myGrades.MaziausiasSkaicius()}\n");
+
             //2.4. apskaiciuoti vidurki avg()
+            Console.WriteLine($"\n2.1. Vidurkis: {myGrades.Vidurkis()}\n");
+
             //2.5. surasta median https://www.investopedia.com/terms/m/median.asp tai 49ir50 sudeti ir / 2  median()
+            Console.WriteLine($"\n2.1. Mediana: {myGrades.Mediana()}\n");
+
             //2.6. surasti dazniausiai pasikartojanti (mode())
+            Console.WriteLine($"\n2.1. Dazniausiai pasikartojantis pazimys: {myGrades.DazniausiaiPasikartojantis()}\n");
+
             //2.7. (kas norit) rast saraso standart diviaton
+            Console.WriteLine($"\n2.1. Standartinis nuokripis: {myGrades.StandartinisNuokripis()}\n");
+
             //2.8. sort algoritma koki norit (issortint nuo maziausio iki dydziausio)
+            Console.WriteLine($"\n2.1. Sorted: {myGrades.MyBubbleSort().ToMyString()}\n");
 
             //3. Sukurti cikla kuris isvardija kas N-taji nari masyve (N reiksme dinamine, ja galima keisti),
             // naudojant foreach cikla.
+
+            var nthNumber = 3;
+
+            Console.WriteLine($"Print Nth number Nth - {nthNumber}");
+
+            myGrades.PrintNthNumbers(nthNumber);
 
             #endregion
         }
 
         #region Privates
+
+        private static string ToMyString(this int[] array)
+        {
+            string str = string.Empty;
+
+            foreach (int i in array)
+            {
+                str += $"\n{i}";
+            }
+
+            return str;
+        }
+
+        private static int Suma(this int[] array)
+        {
+            var sum = 0;
+
+            foreach (int i in array)
+            {
+                sum += i;
+            }
+
+            return sum;
+        }
+
+        private static int DydziausiasSkaicius(this int[] array)
+        {
+            var maxNumber = -9999999;
+
+            foreach (int i in array)
+            {
+                if(i > maxNumber)
+                {
+                    maxNumber = i;
+                }
+            }
+
+            return maxNumber;
+        }
+
+        private static int MaziausiasSkaicius(this int[] array)
+        {
+            var minNumber = 9999999;
+
+            foreach (int i in array)
+            {
+                if (i < minNumber)
+                {
+                    minNumber = i;
+                }
+            }
+
+            return minNumber;
+        }
+
+        private static double Vidurkis(this int[] array)
+        {
+            return ((double)array.Suma() / array.Length);
+        }
+
+        private static int[] CloneArray(this int[] array)
+        {
+            var newArray = new int[array.Length];
+
+            for(int i = 0; i < newArray.Length; i++)
+            {
+                newArray[i] = array[i];
+            }
+
+            return newArray;
+        }
+
+        private static int Mediana(this int[] array)
+        {
+            //not to sort this array, ill make a clone array
+            var cloneArray = array.CloneArray();
+
+            cloneArray.MyBubbleSort();
+
+            var odd = (cloneArray.Length % 2) != 0;
+
+            if (odd)
+            {
+                return cloneArray[(cloneArray.Length + 1) / 2];
+            }
+            else
+            {
+                int midpointUpper = cloneArray.Length / 2;
+                var m1 = cloneArray[midpointUpper];
+                var m2 = cloneArray[midpointUpper - 1];
+                
+                return (m1 + m2) / 2;
+            }
+        }
+
+        private static int DazniausiaiPasikartojantis(this int[] array)
+        {
+            int countOfUniqueNumbers = 0;
+            var alreadyCheckedInts = new List<int>();
+
+            foreach (int i in array)
+            {
+                if (!alreadyCheckedInts.Contains(i))
+                {
+                    countOfUniqueNumbers++;
+                    alreadyCheckedInts.Add(i);
+                }
+            }           
+
+            var countedNumbers = new int[countOfUniqueNumbers][];
+            var counter = 0;
+
+            foreach (int number in alreadyCheckedInts)
+            {
+                var instancesInList = 0;
+
+                foreach (var instance in array)
+                {
+                    if(number == instance)
+                    {
+                        instancesInList++;
+                    }
+                }
+
+                countedNumbers[counter] = new int[] { number, instancesInList };
+                counter++;
+            }
+
+            int[] maxInsatances = { -10, -10 };            
+
+            foreach(var countedNumber in countedNumbers)
+            {
+                if(maxInsatances[1] < countedNumber[1])
+                {
+                    maxInsatances = countedNumber;
+                }
+            }
+
+            return maxInsatances[0];
+        }
+
+        private static double StandartinisNuokripis(this int[] array) //pagal formule is https://www.scribbr.com/statistics/standard-deviation/
+        {
+            var avg = array.Vidurkis();
+            double sumOfSquaredDeviation = 0;
+
+            foreach (var i in array)
+            {
+                sumOfSquaredDeviation += ((avg - i) * (avg - i));
+            }
+
+            var varriance = sumOfSquaredDeviation / (array.Length - 1);
+            var standartDeviation = Math.Sqrt(varriance);
+
+            return standartDeviation;
+        }
+
+        private static int[] MyBubbleSort(this int[] oldArray) // pagal https://www.geeksforgeeks.org/bubble-sort/
+        {
+            var array = oldArray.CloneArray();
+
+            var Unsorted = true;
+
+            while (Unsorted)
+            {
+                var switchedPlacesThisItereation = false;
+
+                for (int i = 0; i < array.Length - 1; i++)
+                {
+                    if (array[i] > array[i + 1])
+                    {
+                        switchedPlacesThisItereation = true;
+                        var i1 = array[i];
+                        var i2 = array[i + 1];
+
+                        array[i] = i2;
+                        array[i + 1] = i1;
+                    }
+                }
+
+                if (!switchedPlacesThisItereation)
+                {
+                    Unsorted = false;
+                }
+            }
+
+            return array;
+        }
+
+        private static void PrintNthNumbers(this int[] array, int nth)
+        {
+            var counter = 0;
+
+            foreach(var number in array)
+            {
+                counter++;
+                
+                if((counter % nth) == 0)
+                {
+                    Console.WriteLine(number);
+                }
+            }
+        }
 
         private static bool OperatorsTestOne()
         {
