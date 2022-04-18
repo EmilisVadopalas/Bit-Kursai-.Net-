@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos
 {
@@ -725,8 +726,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
                 myGrades[i] = rnd.Next(10);
             }
 
-            
-
             //2.1. apsakaiciuotu pazymiu bendra suma sum()
             Console.WriteLine($"\n2.1. suma: {myGrades.Suma()}\n");
 
@@ -754,7 +753,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             //3. Sukurti cikla kuris isvardija kas N-taji nari masyve (N reiksme dinamine, ja galima keisti),
             // naudojant foreach cikla.
 
-            var nthNumber = 3;
+            var nthNumber = 4;
 
             Console.WriteLine($"Print Nth number Nth - {nthNumber}");
 
@@ -763,9 +762,73 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
             #endregion
         }
 
-        #region Privates
+        //1. Sukurti metoda kuris isprintina paduota teksta, i konsole
+        public static void PirmaUzduotisKetvirtosPaskaitos(string tekstas)
+        {
+            Console.WriteLine(tekstas);
+        }
 
-        private static string ToMyString(this int[] array)
+        //2. sukurti kelis metodus topaciu pavadinimu bet skirtingais parametrais
+        // overloading (funkcija is pirmos uzduoties papildyti, dviem stringais, arba stringais ir intais
+        public static void PirmaUzduotisKetvirtosPaskaitos(string tekstas, int kiekis)
+        {
+            for (int i = 0; i < kiekis; i++)
+            {
+                Console.WriteLine(tekstas);
+            }
+        }
+
+        //3. sukurti metoda kuris paima int'o referenca ir su juo atlieka veiksmus, (return type void), bet tuopaciu pakeicia ta kintimaji
+        // (ref raktazodis)
+        public static void TreciaUzduotisKetvirtosPaskaitos(ref int skaicius)
+        {
+            skaicius = skaicius * skaicius;
+        }
+
+        //4. Parasyti funkcija su out parametru
+        public static bool KetvirtaUzduotisKetvirtosPaskaitos(int kiekis, out string daugiauMaziauLygu)
+        {
+            daugiauMaziauLygu = string.Empty;
+
+            if (kiekis == 0)
+            {
+                daugiauMaziauLygu = "Lygu";
+
+                return true;
+            } 
+            else if (kiekis > 0)
+            {
+                daugiauMaziauLygu = "Daugiau";
+
+                return false;
+            } 
+            else
+            {
+                daugiauMaziauLygu = "Maziau";
+
+                return false;
+            }
+        }
+
+        //5. parasyti funkcija su tuple return tipu
+        public static (bool, string, int) PenktaUzduotisKetvirtosPaskaitos(bool a, string b, int c)
+        {
+            return (a, b, c);
+        }
+
+        //6. parasyti funkcija su varArgs, (params raktazodis)
+        public static int SestaUzduotisKetvirtosPaskaitos(params int[] arguments)
+        {
+            return arguments.Suma();
+        }
+
+        //7. Expresion body funkcija (kaip JS buvo Arrow funkcijos)
+        public static void SeptintaUzduotisKetvirtosPaskaitos(string justPrintMe) => 
+            Console.WriteLine(justPrintMe);
+
+            #region Privates
+
+            private static string ToMyString(this int[] array)
         {
             string str = string.Empty;
 
