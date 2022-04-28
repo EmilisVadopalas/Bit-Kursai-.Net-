@@ -26,7 +26,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
                 Console.WriteLine("tekstas atitinka regex'a");
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-
             }
             else
             {
