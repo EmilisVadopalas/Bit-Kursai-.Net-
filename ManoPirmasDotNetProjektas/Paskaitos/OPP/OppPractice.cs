@@ -76,15 +76,4 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         #endregion
 
     }
-
-    public class Employee
-    {
-        public string Name { get; set; } // property
-
-        public string FirstName(string ss)
-        {
-            return Name + ss;
-        }
-    }
-
 }
