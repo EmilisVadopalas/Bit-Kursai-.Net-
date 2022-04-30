@@ -37,13 +37,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             DateOfBirth = dateOfBirth;
         }     
 
-        public string GetFullNameWithInitials()
-        {
-            //null validacija
-            //Name?.Trim()?[0] ?? default(char); |||| ?. ?. ?? kas jei null
-
-            return $"{GetFirstLetter(Name)}{GetFirstLetter(Surname)}, {Name} {Surname} ";
-        }
+        public string GetFullNameWithInitials() => 
+            $"{GetFirstLetter(Name)}{GetFirstLetter(Surname)}, {Name} {Surname} ";
 
         #region Privates
 
