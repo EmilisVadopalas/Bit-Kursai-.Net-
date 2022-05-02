@@ -21,7 +21,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
         }
 
-
         public Person() { }
         public Person(string name, string surname) 
             : this(name,surname,true,new DateTime(1991,01,01)) { }
@@ -35,7 +34,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Surname = surname;
             IsMale = ismale;
             DateOfBirth = dateOfBirth;
-        }     
+        }  
 
         public string GetFullNameWithInitials() => 
             $"{GetFirstLetter(Name)}{GetFirstLetter(Surname)}, {Name} {Surname} ";
@@ -48,13 +47,13 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
                 : name.Trim()[0];
 
         private int GetAge()
-        {
+        {  
             var now = DateTime.Now;
-            var yearDiff = now.Year - DateOfBirth.Year;            
+            var yearDiff = now.Year - DateOfBirth.Year;      
 
             if (now.Month > DateOfBirth.Month)
             {
-                return yearDiff;
+                return yearDiff; 
             }
             else if (now.Month == DateOfBirth.Month)
             {
@@ -64,7 +63,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
             else
             {
-                return --yearDiff;
+                return --yearDiff; 
             }
         }
 

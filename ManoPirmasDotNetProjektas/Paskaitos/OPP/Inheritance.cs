@@ -45,6 +45,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         }
     }
 
+    public class PetOwner : INameHaver
+    {
+        public string Name { get; set; }
+        public Animal pet1 { get; set; }
+        public Bird pet2 { get; set; }
+
+    }
+
     public class Bird : Animal
     {
         public int FlightSpeed { get; set; }
@@ -52,7 +60,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         public Bird() { }
 
         public Bird(int speed, int height, int weigth)
-            :base(height, weigth)
+            : base(height, weigth)
         {
             FlightSpeed = speed;
         }
@@ -81,14 +89,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         {
             return "Paukstis";
         }
-    }
-
-    public class PetOwner : INameHaver
-    {
-        public string Name { get; set; }
-        public Animal pet1 { get; set; }
-        public Bird pet2 { get; set; }
-
     }
 
     public interface INameHaver

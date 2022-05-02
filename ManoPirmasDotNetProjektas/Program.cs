@@ -1,9 +1,6 @@
-﻿using ManoPirmasDotNetProjektas.Paskaitos;
-using ManoPirmasDotNetProjektas.Paskaitos.OPP;
+﻿using ManoPirmasDotNetProjektas.Paskaitos.OPP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-
+using ManoPirmasDotNetProjektas.Extensions;
 
 var zmogus = new Person("Emilis", "Vadopalas", true);
 
@@ -15,18 +12,13 @@ var zmogus2 = new Person
     IsMale = true    
 };
 
-Console.WriteLine(zmogus2.Age);
+int skaicius = 1;
 
-Console.WriteLine(zmogus.GetFullNameWithInitials());
-
-
+Console.WriteLine(skaicius.ToWord());
 
 
-
-
-
-
-
+//Console.WriteLine(zmogus2.Age);
+//Console.WriteLine(zmogus.GetFullNameWithInitials());
 
 Console.ReadLine();
 
