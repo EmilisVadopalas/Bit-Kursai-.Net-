@@ -51,15 +51,31 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         public Animal pet1 { get; set; }
         public Bird pet2 { get; set; }
 
+        public static void PrintWeightOfAnimal(Animal animal1)
+        {
+            Console.WriteLine($"\n\nPrinting for: {animal1.GetType()}");
+            Console.WriteLine(animal1.WeigthInGrams);
+            animal1.PrintClassName1();
+            animal1.PrintClassName2();
+            animal1.PrintClassName3();
+            animal1.PrintClassName4();
+            
+            if(animal1.GetType() == typeof(Bird))
+            {
+                ((Bird)animal1).PrintClassName5();
+            }        
+        }
     }
 
-    public class Bird : Animal
+    public class Bird : Animal, INameHaver, IFlighter
     {
+        public string Name { get; set; }
+
         public int FlightSpeed { get; set; }
 
         public Bird() { }
 
-        public Bird(int speed, int height, int weigth)
+        public Bird(int speed, int weigth, int height)
             : base(height, weigth)
         {
             FlightSpeed = speed;
@@ -95,4 +111,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
     {
         string Name { get; set; }
     }
+
+    public interface IFlighter 
+    { 
+        int FlightSpeed { get; set; }
+    }
+
 }

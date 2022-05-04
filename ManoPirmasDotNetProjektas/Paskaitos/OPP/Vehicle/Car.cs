@@ -3,10 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
 {
-    public class Car
+    public class Vehicle
+    {
+        public double TopSpeed { get; set; }
+        public double Weight { get; set; }
+        public DateTime Year { get; init; }
+        public int MaxDistance { get; set; }
+        public VehicleType Type { get; set; }
+
+
+        public Vehicle() { }
+
+        public Vehicle(double speed, double weight, DateTime year, int distance, VehicleType type)
+        {
+            TopSpeed = speed;
+            Weight = weight;
+            Year = year;
+            MaxDistance = distance;
+            Type = type;
+        }
+    }
+
+    public class Car : Vehicle
     {
         public const double MilesToKilometers = 1.609344;
         public const double KilowatsToHorsePower = 1.34102209;
@@ -19,52 +41,60 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
         private static double priceOfGasoline = 1.690;
         private static double priceOfGas = 0.710;
 
-        public string Make { get; set; }
-        public string Model { get; set; }
-        public DateTime Year { get; set; }
+
+        public string Make { get; init; }
+        public string Model { get; init; }
         public Engine Engine { get; set; }
         public string Color { get; set; }
-        public string BodyType { get; set; }        
-        public double Weight { get; set; }
+        public BodyType BodyType { get; set; }   
+
 
         public Car() { }
-        public Car(string make, string model, DateTime year, Engine engine, string color, string body, double weight) 
-        {
-            Make = make;
-            Model = model;  
-            Year = year;
-            Engine = engine;
-            Color = color;
-            BodyType = body;
-            Weight = weight;
-        }
-        public Car(string make, string model, DateTime year, string fuelType, 
-            double engineVolume, double enginePower, string color, string body, double weight)
+
+        public Car(string make, string model, DateTime year, Engine engine, string color, BodyType body, double weight, double speed, int distance) 
+            :base(speed, weight, year, distance, VehicleType.Driving)
         {
             Make = make;
             Model = model;
-            Year=year;
-            Engine = new Engine(fuelType, engineVolume, enginePower);
+            Engine = engine;
             Color = color;
             BodyType = body;
-            Weight = weight;
         }
-        public Car(string make, string model, DateTime year) 
-            : this(make, model, year, null, string.Empty, string.Empty, 0) { }
+
+        public Car(string make, string model, DateTime year, FuelType fuelType, double engineVolume, double enginePower, string color, BodyType body, double weight, double speed, int distance)
+            : this(make, model, year, new(fuelType, engineVolume, enginePower), color, body, weight, speed, distance) { }        
+
+        public Car(string make, string model, DateTime year)
+            : this(make, model, year, null, string.Empty, BodyType.Sedan, 0, 100, 500) { }
 
 
+        /// <summary>
+        /// Gets estimated price for travel
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <param name="miles">true - distance in miles false - distance in kilometers</param>
+        /// <returns></returns>
         public double CountPriceForTrip(int distance = 100, bool miles = false)
         {
-            if(Engine.FuelType == "Diesel")
+            if(Engine.FuelType == FuelType.Diesel)
             {
                 return GetCarsFuelConsumption(distance, miles) * priceOfDiesel;
             }
-            if (Engine.FuelType == "Gas")
+            if (Engine.FuelType == FuelType.Gas)
             {
                 return GetCarsFuelConsumption(distance, miles) * priceOfGas;
             }
+            if(Engine.FuelType == FuelType.Gasoline)
+            {
+                return GetCarsFuelConsumption(distance, miles) * priceOfGasoline;
+            }
 
-            return GetCarsFuelConsumption(distance, miles) * priceOfGasoline;            
+            return 0;                        
+        }
+
+        public override string ToString()
+        {
+            return $"CAR: {Make} {Model} {Year.ToString("yyyy-MM-dd")} {Color} {BodyType} {Weight} ";
         }
 
         public double GetCarsFuelConsumption(int kilometers = 100, bool miles = false)
@@ -82,12 +112,12 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
                 kilometers = (int)Math.Round(kilometers * MilesToKilometers);
             }
 
-            if(Engine.FuelType.ToLower() == "gas")
+            if(Engine.FuelType == FuelType.Gas)
             {
-                return (kilometers / ratio) * gasMultiplier;
+                return ((kilometers / ratio) * gasMultiplier) / 15;
             }
 
-            return kilometers / ratio;
+            return (kilometers / ratio) / 15;
         }
 
         private int EngineVolumeRatioCalculator()

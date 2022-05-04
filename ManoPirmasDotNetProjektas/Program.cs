@@ -1,26 +1,21 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.OPP;
 using System;
 using ManoPirmasDotNetProjektas.Extensions;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 
-var zmogus = new Person("Emilis", "Vadopalas", true);
+//var fordas = new Car("Ford", "Mondeo", new DateTime(2002, 09, 09), FuelType.Gasoline,
+//            2000, 200, "Pilka", BodyType.Sedan, 1800);
 
-var zmogus2 = new Person
-{
-    Name = "Emilis",
-    Surname = "Vadopalas",
-    DateOfBirth = new DateTime(1995, 09, 20),
-    IsMale = true    
-};
+//Console.ReadLine();
 
-int skaicius = 1;
+//var fordoVariklis = new Engine(FuelType.Gasoline, 2000, 200);
+//var fordasM = new Car("Ford", "Mondeo", new DateTime(2002, 09, 09), fordoVariklis, "Pilka", BodyType.Sedan, 1800);
 
-Console.WriteLine(skaicius.ToWord());
+//Console.WriteLine("pirmas:" + fordas.CountPriceForTrip(350));
+//Console.WriteLine("antras:" + fordasM.CountPriceForTrip(350));
 
-
-//Console.WriteLine(zmogus2.Age);
-//Console.WriteLine(zmogus.GetFullNameWithInitials());
-
-Console.ReadLine();
+//Console.ReadLine();
 
 
 
@@ -62,13 +57,28 @@ var p2 = new Bird(60, 65, 70);
 
 Console.WriteLine($"P1 {p1.FlightSpeed} {p1.WeigthInGrams} {p1.HeightInCm}");
 
-Console.WriteLine($"P2 {p1.FlightSpeed} {p1.WeigthInGrams} {p1.HeightInCm}");
+Console.WriteLine($"P2 {p2.FlightSpeed} {p2.WeigthInGrams} {p2.HeightInCm}");
+
+Console.WriteLine("\n\n Print BIRD:");
 
 p1.PrintClassName1();
 p1.PrintClassName2();
 p1.PrintClassName3();
 p1.PrintClassName4();
 p1.PrintClassName5();
+
+Console.WriteLine("\n\n Print Animal:");
+
+a1.PrintClassName1();
+a1.PrintClassName2();
+a1.PrintClassName3();
+a1.PrintClassName4();
+
+PetOwner.PrintWeightOfAnimal(p1);
+PetOwner.PrintWeightOfAnimal(a1);
+
+
+Console.ReadLine();
 
 var animal = new Animal[] { p1, p2, a1 };
 

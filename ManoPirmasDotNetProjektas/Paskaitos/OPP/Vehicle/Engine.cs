@@ -1,8 +1,10 @@
-﻿namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
+﻿using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
+
+namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
 {
     public class Engine
     {
-        public string FuelType { get; set; }
+        public FuelType FuelType { get; set; }
         public double Volume { get; set; }
         public double Kilowats { get; set; }
 
@@ -15,12 +17,12 @@
         }
 
         public Engine() { }
-        public Engine(string fuelType, double engineVolume, double engineKilowats)
+        public Engine(FuelType type, double engineVolume, double engineKilowats)
         {
-            FuelType = fuelType;
+            FuelType = type;
             Volume = engineVolume;
             Kilowats = engineKilowats;
         }
-        public Engine(string fuelType) : this(fuelType, 0, 0) { }       
+        public Engine(FuelType type) : this(type, 0, 0) { }       
     }
 }
