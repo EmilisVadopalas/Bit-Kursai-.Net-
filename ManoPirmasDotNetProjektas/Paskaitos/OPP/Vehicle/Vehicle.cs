@@ -22,5 +22,48 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
             MaxDistance = distance;
             Type = type;
         }
+
+
+        public int GetVehicleAge()
+        {
+            var now = DateTime.Now;
+            var yearDiff = now.Year - Year.Year;
+
+            if(now.Month > Year.Month || (now.Month == Year.Month && now.Day > Year.Day))
+            {
+                return --yearDiff;
+            }
+            
+            return yearDiff;
+        }
+
+        protected int TimeToTravel(int distance = 100, bool miles = false)
+        {
+            distance = miles 
+                ? (int)Math.Round(distance * Car.MilesToKilometers) 
+                : distance;
+
+            return (int)Math.Round(60 * (distance / TopSpeed));
+        }
+
+        public virtual string TimeToTravelDistance(int distance = 100, bool miles = false)
+        {
+            return $"{distance} {(miles ? "myliu" : "kilometru")} NUKELIAUSITE per {TimeToTravel(distance, miles)} minuciu";
+        }
+
+        public string TimeToTravelDistanceInAnyVechicle(int distance = 100, bool miles = false)
+        {
+            if(this.GetType() == typeof(Plane))
+            {
+                return ((Plane)this).TimeToTravelDistance(distance, miles);
+            }
+
+            if (this.GetType() == typeof(Car))
+            {
+                return ((Car)this).TimeToTravelDistance(distance, miles);
+            }
+
+            return TimeToTravelDistance(distance, miles);
+        }
     }
 }

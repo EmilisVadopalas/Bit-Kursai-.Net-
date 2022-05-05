@@ -7,7 +7,6 @@ using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
 {
-
     public class Car : Vehicle
     {
         public const double MilesToKilometers = 1.609344;
@@ -146,6 +145,11 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
             {
                 return 1;
             }
+        }
+
+        public override string TimeToTravelDistance(int distance = 100, bool miles = false)
+        {
+            return $"{distance} {(miles ? "myliu" : "kilometru")} NUVAZIUOSITE per {TimeToTravel(distance, miles)} minuciu";
         }
 
     }
