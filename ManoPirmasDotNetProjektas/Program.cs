@@ -4,11 +4,95 @@ using ManoPirmasDotNetProjektas.Extensions;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 
-//var fordas = new Car("Ford", "Mondeo", new DateTime(2002, 09, 09), FuelType.Gasoline,
-//            2000, 200, "Pilka", BodyType.Sedan, 1800);
+var fordas = new Car("Ford", "Mondeo", new DateTime(2002, 09, 09), 
+    FuelType.Gasoline, 2000, 200, "Pilka", BodyType.Sedan, 1800, 220, 800);
 
-//Console.ReadLine();
+var mitsubishi = new Car("Mitsubishi", "SpaceStar", new DateTime(2004, 04, 20), 
+    FuelType.Diesel, 1800, 95, "Melyna", 
+    BodyType.Hatchback, 1800, 220, 800);
 
+var kukuruznikas = new Plane
+{
+    WingSpan = 100,
+    TopSpeed = 400,
+    MaxAltitude = 1800,
+    NumberOfSeats = 10,
+    NumberOfEngines = 3,
+    MaxDistance = 500,
+    Type = VehicleType.Flying,
+    Weight = 5468,
+    Year = new DateTime(1987, 5, 6)
+};
+
+var naikintuvas = new Plane
+{
+    WingSpan = 50,
+    TopSpeed = 1200,
+    MaxAltitude = 3000,
+    NumberOfSeats = 2,
+    NumberOfEngines = 2,
+    MaxDistance = 400,
+    Type = VehicleType.Flying,
+    Weight = 4566,
+    Year = new DateTime(2016, 08, 24)
+};
+
+var dviratis = new Vehicle
+{
+    TopSpeed = 50,
+    Type = VehicleType.Driving,
+    MaxDistance = int.MaxValue,
+    Weight = 10,
+    Year = new DateTime(2009, 01, 01)
+};
+
+var ManoTransportoPriemones = new Vehicle[] { fordas, mitsubishi, kukuruznikas, naikintuvas, dviratis };
+
+Console.WriteLine(ManoTransportoPriemones[0].TimeToTravelDistanceInAnyVechicle());
+Console.WriteLine(ManoTransportoPriemones[1].TimeToTravelDistanceInAnyVechicle());
+Console.WriteLine(ManoTransportoPriemones[2].TimeToTravelDistanceInAnyVechicle());
+Console.WriteLine(ManoTransportoPriemones[3].TimeToTravelDistanceInAnyVechicle());
+Console.WriteLine(ManoTransportoPriemones[4].TimeToTravelDistanceInAnyVechicle());
+
+Console.ReadLine();
+
+Console.WriteLine("\n\nNe overridinti paprastai nuo kintamojo:\n");
+
+Console.WriteLine(fordas.GetVechicleTypeNormal());
+Console.WriteLine(mitsubishi.GetVechicleTypeNormal());
+Console.WriteLine(kukuruznikas.GetVechicleTypeNormal());
+Console.WriteLine(naikintuvas.GetVechicleTypeNormal());
+Console.WriteLine(dviratis.GetVechicleTypeNormal());
+
+Console.WriteLine("\n\nis listo:\n");
+
+Console.WriteLine(ManoTransportoPriemones[0].GetVechicleTypeNormal());
+Console.WriteLine(ManoTransportoPriemones[1].GetVechicleTypeNormal());
+Console.WriteLine(ManoTransportoPriemones[2].GetVechicleTypeNormal());
+Console.WriteLine(ManoTransportoPriemones[3].GetVechicleTypeNormal());
+Console.WriteLine(ManoTransportoPriemones[4].GetVechicleTypeNormal());
+
+Console.ReadLine();
+
+Console.WriteLine("\n\nOverridinti paprastai nuo kintamojo:\n");
+
+Console.WriteLine(fordas.GetVechicleTypeOverriden());
+Console.WriteLine(mitsubishi.GetVechicleTypeOverriden());
+Console.WriteLine(kukuruznikas.GetVechicleTypeOverriden());
+Console.WriteLine(naikintuvas.GetVechicleTypeOverriden());
+Console.WriteLine(dviratis.GetVechicleTypeOverriden());
+
+Console.WriteLine("\n\nis listo:\n");
+
+Console.WriteLine(ManoTransportoPriemones[0].GetVechicleTypeOverriden());
+Console.WriteLine(ManoTransportoPriemones[1].GetVechicleTypeOverriden());
+Console.WriteLine(ManoTransportoPriemones[2].GetVechicleTypeOverriden());
+Console.WriteLine(ManoTransportoPriemones[3].GetVechicleTypeOverriden());
+Console.WriteLine(ManoTransportoPriemones[4].GetVechicleTypeOverriden());
+
+Console.ReadLine();
+Console.ReadLine();
+Console.ReadLine();
 //var fordoVariklis = new Engine(FuelType.Gasoline, 2000, 200);
 //var fordasM = new Car("Ford", "Mondeo", new DateTime(2002, 09, 09), fordoVariklis, "Pilka", BodyType.Sedan, 1800);
 

@@ -65,5 +65,15 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
 
             return TimeToTravelDistance(distance, miles);
         }
+
+        public string GetVechicleTypeNormal()
+        {
+            return "Transporto Priemone";
+        }
+
+        public virtual string GetVechicleTypeOverriden()
+        {
+            return "Transporto Priemone";
+        }
     }
 }

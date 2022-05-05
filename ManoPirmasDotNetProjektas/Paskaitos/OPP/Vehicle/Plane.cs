@@ -11,5 +11,15 @@
         {
             return $"{distance} {(miles ? "myliu" : "kilometru")} NUSKRISITE per {TimeToTravel(distance, miles)} minuciu";
         }
+
+        public string GetVechicleTypeNormal()
+        {
+            return "Lektuvas";
+        }
+
+        public override string GetVechicleTypeOverriden()
+        {
+            return "Lektuvas";
+        }
     }
 }

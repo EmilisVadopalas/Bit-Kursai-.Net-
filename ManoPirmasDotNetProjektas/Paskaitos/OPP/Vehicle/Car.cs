@@ -97,7 +97,23 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
             }
 
             return (kilometers / ratio) / 15;
+        }       
+
+        public override string TimeToTravelDistance(int distance = 100, bool miles = false)
+        {
+            return $"{distance} {(miles ? "myliu" : "kilometru")} NUVAZIUOSITE per {TimeToTravel(distance, miles)} minuciu";
         }
+
+        public string GetVechicleTypeNormal()
+        {
+            return "Automobilis";
+        }
+
+        public override string GetVechicleTypeOverriden()
+        {
+            return "Automobilis";
+        }
+
 
         private int EngineVolumeRatioCalculator()
         {
@@ -141,15 +157,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
             {
                 return 2;
             }
-            else 
+            else
             {
                 return 1;
             }
-        }
-
-        public override string TimeToTravelDistance(int distance = 100, bool miles = false)
-        {
-            return $"{distance} {(miles ? "myliu" : "kilometru")} NUVAZIUOSITE per {TimeToTravel(distance, miles)} minuciu";
         }
 
     }
