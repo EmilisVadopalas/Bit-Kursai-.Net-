@@ -3,6 +3,7 @@ using ManoPirmasDotNetProjektas.Paskaitos.Helpers.Coverters;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas.Shapes;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Structs;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
 using System;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         {
             //InheratanceTasks();
             //ConclusionTasks();
-            EnumTasks();
+            //EnumTasks();
+            StructTasks();
 
             Console.ReadLine();
         }
@@ -226,7 +228,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
                 new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.MiniVan, 1, 1, 1)
             };
 
-
             Console.WriteLine("\nUnsorted:");
             Car.PrintCarArrayBodies(cars);
 
@@ -242,6 +243,26 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine($"100 miles is {Mesuraments.ConvertMeasurements(100, LenghtMesuraments.Mile, LenghtMesuraments.Kilometer)} kilometers");
             Console.WriteLine($"48 Kilometers is {Mesuraments.ConvertMeasurements(48, LenghtMesuraments.Kilometer, LenghtMesuraments.Foot)} Feets");
 
+           
+        }
+
+        private static void StructTasks()
+        {
+            var me = new PersonStructure
+            {
+                Name = new PersonNameStructure { FirsName = "Emilis", MiddleName = null, LastName = "Vadopalas" },
+                BirthDate = new DateOnly(1995, 09, 20),
+                Sex = Sex.male
+            };
+
+            var me2 = new PersonStructure(
+                new PersonNameStructure { FirsName = "Emilis", MiddleName = new string[] { "Jonas", "Petras" }, LastName = "Vadopalas" },
+                new DateOnly(1995, 09, 20),
+                Sex.male);
+
+            Console.WriteLine(me);
+            Console.WriteLine();
+            Console.WriteLine(me2);
         }
     }
 }
