@@ -230,13 +230,13 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine("\nUnsorted:");
             Car.PrintCarArrayBodies(cars);
 
-            var sortedCars = cars.OrderBy(x => x.BodyType.ToString()).ToArray();
+            var sortedCars = cars.OrderBy(car => car.BodyType.ToString()).ToArray();
             Console.WriteLine("\nSorted linq Built in alphabetical:");
             Car.PrintCarArrayBodies(sortedCars);
 
-            sortedCars = cars.OrderBy(x => (int)x.BodyType).ToArray();
+            sortedCars = cars.OrderBy(car => (int)car.BodyType).ToArray();
             Console.WriteLine("\nSorted linq Built in numeric:");
-
+            Car.PrintCarArrayBodies(sortedCars);
 
             //2. Mesurement Converteris
             Console.WriteLine($"100 miles is {Mesuraments.ConvertMeasurements(100, LenghtMesuraments.Mile, LenghtMesuraments.Kilometer)} kilometers");
