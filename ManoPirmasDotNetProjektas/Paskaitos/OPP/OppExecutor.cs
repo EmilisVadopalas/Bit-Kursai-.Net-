@@ -1,8 +1,11 @@
-﻿using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas;
+﻿using ManoPirmasDotNetProjektas.Extensions;
+using ManoPirmasDotNetProjektas.Paskaitos.Helpers.Coverters;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas.Shapes;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
 using System;
+using System.Linq;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 {
@@ -11,7 +14,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
         public static void Run()
         {
             //InheratanceTasks();
-            ConclusionTasks();
+            //ConclusionTasks();
+            EnumTasks();
 
             Console.ReadLine();
         }
@@ -201,6 +205,43 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             var shapes = new Shape[] { circle1, circle2, circle3, rectangle1, rectangle2, rectangle3 };
             Console.WriteLine("\nsioms figuroms (circle1, circle2, circle3, rectangle1, rectangle2, rectangle3) sulankstyti prireiktu:" +
                 $"\n{Shape.GetWireNeededForShapesProduction(shapes)} mat. vienetu laido..");
+        }
+
+        private static void EnumTasks()
+        {
+            //1. susikurti automobiliu su skirtingais bodytype'ais ir juos isrikiuoti pagal body type'a
+            var cars = new Car[]
+            {
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Sedan, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Convertible, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.StationWagon, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Hatchback, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Sedan, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.StationWagon, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.SUV, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Sports, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Coupe, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Sedan, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.Hatchback, 1, 1, 1),
+                new Car("A", "b", new DateTime(1888, 1, 1), new Engine(), "red", BodyType.MiniVan, 1, 1, 1)
+            };
+
+
+            Console.WriteLine("\nUnsorted:");
+            Car.PrintCarArrayBodies(cars);
+
+            var sortedCars = cars.OrderBy(x => x.BodyType.ToString()).ToArray();
+            Console.WriteLine("\nSorted linq Built in alphabetical:");
+            Car.PrintCarArrayBodies(sortedCars);
+
+            sortedCars = cars.OrderBy(x => (int)x.BodyType).ToArray();
+            Console.WriteLine("\nSorted linq Built in numeric:");
+
+
+            //2. Mesurement Converteris
+            Console.WriteLine($"100 miles is {Mesuraments.ConvertMeasurements(100, LenghtMesuraments.Mile, LenghtMesuraments.Kilometer)} kilometers");
+            Console.WriteLine($"48 Kilometers is {Mesuraments.ConvertMeasurements(48, LenghtMesuraments.Kilometer, LenghtMesuraments.Foot)} Feets");
+
         }
     }
 }

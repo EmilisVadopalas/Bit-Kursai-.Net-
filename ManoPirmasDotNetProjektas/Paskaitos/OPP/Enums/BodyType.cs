@@ -11,5 +11,4 @@
         SUV,
         MiniVan
     }
-
 }

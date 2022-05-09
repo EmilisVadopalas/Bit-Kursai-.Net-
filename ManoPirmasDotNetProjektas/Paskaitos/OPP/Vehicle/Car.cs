@@ -69,7 +69,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
             }
 
             return 0;                        
-        }
+        }       
 
         public override string ToString()
         {
@@ -113,7 +113,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
         {
             return "Automobilis";
         }
-
 
         private int EngineVolumeRatioCalculator()
         {
@@ -163,5 +162,12 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
             }
         }
 
+        public static void PrintCarArrayBodies(Car[] cars)
+        {
+            foreach (Car car in cars)
+            {
+                Console.WriteLine(car.BodyType);
+            }
+        }
     }
 }
