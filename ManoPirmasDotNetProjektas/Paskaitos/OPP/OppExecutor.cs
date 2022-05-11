@@ -5,8 +5,10 @@ using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas.Shapes;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Structs;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Employee;
 using System;
 using System.Linq;
+using ManoPirmasDotNetProjektas.Paskaitos.Helpers.ConsolePaints;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 {
@@ -19,7 +21,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             //EnumTasks();
             //StructTasks();
             //ArrayTasks();
-            EqualityTasks();
+            //EqualityTasks();
+            EmployeeList();
 
             Console.ReadLine();
         }
@@ -308,6 +311,69 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
                 Console.WriteLine("nelygus");
             }
 
+        }
+
+        private static void EmployeeList()
+        {
+            string n = string.Empty;
+            int number = 0;
+
+            do
+            {
+                Console.Write("iveskite darbuotoju kieki: ");
+                n = Console.ReadLine();
+                Console.Clear();
+            }
+            while (!int.TryParse(n, out number));
+
+            var Employees = new Employee.Employee[number];
+
+            for (int i = 0; i < number; i++)
+            {
+                Console.Clear();
+                Console.WriteLine($"Iveskite {i + 1}-taji darbuotoja:\n");
+                Employees[i] = Employee.Employee.GetEmployeeFromConsoleInput();
+            }
+
+            while (true)
+            {
+
+                string choice = string.Empty;
+
+                do
+                {
+                    Console.Clear();
+                    Table.PrintLine(50);
+                    Table.PrintRow(50, "Meniu");
+                    Table.PrintLine(50);
+                    Table.PrintRow(50, "Choise", "value");
+                    Table.PrintLine(50);
+                    Table.PrintRow(50, "Print array as it is", "print");
+                    Table.PrintRow(50, "Print filter array", "filter");
+                    Table.PrintRow(50, "Print Ordered array", "order");
+                    Table.PrintRow(50, "To quit", "quit");
+                    Table.PrintLine(50);
+                    Console.Write("\nYour meniu choice ?  ");
+                    choice = Console.ReadLine();
+
+                    if(choice == "quit")
+                    {
+                        return;
+                    }
+                }
+                while (choice != "print" && choice != "filter" && choice != "order");
+
+                if (choice == "filter")
+                {
+                    //todo: filter dialog
+                }
+                else if (choice == "order")
+                {
+                    //todo: order dialog
+                }
+
+                Employees.PrintEmployeeTable();
+            }
         }
     }
 }

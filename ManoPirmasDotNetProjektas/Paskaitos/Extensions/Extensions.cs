@@ -1,9 +1,11 @@
-﻿using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
+﻿using ManoPirmasDotNetProjektas.Paskaitos.OPP.Employee;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ManoPirmasDotNetProjektas.Paskaitos.Helpers.ConsolePaints;
 
 namespace ManoPirmasDotNetProjektas.Extensions
 {
@@ -226,5 +228,23 @@ namespace ManoPirmasDotNetProjektas.Extensions
                 }
             }
         }
+
+        public static void PrintEmployeeTable(this Employee[] employees, int tableWitdh = 75)
+        {
+            Console.Clear();
+            Table.PrintLine(tableWitdh);
+            Table.PrintRow(tableWitdh, "Name", "Surname", "Salary", "Birth");
+            Table.PrintLine(tableWitdh);
+            foreach (var employee in employees)
+            {
+                Table.PrintRow(tableWitdh, employee.Name, employee.Surname, employee.Salary.ToString(), employee.BirthDate.ToString("yyyy-MM-dd"));
+            }           
+            Table.PrintLine(tableWitdh);
+            Console.ReadLine();
+        }
+
+
+
+
     }
 }
