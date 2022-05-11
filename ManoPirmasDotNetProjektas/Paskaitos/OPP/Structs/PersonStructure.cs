@@ -9,9 +9,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Structs
 {
     public struct PersonStructure
     {
-        public PersonNameStructure Name { get; init; }
-        public DateOnly BirthDate { get; init; }
-        public Sex Sex { get; init; }
+        public PersonNameStructure Name { get; set; }
+        public DateOnly BirthDate { get; set; }
+        public Sex Sex { get; set; }
 
         public PersonStructure(PersonNameStructure name, DateOnly birthDate, Sex sex)
         {

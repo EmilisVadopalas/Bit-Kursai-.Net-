@@ -17,7 +17,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             //InheratanceTasks();
             //ConclusionTasks();
             //EnumTasks();
-            StructTasks();
+            //StructTasks();
+            //ArrayTasks();
+            EqualityTasks();
 
             Console.ReadLine();
         }
@@ -243,7 +245,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine($"100 miles is {Mesuraments.ConvertMeasurements(100, LenghtMesuraments.Mile, LenghtMesuraments.Kilometer)} kilometers");
             Console.WriteLine($"48 Kilometers is {Mesuraments.ConvertMeasurements(48, LenghtMesuraments.Kilometer, LenghtMesuraments.Foot)} Feets");
 
-           
+
         }
 
         private static void StructTasks()
@@ -263,6 +265,49 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine(me);
             Console.WriteLine();
             Console.WriteLine(me2);
+        }
+
+        private static void ArrayTasks()
+        {
+            int[] zodziai = new int[] { 1, 2, 3 };
+
+            if (zodziai.Contains(1))
+            {
+                Console.WriteLine("yra zodis \"vienas\"");
+            }
+
+            if (zodziai.Contains(2))
+            {
+                Console.WriteLine("yra zodis \"du\"");
+            }
+
+            if (zodziai.Contains(4))
+            {
+                Console.WriteLine("yra zodis \"keturi\"");
+            }
+        }
+
+        private static void EqualityTasks()
+        {
+            var person1 = new Person("Emilis1", "Vadopalas", true, new DateTime(1995, 09, 20));
+            var person2 = new Person("Emilis2", "Vadopalas", true, new DateTime(1995, 09, 20));
+            var person3 = new Person("Emilis3", "Vadopalas", true, new DateTime(1995, 09, 20));
+            var person4 = new Person("Emilis4", "Vadopalas", true, new DateTime(1995, 09, 20));
+            var person5 = new Person("Emilis5", "Vadopalas", true, new DateTime(1995, 09, 20));
+            var person6 = new Person("Emilis5", "Vadopalas", true, new DateTime(1995, 09, 20));
+
+            Console.WriteLine(Person.Contains(new Person[] {person1, person2 , person3, person4, person5}, person5));
+            Console.WriteLine(Person.Contains(new Person[] { person1, person2, person3, person4, person5}, person6));
+
+            if (person5 == person6)
+            {
+                Console.WriteLine("lygus");
+            }
+            else
+            {
+                Console.WriteLine("nelygus");
+            }
+
         }
     }
 }
