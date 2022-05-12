@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Employee
+namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.EmployeeNameSpace
 {
     public class Employee
     {

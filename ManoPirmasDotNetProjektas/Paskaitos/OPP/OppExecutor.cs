@@ -5,7 +5,7 @@ using ManoPirmasDotNetProjektas.Paskaitos.OPP.Apibendrinimas.Shapes;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Structs;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle;
-using ManoPirmasDotNetProjektas.Paskaitos.OPP.Employee;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.EmployeeNameSpace;
 using System;
 using System.Linq;
 using ManoPirmasDotNetProjektas.Paskaitos.Helpers.ConsolePaints;
@@ -326,13 +326,13 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
             while (!int.TryParse(n, out number));
 
-            var employees = new Employee.Employee[number];
+            var employees = new Employee[number];
 
             for (int i = 0; i < number; i++)
             {
                 Console.Clear();
                 Console.WriteLine($"Iveskite {i + 1}-taji darbuotoja:\n");
-                employees[i] = Employee.Employee.GetEmployeeFromConsoleInput();
+                employees[i] = Employee.GetEmployeeFromConsoleInput();
             }
 
             while (true)
