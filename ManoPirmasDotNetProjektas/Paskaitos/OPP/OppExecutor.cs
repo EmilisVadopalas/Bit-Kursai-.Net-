@@ -326,18 +326,17 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
             while (!int.TryParse(n, out number));
 
-            var Employees = new Employee.Employee[number];
+            var employees = new Employee.Employee[number];
 
             for (int i = 0; i < number; i++)
             {
                 Console.Clear();
                 Console.WriteLine($"Iveskite {i + 1}-taji darbuotoja:\n");
-                Employees[i] = Employee.Employee.GetEmployeeFromConsoleInput();
+                employees[i] = Employee.Employee.GetEmployeeFromConsoleInput();
             }
 
             while (true)
             {
-
                 string choice = string.Empty;
 
                 do
@@ -363,17 +362,221 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
                 }
                 while (choice != "print" && choice != "filter" && choice != "order");
 
+                var EmployeeList = employees;
+
                 if (choice == "filter")
                 {
-                    //todo: filter dialog
+                    do
+                    {
+                        Console.Clear();
+                        Table.PrintLine(100);
+                        Table.PrintRow(100, "Meniu");
+                        Table.PrintLine(100);
+                        Table.PrintRow(100, "Options", "value");
+                        Table.PrintLine(100);
+                        Table.PrintRow(100, "Filter values", "name, surname, birthdate, salary");
+                        Table.PrintRow(100, "Filters operators", "=, >, <, !=, >=, <=");
+                        Table.PrintRow(100, "To quit", "quit");
+                        Table.PrintLine(100);
+                        Console.Write("\nExample: name = Jonas");
+                        Console.Write("\nFormat: {filter value} {operator} {value}");
+                        Console.Write("\nEnter Filter: ");
+                        choice = Console.ReadLine();
+
+                        if (choice == "quit")
+                        {
+                            return;
+                        }
+                    }
+                    while (!FilterFormatCorrect(choice));
+
+                    var splited = choice.Trim().Split(" ");                   
+
+                    if (splited[0] == "name")
+                    {
+                        if (splited[1] == "=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Name == splited[2]).ToArray();
+                        }
+                        else if (splited[1] == "!=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Name != splited[2]).ToArray();
+                        }
+                    }
+                    if (splited[0] == "surname")
+                    {
+                        if (splited[1] == "=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Surname == splited[2]).ToArray();
+                        }
+                        else if (splited[1] == "!=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Surname != splited[2]).ToArray();
+                        }
+                    }
+                    if (splited[0] == "birthdate")
+                    {                       
+                        if (splited[1] == "=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.BirthDate == DateOnly.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == "!=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.BirthDate != DateOnly.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == ">")
+                        {
+                            EmployeeList = employees.Where(employee => employee.BirthDate > DateOnly.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == ">=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.BirthDate >= DateOnly.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == "<")
+                        {
+                            EmployeeList = employees.Where(employee => employee.BirthDate < DateOnly.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == "<=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.BirthDate <= DateOnly.Parse(splited[2])).ToArray();
+                        }
+                    }
+                    if (splited[0] == "salary")
+                    {
+                        if (splited[1] == "=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Salary == int.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == "!=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Salary != int.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == ">")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Salary > int.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == ">=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Salary >= int.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == "<")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Salary < int.Parse(splited[2])).ToArray();
+                        }
+                        else if (splited[1] == "<=")
+                        {
+                            EmployeeList = employees.Where(employee => employee.Salary <= int.Parse(splited[2])).ToArray();
+                        }
+                    }    
                 }
                 else if (choice == "order")
                 {
-                    //todo: order dialog
+                    do
+                    {
+                        Console.Clear();
+                        Table.PrintLine(50);
+                        Table.PrintRow(50, "Meniu");
+                        Table.PrintLine(50);
+                        Table.PrintRow(50, "Choise", "value");
+                        Table.PrintLine(50);
+                        Table.PrintRow(50, "Name desending", "name desc");
+                        Table.PrintRow(50, "Name asending", "name asc");
+                        Table.PrintRow(50, "Surname desending", "surname desc");
+                        Table.PrintRow(50, "Surname asending", "surname asc");
+                        Table.PrintRow(50, "BirthDate desending", "birthdate desc");
+                        Table.PrintRow(50, "BirthDate asending", "birthdate asc");
+                        Table.PrintRow(50, "Salary desending", "salary desc");
+                        Table.PrintRow(50, "Salary asending", "salary asc");
+                        Table.PrintRow(50, "To quit", "quit");
+                        Table.PrintLine(50);
+                        Console.Write("\nYour meniu choice ?  ");
+                        choice = Console.ReadLine();
+
+                        if (choice == "quit")
+                        {
+                            return;
+                        }
+                    }
+                    while (choice != "name desc" && choice != "name asc" 
+                    && choice != "surname desc" && choice != "surname asc"
+                    && choice != "birthdate desc" && choice != "birthdate asc"
+                    && choice != "salary desc" && choice != "salary asc");
+
+                    if(choice == "name desc")
+                    {
+                        EmployeeList = employees.OrderByDescending(employee => employee.Name).ToArray();
+                    }
+                    if(choice == "name asc")
+                    {
+                        EmployeeList = employees.OrderBy(employee => employee.Name).ToArray();
+                    }
+                    if (choice == "surname desc")
+                    {
+                        EmployeeList = employees.OrderByDescending(employee => employee.Surname).ToArray();
+                    }
+                    if (choice == "surname asc")
+                    {
+                        EmployeeList = employees.OrderBy(employee => employee.Surname).ToArray();
+                    }
+                    if (choice == "birthdate desc")
+                    {
+                        EmployeeList = employees.OrderByDescending(employee => employee.BirthDate).ToArray();
+                    }
+                    if (choice == "birthdate asc")
+                    {
+                        EmployeeList = employees.OrderBy(employee => employee.BirthDate).ToArray();
+                    }
+                    if (choice == "salary desc")
+                    {
+                        EmployeeList = employees.OrderByDescending(employee => employee.Salary).ToArray();
+                    }
+                    if (choice == "salary asc")
+                    {
+                        EmployeeList = employees.OrderBy(employee => employee.Salary).ToArray();
+                    }
                 }
 
-                Employees.PrintEmployeeTable();
+                EmployeeList.PrintEmployeeTable();
             }
+        }
+
+        private static bool FilterFormatCorrect(string filter)
+        {
+            var splited = filter.Trim().Split(" ");
+
+            //format check
+            if(splited.Length != 3)
+            {
+                return false;
+            }
+
+            //filter name check
+            if(splited[0] != "name" && splited[0] != "surname" 
+                && splited[0] != "birthdate" && splited[0] != "salary")
+            {
+                return false;
+            }
+
+            //operator check
+            if (splited[1] != "=" && splited[1] != ">"
+                && splited[1] != "<" && splited[1] != "!="
+                 && splited[1] != ">=" && splited[1] != "<=")
+            {
+                return false;
+            }
+
+            //type conversion check
+            if(splited[0] == "birthdate" && !DateOnly.TryParse(splited[2], out _))
+            {
+                return false;
+            }
+
+            if (splited[0] == "salary" && !int.TryParse(splited[2], out _))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
