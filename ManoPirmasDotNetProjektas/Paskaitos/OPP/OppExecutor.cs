@@ -27,7 +27,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             //EqualityTasks();
             //EmployeeList();
             //Interfaces();
-            PlanetTasks();
+            PlanetTask();
+            InterfaceTask();
 
             Console.ReadLine();
         }
@@ -621,7 +622,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 
         }
 
-        public static void PlanetTasks()
+        public static void PlanetTask()
         {
             var planet = string.Empty;
             var weight = string.Empty;
@@ -688,6 +689,19 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 
             Console.WriteLine($"\n\nSkaiciuojant su {planetPlanet2.GetType().Name} klase:");
             Console.WriteLine($"Jusu Sunkis {planet}'e butu \n{gForce2} niutonu, \n{diff2} x karto zemes sunkio");
+
+            Console.ReadLine();
+        }
+
+        public static void InterfaceTask()
+        {
+            var staciakampis = new Staciakampis();
+            var kvadratas = new Staciakampis();
+            var apskritimas = new Apskritimas();
+
+            Console.WriteLine($"\n{staciakampis.Pavadinimas()} \nPlotas: {staciakampis.Plotas()} \nPerimetras: {staciakampis.Perimetras()}");
+            Console.WriteLine($"\n{kvadratas.Pavadinimas()} \nPlotas: {kvadratas.Plotas()} \nPerimetras: {kvadratas.Perimetras()}");
+            Console.WriteLine($"\n{apskritimas.Pavadinimas()} \nPlotas: {apskritimas.Plotas()} \nPerimetras: {apskritimas.Perimetras()}");
         }
     }
 }
