@@ -702,6 +702,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine($"\n{staciakampis.Pavadinimas()} \nPlotas: {staciakampis.Plotas()} \nPerimetras: {staciakampis.Perimetras()}");
             Console.WriteLine($"\n{kvadratas.Pavadinimas()} \nPlotas: {kvadratas.Plotas()} \nPerimetras: {kvadratas.Perimetras()}");
             Console.WriteLine($"\n{apskritimas.Pavadinimas()} \nPlotas: {apskritimas.Plotas()} \nPerimetras: {apskritimas.Perimetras()}");
+
+            ISkaiciavimas[] plotai = new ISkaiciavimas[] {staciakampis, apskritimas, kvadratas };
+            IFigura[] pavadinimai = new IFigura[] {staciakampis, apskritimas, kvadratas };
         }
     }
 }
