@@ -9,7 +9,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Universitetines
     {
         public int Length { get; init; }
         public int Width { get; init; }
-        public bool Reserved { get; set; }
+        public bool Reserved { get; private set; }
 
         public Room(int length, int width)
         {

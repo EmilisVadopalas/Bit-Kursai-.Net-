@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
 {

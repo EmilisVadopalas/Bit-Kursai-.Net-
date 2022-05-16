@@ -9,6 +9,9 @@ using ManoPirmasDotNetProjektas.Paskaitos.OPP.EmployeeNameSpace;
 using System;
 using System.Linq;
 using ManoPirmasDotNetProjektas.Paskaitos.Helpers.ConsolePaints;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses.Tasks;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.AbstractClasses;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 {
@@ -22,7 +25,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             //StructTasks();
             //ArrayTasks();
             //EqualityTasks();
-            EmployeeList();
+            //EmployeeList();
+            //Interfaces();
+            PlanetTasks();
 
             Console.ReadLine();
         }
@@ -204,7 +209,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 
 
 
-
             ///
             /// Ketvirta
             ///
@@ -247,8 +251,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             //2. Mesurement Converteris
             Console.WriteLine($"100 miles is {Mesuraments.ConvertMeasurements(100, LenghtMesuraments.Mile, LenghtMesuraments.Kilometer)} kilometers");
             Console.WriteLine($"48 Kilometers is {Mesuraments.ConvertMeasurements(48, LenghtMesuraments.Kilometer, LenghtMesuraments.Foot)} Feets");
-
-
         }
 
         private static void StructTasks()
@@ -577,6 +579,115 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
 
             return true;
+        }
+
+        private static void Interfaces()
+        {
+            var save1 = new Ps2SaveData();
+            var save2= new Ps2SaveData();
+            var save3 = new Ps2SaveData();
+
+            save1.Save();
+            //save1.Delete();
+
+            var saves = new ISaveData[] {save1, save2, save3 };
+
+            saves[1].Delete();
+            saves[1].Save();
+
+            Flight[] f1 = new Flight[5] 
+            {
+                new Flight ( "A623", new Plane(4), new Passenger[2] { new Passenger( "Jonas", "Jonaitis" ), new Passenger("Petras", "Jonaitis" ) } ),
+                new Flight ( "A254", new Plane(8), new Passenger[1] { new Passenger( "Jonas", "Jonaitis" ) }),
+                new Flight ( "A143", new Plane(22), new Passenger[3] { new Passenger( "Jonas", "Jonaitis" ), new Passenger("Petras", "Jonaitis" ), new Passenger("Petras", "Jonaitis") } ),
+                new Flight ( "A693", new Plane(48), new Passenger[5] { new Passenger( "Jonas", "Jonaitis" ), new Passenger("Petras", "Jonaitis" ), new Passenger("Petras", "Jonaitis"), new Passenger("Petras", "Jonaitis" ), new Passenger("Petras", "Jonaitis") } ),
+                new Flight ( "A453", new Plane(12), new Passenger[4] { new Passenger( "Jonas", "Jonaitis" ), new Passenger("Petras", "Jonaitis" ), new Passenger("Petras", "Jonaitis") , new Passenger("Petras", "Jonaitis" ) } )
+            };
+
+            Console.WriteLine("\n\nBefore Sort");
+            foreach(var f in f1)
+            {
+                Console.WriteLine(f);
+            }
+
+            Array.Sort(f1);
+            Array.Reverse(f1);
+
+            Console.WriteLine("\n\nAfterSort");
+            foreach (var f in f1)
+            {
+                Console.WriteLine(f);
+            }
+
+        }
+
+        public static void PlanetTasks()
+        {
+            var planet = string.Empty;
+            var weight = string.Empty;
+            double humanMass = 0;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Pasirinkimai: moon, earth, mars, venus, mercury, uranus");
+                Console.Write("Pasirinkite planeta: ");
+                planet = Console.ReadLine();
+            } 
+            while (planet != "moon" && planet != "earth" && planet != "mars" && planet != "venus" && planet != "mercury" && planet != "uranus");
+
+            do
+            {
+                Console.Clear();
+                Console.Write("Iveskite svori kilogramais: ");
+                weight = Console.ReadLine();
+            } 
+            while (!double.TryParse(weight, out humanMass));
+
+            Planet planetPlanet = null;
+            SunkioJega planetPlanet2 = null;
+
+            if(planet == "moon")
+            {
+                planetPlanet = new Planet(AccelarationForceForPlanets.Moon);
+                planetPlanet2 = new Moon();
+            }
+            else if (planet == "earth")
+            {
+                planetPlanet = new Planet(AccelarationForceForPlanets.Earth);
+                planetPlanet2 = new Earth();
+            }
+            else if (planet == "mars")
+            {
+                planetPlanet = new Planet(AccelarationForceForPlanets.Mars);
+                planetPlanet2 = new Mars();
+            }
+            else if (planet == "venus")
+            {
+                planetPlanet = new Planet(AccelarationForceForPlanets.Venus);
+                planetPlanet2 = new Venus();
+            }
+            else if (planet == "mercury")
+            {
+                planetPlanet = new Planet(AccelarationForceForPlanets.Mercury);
+                planetPlanet2 = new Mercury();
+            }
+            else if (planet == "uranus")
+            {
+                planetPlanet = new Planet(AccelarationForceForPlanets.Uranus);
+                planetPlanet2 = new Uranus();
+            }
+
+            var gForce1 = planetPlanet.GetGravitationalForceOnPerson(humanMass);
+            var diff1 = new Planet(AccelarationForceForPlanets.Earth).GetGravitationalForceOnPerson(humanMass) / gForce1;
+            var gForce2 = planetPlanet2.GetGravitationalForceOnPerson(humanMass);
+            var diff2 = new Earth().GetGravitationalForceOnPerson(humanMass) / gForce2;
+
+            Console.WriteLine("\nSkaiciuojant su Planet klase:");
+            Console.WriteLine($"Jusu Sunkis {planet}'e butu \n{gForce1} niutonu, \n{diff1} x karto zemes sunkio");
+
+            Console.WriteLine($"\n\nSkaiciuojant su {planetPlanet2.GetType().Name} klase:");
+            Console.WriteLine($"Jusu Sunkis {planet}'e butu \n{gForce2} niutonu, \n{diff2} x karto zemes sunkio");
         }
     }
 }

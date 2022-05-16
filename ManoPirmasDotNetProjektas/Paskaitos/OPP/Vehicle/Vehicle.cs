@@ -1,16 +1,16 @@
 ﻿using System;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Enums;
+using ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Vehicle
 {
-    public class Vehicle
+    public class Vehicle 
     {
         public double TopSpeed { get; set; }
         public double Weight { get; set; }
         public DateTime Year { get; init; }
         public int MaxDistance { get; set; }
         public VehicleType Type { get; set; }
-
 
         public Vehicle() { }
 

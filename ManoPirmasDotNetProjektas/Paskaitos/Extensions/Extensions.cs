@@ -235,10 +235,12 @@ namespace ManoPirmasDotNetProjektas.Extensions
             Table.PrintLine(tableWitdh);
             Table.PrintRow(tableWitdh, "Name", "Surname", "Salary", "Birth");
             Table.PrintLine(tableWitdh);
+
             foreach (var employee in employees)
             {
                 Table.PrintRow(tableWitdh, employee.Name, employee.Surname, employee.Salary.ToString(), employee.BirthDate.ToString("yyyy-MM-dd"));
-            }           
+            }          
+            
             Table.PrintLine(tableWitdh);
             Console.ReadLine();
         }
