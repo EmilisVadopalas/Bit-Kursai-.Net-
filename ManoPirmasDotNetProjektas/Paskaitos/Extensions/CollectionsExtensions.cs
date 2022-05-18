@@ -27,7 +27,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Extensions
             return busRoutes.Where(busRoute => busRoute.Origin == location || busRoute.Destination == location).FirstOrDefault();
         }
 
-        public static BusRoute FindBusTo(this BusRoute[] busRoutes, string location)
+        public static BusRoute FindBusTo(this IEnumerable<BusRoute> busRoutes, string location)
         {
             return busRoutes.Where(busRoute => busRoute.Route.Any(busStop => busStop == location)).FirstOrDefault();
         }
