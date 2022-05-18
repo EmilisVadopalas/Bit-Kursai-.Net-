@@ -22,7 +22,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.AbstractClasses
 
         public Planet(AccelarationForceForPlanets pagreitis)
         {
-            Pagreitis = (int)pagreitis/1000;
+            Pagreitis = (double)(int)pagreitis/1000;
         }
     }
 
@@ -36,7 +36,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.AbstractClasses
         Uranus = 8690
     }
 
-    public class Moon : SunkioJega 
+    public class Moon : SunkioJega
     {
         public override double Pagreitis { protected get; init; } = 1.625;
     }

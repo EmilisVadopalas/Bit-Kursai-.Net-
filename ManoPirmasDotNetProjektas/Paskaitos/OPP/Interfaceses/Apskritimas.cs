@@ -3,8 +3,7 @@
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses
 {
     public class Apskritimas : IFigura, ISkaiciavimas 
-    {
-       
+    {       
         public double Radius { get; init; }
 
         public Apskritimas()
@@ -15,14 +14,13 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses
             do
             {
                 Console.Clear();
-                Console.Write("Iveskite apskritimo r: ");
+                Console.Write("Iveskite apskritimo spinduli: ");
                 stringNumber = Console.ReadLine();
             }
             while (!double.TryParse(stringNumber, out radius));
 
             Radius = radius;
         }
-
         public string Pavadinimas() => "Apskritimas";
 
         public double Perimetras() => 2 * Math.PI * Radius;

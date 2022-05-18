@@ -9,7 +9,7 @@ using ManoPirmasDotNetProjektas.Paskaitos.Helpers.ConsolePaints;
 
 namespace ManoPirmasDotNetProjektas.Extensions
 {
-    public static class Extensions
+    public static class OPPExtensions
     {
         public static string ToWord(this int number)
         {

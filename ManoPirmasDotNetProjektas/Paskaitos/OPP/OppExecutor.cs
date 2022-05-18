@@ -681,6 +681,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 
             var gForce1 = planetPlanet.GetGravitationalForceOnPerson(humanMass);
             var diff1 = new Planet(AccelarationForceForPlanets.Earth).GetGravitationalForceOnPerson(humanMass) / gForce1;
+            
             var gForce2 = planetPlanet2.GetGravitationalForceOnPerson(humanMass);
             var diff2 = new Earth().GetGravitationalForceOnPerson(humanMass) / gForce2;
 
@@ -703,8 +704,17 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine($"\n{kvadratas.Pavadinimas()} \nPlotas: {kvadratas.Plotas()} \nPerimetras: {kvadratas.Perimetras()}");
             Console.WriteLine($"\n{apskritimas.Pavadinimas()} \nPlotas: {apskritimas.Plotas()} \nPerimetras: {apskritimas.Perimetras()}");
 
-            ISkaiciavimas[] plotai = new ISkaiciavimas[] {staciakampis, apskritimas, kvadratas };
-            IFigura[] pavadinimai = new IFigura[] {staciakampis, apskritimas, kvadratas };
+            ISkaiciavimas[] plotai = new ISkaiciavimas[] { staciakampis, apskritimas, kvadratas };
+            IFigura[] pavadinimai = new IFigura[] { staciakampis, apskritimas, kvadratas };
+
+            PrintName(staciakampis);
+            PrintName(kvadratas);
+            PrintName(apskritimas);
+        }
+
+        public static void PrintName(IFigura kazkokiaKlaseSuPavadinimu)
+        {
+            Console.WriteLine(kazkokiaKlaseSuPavadinimu.Pavadinimas());
         }
     }
 }

@@ -4,8 +4,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses
 {
     public class Staciakampis : IFigura, ISkaiciavimas
     {
-        public double Plotis { get; init; }
-        public double Aukstis { get; init; }
+        private double Plotis { get; init; }
+        private double Aukstis { get; init; }
 
         public Staciakampis()
         {
