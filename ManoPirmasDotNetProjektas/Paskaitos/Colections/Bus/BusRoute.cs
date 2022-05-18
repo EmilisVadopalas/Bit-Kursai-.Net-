@@ -11,7 +11,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus
         public string Number { get; init; }
         public string Origin => Route[0];
         public string Destination => Route[^1];
-        public string[] Route { get; init; }
+        public string[] Route { get; set; }
 
         public BusRoute(string busNumber, string[] busStops)
         {

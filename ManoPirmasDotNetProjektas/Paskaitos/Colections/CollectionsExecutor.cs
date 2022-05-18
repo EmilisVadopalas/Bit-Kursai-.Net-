@@ -1,4 +1,5 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.Colections.Array;
+using ManoPirmasDotNetProjektas.Paskaitos.Colections.Lists;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
         public static void Run()
         {
             //Masyvai.MasyvaiTesting();
-            Masyvai.AutobusuUzduotisPirma();
+            //Masyvai.AutobusuUzduotisPirma();
+            Listai.AutobusuUzduotisPirma();
         }
     }
 }

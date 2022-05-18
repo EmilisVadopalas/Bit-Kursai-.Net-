@@ -29,12 +29,40 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Lists
         {
             var busRoutes = new List<BusRoute>(Masyvai.InitializeRoutes());
 
+            Console.WriteLine("Pries stoteliu trinima:");
+
+            foreach (var busRoute in busRoutes)
+            {
+                Console.WriteLine($"Marsrutas {busRoute.Number}, turi {busRoute.Route.Count()} stoteliu");
+            }
+
+            busRoutes = RemoveBusStopsThatContains(busRoutes, "r");
+
+            Console.WriteLine("Pries stoteliu trinima:");
+
+            foreach (var busRoute in busRoutes)
+            {
+                Console.WriteLine($"Marsrutas {busRoute.Number}, turi {busRoute.Route.Count()} stoteliu");
+            }
+
             Console.Write("i kokia stotele norite nuvykti ? ");
             var destination = Console.ReadLine();
 
             var route = busRoutes.FindBusTo(destination);
 
             Console.WriteLine(route is null ? $"marsruti i {destination} nera" : $"marsrutas {route.Number} is {route.Origin} per {destination} vyksta i {route.Destination}");
+        }
+
+        private static List<BusRoute> RemoveBusStopsThatContains(IEnumerable<BusRoute> busRoutes, string letter)
+        {
+            foreach (var busRoute in busRoutes)
+            {
+                var routes = busRoute.Route;
+                routes = routes.Where(busStop => !busStop.Contains(letter)).ToArray();
+                busRoute.Route = routes;                
+            }
+
+            return busRoutes.ToList();
         }
 
     }
