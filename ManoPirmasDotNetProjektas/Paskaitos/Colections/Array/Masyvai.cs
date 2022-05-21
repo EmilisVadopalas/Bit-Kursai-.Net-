@@ -18,7 +18,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Array
             Console.WriteLine(routes[^3]);
         }
 
-        public static void AutobusuUzduotisPirma()
+        public static void AutobusuUzduotis()
         {
             var busRoutes = InitializeRoutes();
 

@@ -13,8 +13,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
         public static void Run()
         {
             //Masyvai.MasyvaiTesting();
-            //Masyvai.AutobusuUzduotisPirma();
-            Listai.AutobusuUzduotisPirma();
+            //Masyvai.AutobusuUzduotis();
+            //Listai.AutobusuUzduotis();
+            Listai.AntraAutobusoUzduotis();
         }
     }
 }

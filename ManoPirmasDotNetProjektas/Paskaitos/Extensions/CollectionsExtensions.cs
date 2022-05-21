@@ -29,7 +29,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Extensions
 
         public static BusRoute FindBusTo(this IEnumerable<BusRoute> busRoutes, string location)
         {
-            return busRoutes.Where(busRoute => busRoute.Route.Any(busStop => busStop == location)).FirstOrDefault();
+            return busRoutes.Where(busRoute => busRoute.BusStops.Any(busStop => busStop == location)).FirstOrDefault();
         }
 
         public static BusRoute FindBusTo3(this BusRoute[] busRoutes, string location)
@@ -42,7 +42,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Extensions
             return Array.FindAll(busRoutes, busRoute => busRoute.Origin == location || busRoute.Destination == location);
         }
 
-        public static BusRoute[] FindBuses2(this BusRoute[] busRoutes, string location)
+        public static BusRoute[] FindBuses2(this IEnumerable<BusRoute> busRoutes, string location)
         {
             return busRoutes.Where(busRoute => busRoute.Origin == location || busRoute.Destination == location).ToArray();
         }
