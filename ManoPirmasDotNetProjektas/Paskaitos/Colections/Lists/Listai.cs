@@ -187,7 +187,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Lists
 
             if (actionStops == "add")
             {
-                UpdateBusRoutes(BusRoute.AddBusStop(route, GetStopNameToAdd(route, out int? index), index));
+                UpdateBusRoutes(BusRoute.AddBusStop(route, GetStopNameToAdd(route, out int? index), index)); 
             }
             else if (actionStops == "delete")
             {

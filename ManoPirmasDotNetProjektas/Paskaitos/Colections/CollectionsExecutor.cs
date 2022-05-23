@@ -17,5 +17,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
             //Listai.AutobusuUzduotis();
             Listai.AntraAutobusoUzduotis();
         }
+
+        public static void Dictionaries()
+        {
+            Dictionary<int,string> dictionary = new Dictionary<int,string>();
+        }
     }
 }

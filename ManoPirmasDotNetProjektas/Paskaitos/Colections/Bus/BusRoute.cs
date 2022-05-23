@@ -26,7 +26,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus
             var newBusStops = new string[route.BusStops.Length+1];
             bool stopAdded = false;
 
-            for(int i = 0; i < newBusStops.Length; i++)
+            for(int i = 0; i <= newBusStops.Length; i++)
             {
                 if (i == index)
                 {
@@ -80,6 +80,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus
 
             return route;
         }
+
 
         private static int ValideIndex(BusRoute route, int? index, bool delete = false)
         {

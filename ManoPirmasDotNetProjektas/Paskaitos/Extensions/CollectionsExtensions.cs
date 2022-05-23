@@ -44,7 +44,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Extensions
 
         public static BusRoute[] FindBuses2(this IEnumerable<BusRoute> busRoutes, string location)
         {
-            return busRoutes.Where(busRoute => busRoute.Origin == location || busRoute.Destination == location).ToArray();
+            return busRoutes.Where(busRoute => busRoute.BusStops.Any(busStop => busStop == location)).ToArray();
         }
     }
 }
