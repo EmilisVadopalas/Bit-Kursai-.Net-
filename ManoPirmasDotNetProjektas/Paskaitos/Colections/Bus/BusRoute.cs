@@ -19,6 +19,18 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus
             Number = busNumber;
         }
 
+        public override string ToString()
+        {
+            var strBuilder = new StringBuilder($"\nMarsrutas {Number}\n");
+
+            for(int i = 0; i < BusStops.Length; i++)
+            {
+                strBuilder.Append($"\n{i+1}-oji stotele \"{BusStops[i]}\"");
+            }
+
+            return strBuilder.ToString();                
+        }
+
         public static BusRoute AddBusStop(BusRoute route, string NewStop, int? index)
         {
             index = ValideIndex(route, index);
@@ -80,7 +92,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus
 
             return route;
         }
-
 
         private static int ValideIndex(BusRoute route, int? index, bool delete = false)
         {
