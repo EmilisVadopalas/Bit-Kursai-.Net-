@@ -1,5 +1,9 @@
-﻿using System;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,6 +19,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 
         private static readonly string nameFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\name.txt";
         private static readonly string nameFileDirectoryD = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\nameD.txt";
+
+        private static readonly string CsvFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\characterlist.csv";
         public async static Task Run()
         {
             //await ReadTextFile();
@@ -23,7 +29,61 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //ListenToFolder();
             //await RemoveSurnames();
             //await FindMostPopularNames();
-            await FileStramingExamples();
+            //await FileStramingExamples();
+            CsvHelperExamples();
+            await ReadFileToClassCustom();
+        }
+
+        public async static Task ReadFileToClassCustom()
+        {
+            var lines = await File.ReadAllLinesAsync(CsvFileDirectory);
+            var characters = new List<Character>();
+
+            var columnNames = true;
+
+            foreach (var line in lines)
+            {
+                if (columnNames) 
+                {
+                    columnNames = false;
+                    continue;
+                }
+
+                var columns = line.Split(";");
+
+                characters.Add(new Character(int.Parse(columns[0]), columns[1], columns[2], DateTime.Parse(columns[3])));
+            }
+            Console.WriteLine("\nCUSTOM PARSE\n");
+
+            foreach (var record in characters)
+            {
+                Console.WriteLine(record.ID);
+                Console.WriteLine(record.Name);
+                Console.WriteLine(record.Surname);
+                Console.WriteLine(record.BirthDate);
+            }
+        } 
+
+        public static void CsvHelperExamples()
+        {
+            var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
+            csvConfiguration.Delimiter = ";";
+
+            using (var reader = new StreamReader(CsvFileDirectory))  
+            using (var csv = new CsvReader(reader, csvConfiguration))
+            {
+                var records = csv.GetRecords<Character>();
+
+                Console.WriteLine("\nCSVHELPER PARSE\n");
+
+                foreach (var record in records)
+                {
+                    Console.WriteLine(record.ID);
+                    Console.WriteLine(record.Name);
+                    Console.WriteLine(record.Surname);
+                    Console.WriteLine(record.BirthDate);
+                }
+            }
         }
 
         public async static Task FileStramingExamples()
@@ -32,7 +92,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             using var fileStream = 
                 new FileStream(nameFileDirectory, FileMode.Open, FileAccess.Read);
             
-            using var fileStramForWriting = new FileStream(nameFileDirectoryD, FileMode.OpenOrCreate, FileAccess.Write);
+            using var fileStramForWriting = 
+                new FileStream(nameFileDirectoryD, FileMode.OpenOrCreate, FileAccess.Write);
 
             //susikuriam nauja to streamo readeri
             using var fileReader = 
@@ -41,15 +102,26 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //susikuriam nauja stream writeri
             using var fileWriter = new StreamWriter(fileStramForWriting);
 
+            var counter = 1;
+
             while (!fileReader.EndOfStream) // kol streamas nedaeis iki failo galo
             {
-                //nuskaitom viena eilute
+                //nuskaitom viena eilute (kita kart iskvietus metoda, streamreaderis skaitys jau sekancia eilute)
                 var line = await fileReader.ReadLineAsync();
 
-                //isprintima i console ta eilute
-                Console.WriteLine($"line read with Stream Reader : {line}");
+                if (fileReader.EndOfStream)// true when last line already read.
+                {
+                    Console.WriteLine($"last line: {line}");
+                }
+                else
+                {  
+                    //isprintima i console ta eilute
+                    Console.WriteLine($"line ({counter}): {line}");
+                }               
 
                 await fileWriter.WriteLineAsync(line);
+
+                counter++;
             }
 
         }
