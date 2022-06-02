@@ -14,7 +14,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
         private static readonly string fileName = "SekmingaiSusikuriaFailas2.txt";
 
         private static readonly string nameFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\name.txt";
-
+        private static readonly string nameFileDirectoryD = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\nameD.txt";
         public async static Task Run()
         {
             //await ReadTextFile();
@@ -22,7 +22,36 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //DeleteFile();
             //ListenToFolder();
             //await RemoveSurnames();
-            await FindMostPopularNames();
+            //await FindMostPopularNames();
+            await FileStramingExamples();
+        }
+
+        public async static Task FileStramingExamples()
+        {
+            //Susikuriam nauja file stream objekta
+            using var fileStream = 
+                new FileStream(nameFileDirectory, FileMode.Open, FileAccess.Read);
+            
+            using var fileStramForWriting = new FileStream(nameFileDirectoryD, FileMode.OpenOrCreate, FileAccess.Write);
+
+            //susikuriam nauja to streamo readeri
+            using var fileReader = 
+                new StreamReader(fileStream);
+
+            //susikuriam nauja stream writeri
+            using var fileWriter = new StreamWriter(fileStramForWriting);
+
+            while (!fileReader.EndOfStream) // kol streamas nedaeis iki failo galo
+            {
+                //nuskaitom viena eilute
+                var line = await fileReader.ReadLineAsync();
+
+                //isprintima i console ta eilute
+                Console.WriteLine($"line read with Stream Reader : {line}");
+
+                await fileWriter.WriteLineAsync(line);
+            }
+
         }
 
         public async static Task ReadTextFile()
