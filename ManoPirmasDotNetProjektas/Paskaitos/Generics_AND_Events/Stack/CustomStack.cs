@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.Generics.Stack
 {
-    public class CustomStack
+    public class CustomStack<T>
     {
-        private string[] _items;
+        private T[] _items;
         private int _currentIndex = -1;
 
         public CustomStack()
         {
-            _items = new string[1];
+            _items = new T[1];
             _currentIndex = -1;
         }
 
-        public CustomStack(string item)
+        public CustomStack(T item)
         {
-            _items = new string[] { item };
+            _items = new T[] { item };
             _currentIndex = 0;
         }
 
-        public CustomStack(IEnumerable<string> items)
+        public CustomStack(IEnumerable<T> items)
         {
             _items = items.ToArray();
             _currentIndex = items.Count() - 1;
@@ -33,13 +33,13 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics.Stack
         public int Count() => _currentIndex + 1;
 
 
-        public void Push(string item)
+        public void Push(T item)
         {
             var length = _items.Length;
-            var newArray = new string[length + 1];
+            var newArray = new T[length + 1];
 
-            for(int i = 0; i < length; i++) 
-            { 
+            for (int i = 0; i < length; i++)
+            {
                 newArray[i] = _items[i];
             }
 
@@ -49,18 +49,18 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics.Stack
             _currentIndex++;
         }
 
-        public string Pop()
+        public T Pop()
         {
             var length = _items.Length;
 
-            var newArray = new string[length - 1];
+            var newArray = new T[length - 1];
 
-            for(var i = 0; i < length-1; i++)
+            for (var i = 0; i < length - 1; i++)
             {
                 newArray[i] = _items[i];
             }
 
-            var deletedItem = _items[length-1];
+            var deletedItem = _items[length - 1];
             _items = newArray;
             _currentIndex--;
 

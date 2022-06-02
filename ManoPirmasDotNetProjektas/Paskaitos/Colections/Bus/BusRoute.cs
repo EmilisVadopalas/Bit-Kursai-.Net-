@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus
 {
-    public class BusRoute
+    public class BusRoute 
     {
         public string Number { get; init; }
         public string Origin => BusStops[0];
         public string Destination => BusStops[^1];
         public string[] BusStops { get; set; }
 
-        public BusRoute(string busNumber, string[] busStops)
+        public BusRoute(string busNumber, string[] busStops) 
         {
             BusStops = busStops;
             Number = busNumber;
