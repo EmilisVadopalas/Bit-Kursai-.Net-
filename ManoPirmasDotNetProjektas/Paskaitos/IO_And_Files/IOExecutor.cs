@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using log4net;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using System;
@@ -23,6 +24,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 
         private static readonly string CsvFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\characterlist.csv";
         private static readonly string CsvFileFolder = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder";
+
+        private static readonly ILog _log = LogManager.GetLogger(typeof(IOExecutor));
+
         public async static Task Run()
         {
             //await ReadTextFile();
@@ -39,6 +43,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 
         public async static Task CsvToJSON(string separator)
         {
+            _log.Info("Starting CSV to JSON method");
+            
             var csvFilesPath = FindCsvFiles(CsvFileFolder);
 
             foreach(var csvFilePath in csvFilesPath)
@@ -115,6 +121,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             {
                 return typeof(Character).Name;
             }
+
             if (isEmployee)
             {
                 return typeof(CsvEmployee).Name;

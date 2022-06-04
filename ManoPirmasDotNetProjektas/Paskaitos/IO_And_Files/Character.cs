@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 {
-    public class Character
+    public class Character 
     {
         public int ID { get; set; }
         public string Name { get; set; }

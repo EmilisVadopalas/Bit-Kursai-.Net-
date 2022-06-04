@@ -1,4 +1,6 @@
-﻿using ManoPirmasDotNetProjektas.Paskaitos;
+﻿using log4net;
+using log4net.Config;
+using ManoPirmasDotNetProjektas.Paskaitos;
 using ManoPirmasDotNetProjektas.Paskaitos.Colections;
 using ManoPirmasDotNetProjektas.Paskaitos.Exeptions;
 using ManoPirmasDotNetProjektas.Paskaitos.Generics;
