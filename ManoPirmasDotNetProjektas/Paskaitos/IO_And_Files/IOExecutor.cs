@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,6 +22,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
         private static readonly string nameFileDirectoryD = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\nameD.txt";
 
         private static readonly string CsvFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\characterlist.csv";
+        private static readonly string CsvFileFolder = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder";
         public async static Task Run()
         {
             //await ReadTextFile();
@@ -30,8 +32,117 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //await RemoveSurnames();
             //await FindMostPopularNames();
             //await FileStramingExamples();
-            CsvHelperExamples();
-            await ReadFileToClassCustom();
+            //CsvHelperExamples();
+            //await ReadFileToClassCustom();
+            await CsvToJSON(";");
+        }
+
+        public async static Task CsvToJSON(string separator)
+        {
+            var csvFilesPath = FindCsvFiles(CsvFileFolder);
+
+            foreach(var csvFilePath in csvFilesPath)
+            {
+                var className = GetNameOfParsibleClass(ReadFileHeaders(csvFilePath), separator);
+
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
+                csvConfiguration.Delimiter = separator;
+
+                using (var reader = new StreamReader(csvFilePath))
+                using (var csv = new CsvReader(reader, csvConfiguration))
+                {
+                    if (className == typeof(Character).Name)
+                    {
+                        try
+                        {
+                            var records = csv.GetRecords<Character>();
+                            string jsonCharactersString = JsonConvert.SerializeObject(records);
+
+                            await File.WriteAllTextAsync(csvFilePath.Replace(".csv", ".json"), jsonCharactersString);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("failed to Parse CSV Character (maybe bad format)");
+                            Console.WriteLine(ex);
+                        }
+                    }
+                    if (className == typeof(CsvEmployee).Name)
+                    {
+                        try
+                        {
+                            var records = csv.GetRecords<CsvEmployee>();
+                            var modifiedRecords = new List<JsonEmployee>();
+
+                            foreach (var record in records)
+                            {
+                                modifiedRecords.Add(new JsonEmployee(record));
+                            }
+
+                            string jsonEmployeesString = JsonConvert.SerializeObject(modifiedRecords);
+                            await File.WriteAllTextAsync(csvFilePath.Replace(".csv", ".json"), jsonEmployeesString);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("failed to Parse CSV Employee (maybe bad format)");
+                            Console.WriteLine(ex);
+                        }
+                    }
+                }  
+            }
+        }
+
+        public static string GetNameOfParsibleClass(string headersString, string seperator)
+        {
+            var headers = headersString.Split(seperator);
+
+            var isCharacter = true;
+            var isEmployee = true;
+
+            for (int i = 0; i < headers.Length; i++)
+            {
+                if(typeof(Character).GetProperties().Count() <= i || headers[i] != typeof(Character).GetProperties()[i].Name)
+                {
+                     isCharacter = false;
+                }
+
+                if(typeof(CsvEmployee).GetProperties().Count() <= i || headers[i] != typeof(CsvEmployee).GetProperties()[i].Name)
+                {
+                    isEmployee = false;
+                }
+            }
+
+            if (isCharacter)
+            {
+                return typeof(Character).Name;
+            }
+            if (isEmployee)
+            {
+                return typeof(CsvEmployee).Name;
+            }
+
+            return null;
+        }
+
+        public static string ReadFileHeaders(string filePath)
+        {
+            using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using var fileReader = new StreamReader(fileStream);
+            
+            return fileReader.ReadLine();
+        } 
+
+        public static string[] FindCsvFiles(string directory)
+        {
+            var csvFilesInfo = new DirectoryInfo(CsvFileFolder).GetFiles("*.csv");
+
+            var csvFilesPath = new string[csvFilesInfo.Length];
+            
+            for (int i = 0; i < csvFilesInfo.Length; i++)
+            {
+                csvFilesPath[i] = csvFilesInfo[i].FullName;
+            }
+
+            return csvFilesPath;
         }
 
         public async static Task ReadFileToClassCustom()
@@ -63,7 +174,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                 Console.WriteLine(record.BirthDate);
             }
         } 
-
         public static void CsvHelperExamples()
         {
             var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
