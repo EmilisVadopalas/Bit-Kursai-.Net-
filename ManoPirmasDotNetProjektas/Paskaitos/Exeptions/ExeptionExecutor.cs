@@ -1,4 +1,5 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.Generics;
+using ManoPirmasDotNetProjektas.Paskaitos.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,32 @@ using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.Exeptions
 {
-    internal static class ExeptionExecutor
+    internal class ExeptionExecutor : ITema
     {
-        public static void Run()
+        private readonly ILoggerServise _logger;
+
+        public ExeptionExecutor(ILoggerServise logger)
         {
+            _logger = logger;
+        }
+
+        public Task Run()
+        {
+            _logger.LogInfo("running Exeption executor");
+
             try
             {
                 BreakProgram();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\n\n\n\n");
-                Console.WriteLine(ex);
+                _logger.LogError(ex.ToString());
             }
+
+            return Task.CompletedTask;
         }
 
-        public static void BreakProgram()
+        public void BreakProgram()
         {
             try
             {
@@ -45,31 +56,34 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Exeptions
             catch (ArgumentNullException exception) when (exception.Message == "operation")
             {
                 Console.WriteLine(exception);
+                _logger.LogError(exception.ToString());
 
                 throw;
             }
             catch (ArgumentNullException exception)
             {
                 Console.WriteLine(exception);
+                _logger.LogError(exception.ToString());
 
                 throw;
             }
             catch(Exception e) when (e.Message == "Object reference not set to an instance of an object.")
             {
                 Console.WriteLine("Pagavau su specifiniu message");
+                _logger.LogError(e.ToString());
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
+                _logger.LogError(exception.ToString());
 
                 throw;
             }
 
-
             BreakProgram2();
         }
 
-        public static void BreakProgram2()
+        public void BreakProgram2()
         {
             try
             {
@@ -77,7 +91,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Exeptions
             }
             catch (Exception e) 
             {
-                
+                _logger.LogError(e.ToString());
             }
         }
     }

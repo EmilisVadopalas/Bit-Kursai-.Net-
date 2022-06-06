@@ -16,19 +16,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 {
-    public static class IOExecutor
+    public class IOExecutor : ITema
     {
-        private static readonly string filePath = $@"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\";
-        private static readonly string fileName = "SekmingaiSusikuriaFailas2.txt";
+        private readonly string _filePath = $@"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\";
+        private readonly string _fileName = "SekmingaiSusikuriaFailas2.txt";
+        private readonly string _nameFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\name.txt";
+        private readonly string _nameFileDirectoryD = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\nameD.txt";
+        private readonly string _csvFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\characterlist.csv";
+        private readonly string _csvFileFolder = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder";
 
-        private static readonly string nameFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\name.txt";
-        private static readonly string nameFileDirectoryD = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\nameD.txt";
+        private readonly ILoggerServise _logger;
 
-        private static readonly string CsvFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\characterlist.csv";
-        private static readonly string CsvFileFolder = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder";
+        public IOExecutor(ILoggerServise logger)
+        {
+            _logger = logger;
+        }
 
-
-        public async static Task Run(IServiceProvider services)
+        public async Task Run()
         {
             
             //await ReadTextFile();
@@ -40,16 +44,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //await FileStramingExamples();
             //CsvHelperExamples();
             //await ReadFileToClassCustom();
-            await CsvToJSON(services,";");
+            await CsvToJSON(";");
         }
 
-        public async static Task CsvToJSON(IServiceProvider service, string separator)
+        public async Task CsvToJSON(string separator)
         {            
-            var logger = service.GetRequiredService<ILoggerServise>();
-
-            await logger.LogInfo("Starting CSV to JSON method");
+            await _logger.LogInfo("Starting CSV to JSON method");
             
-            var csvFilesPath = FindCsvFiles(CsvFileFolder);
+            var csvFilesPath = FindCsvFiles(_csvFileFolder);
 
             foreach(var csvFilePath in csvFilesPath)
             {
@@ -72,8 +74,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                         }
                         catch (Exception ex)
                         {
-                            await logger.LogError("failed to Parse CSV Character (maybe bad format)");
-                            await logger.LogError(ex.ToString());
+                            await _logger.LogError("failed to Parse CSV Character (maybe bad format)");
+                            await _logger.LogError(ex.ToString());
                         }
                     }
                     if (className == typeof(CsvEmployee).Name)
@@ -93,15 +95,15 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                         }
                         catch (Exception ex)
                         {
-                            await logger.LogError("failed to Parse CSV Employee (maybe bad format)");
-                            await logger.LogError(ex.ToString());
+                            await _logger.LogError("failed to Parse CSV Employee (maybe bad format)");
+                            await _logger.LogError(ex.ToString());
                         }
                     }
                 }  
             }
         }
 
-        public static string GetNameOfParsibleClass(string headersString, string seperator)
+        public string GetNameOfParsibleClass(string headersString, string seperator)
         {
             var headers = headersString.Split(seperator);
 
@@ -134,7 +136,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             return null;
         }
 
-        public static string ReadFileHeaders(string filePath)
+        public string ReadFileHeaders(string filePath)
         {
             using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             using var fileReader = new StreamReader(fileStream);
@@ -142,9 +144,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             return fileReader.ReadLine();
         } 
 
-        public static string[] FindCsvFiles(string directory)
+        public string[] FindCsvFiles(string directory)
         {
-            var csvFilesInfo = new DirectoryInfo(CsvFileFolder).GetFiles("*.csv");
+            var csvFilesInfo = new DirectoryInfo(_csvFileFolder).GetFiles("*.csv");
 
             var csvFilesPath = new string[csvFilesInfo.Length];
             
@@ -156,9 +158,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             return csvFilesPath;
         }
 
-        public async static Task ReadFileToClassCustom()
+        public async Task ReadFileToClassCustom()
         {
-            var lines = await File.ReadAllLinesAsync(CsvFileDirectory);
+            var lines = await File.ReadAllLinesAsync(_csvFileDirectory);
             var characters = new List<Character>();
 
             var columnNames = true;
@@ -185,12 +187,12 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                 Console.WriteLine(record.BirthDate);
             }
         } 
-        public static void CsvHelperExamples()
+        public void CsvHelperExamples()
         {
             var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
             csvConfiguration.Delimiter = ";";
 
-            using (var reader = new StreamReader(CsvFileDirectory))  
+            using (var reader = new StreamReader(_csvFileDirectory))  
             using (var csv = new CsvReader(reader, csvConfiguration))
             {
                 var records = csv.GetRecords<Character>();
@@ -207,14 +209,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             }
         }
 
-        public async static Task FileStramingExamples()
+        public async Task FileStramingExamples()
         {
             //Susikuriam nauja file stream objekta
             using var fileStream = 
-                new FileStream(nameFileDirectory, FileMode.Open, FileAccess.Read);
+                new FileStream(_nameFileDirectory, FileMode.Open, FileAccess.Read);
             
             using var fileStramForWriting = 
-                new FileStream(nameFileDirectoryD, FileMode.OpenOrCreate, FileAccess.Write);
+                new FileStream(_nameFileDirectoryD, FileMode.OpenOrCreate, FileAccess.Write);
 
             //susikuriam nauja to streamo readeri
             using var fileReader = 
@@ -247,7 +249,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 
         }
 
-        public async static Task ReadTextFile()
+        public async Task ReadTextFile()
         {
             var lines = await File.ReadAllLinesAsync(@"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\ManoTxtFailas.txt");
 
@@ -259,9 +261,9 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             }
         }
 
-        public async static Task FindMostPopularNames()
+        public async Task FindMostPopularNames()
         {
-            var names = await File.ReadAllLinesAsync(nameFileDirectory);
+            var names = await File.ReadAllLinesAsync(_nameFileDirectory);
             var namesWithCount = new List<(string, int)>();
 
             foreach (var name in names)
@@ -310,7 +312,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                 $"sis vardas pasikartojo {orderedByPopularytiNames[place-1].Item2} kartu");
         }
 
-        public async static Task RemoveSurnames()
+        public async Task RemoveSurnames()
         {
             var dir = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\name.txt";
             
@@ -329,20 +331,20 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 
         }
 
-        public async static Task CreateFile()
+        public async Task CreateFile()
         {
-            Directory.CreateDirectory(filePath);
-            await File.WriteAllTextAsync($"{filePath}{fileName}", "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n...");
+            Directory.CreateDirectory(_filePath);
+            await File.WriteAllTextAsync($"{_filePath}{_fileName}", "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n...");
         }
 
-        public static void DeleteFile()
+        public void DeleteFile()
         {
-            File.Delete($"{filePath}{fileName}");
+            File.Delete($"{_filePath}{_fileName}");
         }
 
-        public static void ListenToFolder()
+        public void ListenToFolder()
         {
-            using var fileSystemWatcher = new FileSystemWatcher(filePath);
+            using var fileSystemWatcher = new FileSystemWatcher(_filePath);
 
             //fileSystemWatcher.IncludeSubdirectories = true;
             fileSystemWatcher.EnableRaisingEvents = true;
@@ -357,14 +359,15 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             Console.ReadLine();
         }
 
-        public static void OnFileRename(object s, RenamedEventArgs e)
+        public void OnFileRename(object s, RenamedEventArgs e)
         {
             Console.WriteLine("Event fired 'Renamed'");
         }
 
-        public static void OnFileCreation(object s, FileSystemEventArgs e)
+        public void OnFileCreation(object s, FileSystemEventArgs e)
         {
             Console.WriteLine("Event fired 'Created'");
         }
     }
 }
+
