@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ManoPirmasDotNetProjektas.Paskaitos.Logger;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 {
@@ -25,10 +27,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
         private static readonly string CsvFileDirectory = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder\characterlist.csv";
         private static readonly string CsvFileFolder = @"C:\Users\Emeil\source\repos\ManoPirmasDotNetProjektas\ManoPirmasDotNetProjektas\FileFolder\NewFolder";
 
-        private static readonly ILog _log = LogManager.GetLogger(typeof(IOExecutor));
 
-        public async static Task Run()
+        public async static Task Run(IServiceProvider services)
         {
+            
             //await ReadTextFile();
             //await CreateFile();
             //DeleteFile();
@@ -38,12 +40,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //await FileStramingExamples();
             //CsvHelperExamples();
             //await ReadFileToClassCustom();
-            await CsvToJSON(";");
+            await CsvToJSON(services,";");
         }
 
-        public async static Task CsvToJSON(string separator)
+        public async static Task CsvToJSON(IServiceProvider service, string separator)
         {
-            _log.Info("Starting CSV to JSON method");
+            var logger = service.GetRequiredService<ILoggerServise>();
+
+            await logger.LogInfo("Starting CSV to JSON method");
             
             var csvFilesPath = FindCsvFiles(CsvFileFolder);
 
@@ -68,8 +72,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("failed to Parse CSV Character (maybe bad format)");
-                            Console.WriteLine(ex);
+                            await logger.LogError("failed to Parse CSV Character (maybe bad format)");
+                            await logger.LogError(ex.ToString());
                         }
                     }
                     if (className == typeof(CsvEmployee).Name)
@@ -89,8 +93,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("failed to Parse CSV Employee (maybe bad format)");
-                            Console.WriteLine(ex);
+                            await logger.LogError("failed to Parse CSV Employee (maybe bad format)");
+                            await logger.LogError(ex.ToString());
                         }
                     }
                 }  

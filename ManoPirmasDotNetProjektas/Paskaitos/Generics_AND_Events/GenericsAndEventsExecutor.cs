@@ -13,7 +13,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
         public static void Run()
         {
             //GenericsSampleCode();
-            //DelegatesSampleCode();
+            DelegatesSampleCode();
 
             var letterPrintingDelegate = new PrintLettersDelegate(PrintL);
             letterPrintingDelegate += new PrintLettersDelegate(PrintA);
@@ -21,7 +21,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
             letterPrintingDelegate += new PrintLettersDelegate(PrintA);
             letterPrintingDelegate += new PrintLettersDelegate(PrintS);
 
-            EventSampleCode(letterPrintingDelegate);
+            Task.Run(() => EventSampleCode(letterPrintingDelegate));
         }
 
         public static void GenericsSampleCode()
@@ -103,7 +103,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
             foreach (var empoloyee in employeeList)
             {
                 Console.WriteLine($"{empoloyee.Name} pradejo darba..");
-                empoloyee.StartWorkAsync();
+                await empoloyee.StartWorkAsync();
             }
 
             Console.ReadLine();
