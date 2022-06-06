@@ -37,7 +37,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
 //OppExecutor.Run();
 //CollectionsExecutor.Run();
-GenericsAndEventsExecutor.Run();
+//GenericsAndEventsExecutor.Run();
 //ExeptionExecutor.Run();
 await IOExecutor.Run(host.Services);
 

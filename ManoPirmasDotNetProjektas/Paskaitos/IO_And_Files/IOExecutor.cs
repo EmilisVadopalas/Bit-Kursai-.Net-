@@ -44,7 +44,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
         }
 
         public async static Task CsvToJSON(IServiceProvider service, string separator)
-        {
+        {            
             var logger = service.GetRequiredService<ILoggerServise>();
 
             await logger.LogInfo("Starting CSV to JSON method");
