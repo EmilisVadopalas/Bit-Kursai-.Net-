@@ -11,8 +11,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
 {
     public class Darbuotojas
     {
-        private readonly ILoggerServise _loggerServise;
-
         private static int _id = 0;
 
         internal event FinishJobDelegate FinishJob; 
@@ -22,12 +20,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
         public int Salary { get; set; }
         public int Experiance { get; set; }
 
-        public Darbuotojas(ILoggerServise loggerServise)
-        {
-            _loggerServise = loggerServise;
-        }
-
-        public Darbuotojas(string name, int salary, int exp)
+        public Darbuotojas( string name, int salary, int exp)
         {
             _id++;
             Id = _id;
@@ -38,8 +31,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
 
         public void StartWork()
         {
-            _loggerServise.LogInfo($"{Name} starts work");
-
             Console.WriteLine("pradejo darba");
 
             FinishJob?.Invoke();
@@ -48,7 +39,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
         public async Task StartWorkAsync()
         {
             Console.WriteLine("pradejo darba");
-            await _loggerServise.LogInfo($"{Name} starts work");
 
             await Task.Delay(5000);
 
