@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
 {
-    public static class CollectionsExecutor
+    public class CollectionsExecutor : ITema
     {
-        public static void Run()
+        public Task Run()
         {
             //Masyvai.MasyvaiTesting();
             //Masyvai.AutobusuUzduotis();
@@ -29,14 +29,16 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
             PrintClassName(person);
             PrintClassName(busR1);
             PrintClassName("stringsdasdasdasd");
+
+            return Task.CompletedTask;
         }
 
-        public static void PrintClassName<T>(T generic)
+        public void PrintClassName<T>(T generic)
         {
             Console.WriteLine(generic.GetType().Name);
         }
 
-        public static void Dictionaries()
+        public void Dictionaries()
         {
             var busR1 = new BusRoute("A1", new string[] { "99", "2", "11" });
             var busR3 = new BusRoute("A3", new string[] { "10", "6", "9" });
@@ -53,7 +55,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
             PrintDictionary(busRoutesFilteredLists);
         }
 
-        public static void Sets()
+        public void Sets()
         {
             var csvFailas1 = new HashSet<string>();
             var csvFailas2 = new HashSet<string>();           
@@ -75,7 +77,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
             PrintOutStrings(csvFailas1);
         }
 
-        private static void PrintOutStrings(IEnumerable<string> stringai)
+        private void PrintOutStrings(IEnumerable<string> stringai)
         {
             foreach (var item in stringai)
             {
@@ -83,7 +85,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
             }
         }
 
-        private static void PrintDictionary<TKey,TValue>(Dictionary<TKey, TValue> dictionary)
+        private void PrintDictionary<TKey,TValue>(Dictionary<TKey, TValue> dictionary)
         {
             foreach (var kvp in dictionary)
             {
@@ -105,7 +107,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
                 }
             }
 
-        private static void AddressBookTask()
+        private void AddressBookTask()
         {
             var addressBook = new AddressBook();
 

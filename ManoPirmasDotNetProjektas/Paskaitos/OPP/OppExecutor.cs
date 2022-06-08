@@ -12,12 +12,13 @@ using ManoPirmasDotNetProjektas.Paskaitos.Helpers.ConsolePaints;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.Interfaceses.Tasks;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP.AbstractClasses;
+using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 {
-    internal static class OppExecutor
+    internal class OppExecutor : ITema
     {
-        public static void Run()
+        public Task Run()
         {
             //InheratanceTasks();
             //ConclusionTasks();
@@ -31,9 +32,11 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             InterfaceTask();
 
             Console.ReadLine();
+
+            return Task.CompletedTask;
         }
 
-        private static void InheratanceTasks()
+        private void InheratanceTasks()
         {
             var fordas = new Car("Ford", "Mondeo", new DateTime(2002, 09, 09),
                 FuelType.Gasoline, 2000, 200, "Pilka", BodyType.Sedan, 1800, 220, 800);
@@ -134,7 +137,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.ReadLine();
         }
 
-        private static void ConclusionTasks()
+        private void ConclusionTasks()
         {
             ///
             /// Pirma
@@ -219,7 +222,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
                 $"\n{Shape.GetWireNeededForShapesProduction(shapes)} mat. vienetu laido..");
         }
 
-        private static void EnumTasks()
+        private void EnumTasks()
         {
             //1. susikurti automobiliu su skirtingais bodytype'ais ir juos isrikiuoti pagal body type'a
             var cars = new Car[]
@@ -254,7 +257,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine($"48 Kilometers is {Mesuraments.ConvertMeasurements(48, LenghtMesuraments.Kilometer, LenghtMesuraments.Foot)} Feets");
         }
 
-        private static void StructTasks()
+        private void StructTasks()
         {
             var me = new PersonStructure
             {
@@ -273,7 +276,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.WriteLine(me2);
         }
 
-        private static void ArrayTasks()
+        private void ArrayTasks()
         {
             int[] zodziai = new int[] { 1, 2, 3 };
 
@@ -293,7 +296,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
         }
 
-        private static void EqualityTasks()
+        private void EqualityTasks()
         {
             var person1 = new Person("Emilis1", "Vadopalas", true, new DateTime(1995, 09, 20));
             var person2 = new Person("Emilis2", "Vadopalas", true, new DateTime(1995, 09, 20));
@@ -316,7 +319,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 
         }
 
-        private static void EmployeeList()
+        private void EmployeeList()
         {
             string n = string.Empty;
             int number = 0;
@@ -543,7 +546,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             }
         }
 
-        private static bool FilterFormatCorrect(string filter)
+        private bool FilterFormatCorrect(string filter)
         {
             var splited = filter.Trim().Split(" ");
 
@@ -582,7 +585,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             return true;
         }
 
-        private static void Interfaces()
+        private void Interfaces()
         {
             var save1 = new Ps2SaveData();
             var save2= new Ps2SaveData();
@@ -622,7 +625,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
 
         }
 
-        public static void PlanetTask()
+        public void PlanetTask()
         {
             var planet = string.Empty;
             var weight = string.Empty;
@@ -694,7 +697,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             Console.ReadLine();
         }
 
-        public static void InterfaceTask()
+        public void InterfaceTask()
         {
             var staciakampis = new Staciakampis();
             var kvadratas = new Staciakampis();
@@ -712,7 +715,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.OPP
             PrintName(apskritimas);
         }
 
-        public static void PrintName(IFigura kazkokiaKlaseSuPavadinimu)
+        public void PrintName(IFigura kazkokiaKlaseSuPavadinimu)
         {
             Console.WriteLine(kazkokiaKlaseSuPavadinimu.Pavadinimas());
         }

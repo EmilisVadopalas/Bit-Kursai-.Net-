@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
 {
-    public static class GenericsAndEventsExecutor
+    public class GenericsAndEventsExecutor : ITema
     {
-        public static void Run()
+        public async Task Run()
         {
             //GenericsSampleCode();
             DelegatesSampleCode();
@@ -21,10 +21,11 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
             letterPrintingDelegate += new PrintLettersDelegate(PrintA);
             letterPrintingDelegate += new PrintLettersDelegate(PrintS);
 
-            Task.Run(() => EventSampleCode(letterPrintingDelegate));
+            await EventSampleCode(letterPrintingDelegate));
+
         }
 
-        public static void GenericsSampleCode()
+        public void GenericsSampleCode()
         {
             var stack = new CustomStack<string>("vienas");
             stack.Push("Du");
@@ -58,7 +59,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
             var badPair = new Pair<string, int>("ips", 22);
         }
 
-        public static void DelegatesSampleCode()
+        public void DelegatesSampleCode()
         {
             var employeeList = new List<Darbuotojas>(new Darbuotojas[]
             {
@@ -81,7 +82,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
 
         }
 
-        public static async Task EventSampleCode(PrintLettersDelegate doWhenJobFinishes)
+        public async Task EventSampleCode(PrintLettersDelegate doWhenJobFinishes)
         {
             var employeeList = new List<Darbuotojas>(new Darbuotojas[]
             {
@@ -112,10 +113,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
 
         }   
 
-        private static void PrintL() => Console.WriteLine("L");
-        private static void PrintA() => Console.WriteLine("A");
-        private static void PrintB() => Console.WriteLine("B");
-        private static void PrintS() => Console.WriteLine("S");
+        private void PrintL() => Console.WriteLine("L");
+        private void PrintA() => Console.WriteLine("A");
+        private void PrintB() => Console.WriteLine("B");
+        private void PrintS() => Console.WriteLine("S");
     }
 
     public delegate void PrintLettersDelegate();
