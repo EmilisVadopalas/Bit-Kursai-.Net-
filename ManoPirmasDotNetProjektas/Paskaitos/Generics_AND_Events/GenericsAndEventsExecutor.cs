@@ -21,8 +21,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Generics
             letterPrintingDelegate += new PrintLettersDelegate(PrintA);
             letterPrintingDelegate += new PrintLettersDelegate(PrintS);
 
-            await EventSampleCode(letterPrintingDelegate));
-
+            await EventSampleCode(letterPrintingDelegate);
         }
 
         public void GenericsSampleCode()

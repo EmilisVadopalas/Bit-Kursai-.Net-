@@ -1,6 +1,7 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.Exeptions;
 using ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files;
 using ManoPirmasDotNetProjektas.Paskaitos.Logger;
+using ManoPirmasDotNetProjektas.Paskaitos.Networking;
 using ManoPirmasDotNetProjektas.Paskaitos.OPP;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,15 +13,18 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((host, services) =>
     {
         var config = host.Configuration;
+        
         //Clase parenkama is appsettings.json
         //services.AddSingleton(typeof(ILoggerServise), Type.GetType(config.GetRequiredSection("logger").Value));
+        
         //klase parenkama cia
-        services.AddSingleton<ILoggerServise, BigLoggerServise>();     
+        services.AddSingleton<ILoggerServise, LoggerServise>();     
         
         //Clase parenkama is appsettings.json
         //services.AddScoped( typeof(ITema) , Type.GetType(config.GetRequiredSection("Executor").Value));        
+        
         //klase parenkama cia
-        services.AddScoped<ITema, IOExecutor>();
+        services.AddScoped<ITema, NetworkExecutor>();
     })
     .Build();
 

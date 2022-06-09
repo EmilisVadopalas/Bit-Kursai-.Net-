@@ -24,6 +24,5 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             Surname = surname;
             BirthDate = birthDate;
         }
-
     }
 }

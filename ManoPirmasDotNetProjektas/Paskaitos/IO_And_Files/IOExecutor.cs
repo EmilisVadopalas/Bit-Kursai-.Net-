@@ -34,7 +34,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
 
         public async Task Run()
         {
-            
+
             //await ReadTextFile();
             //await CreateFile();
             //DeleteFile();
@@ -44,7 +44,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
             //await FileStramingExamples();
             //CsvHelperExamples();
             //await ReadFileToClassCustom();
-            await CsvToJSON(";");
+            //await CsvToJSON(";");
+            DisposableSample();
+
+        }
+
+        public void DisposableSample()
+        {            
+            var character = new Character(1, "Jonas", "Jonaitis", DateTime.Now);
         }
 
         public async Task CsvToJSON(string separator)
@@ -60,46 +67,46 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files
                 var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
                 csvConfiguration.Delimiter = separator;
 
-                using (var reader = new StreamReader(csvFilePath))
-                using (var csv = new CsvReader(reader, csvConfiguration))
+                using var reader = new StreamReader(csvFilePath);
+                using var csv = new CsvReader(reader, csvConfiguration);                
+                
+                if (className == typeof(Character).Name)
                 {
-                    if (className == typeof(Character).Name)
+                    try
                     {
-                        try
-                        {
-                            var records = csv.GetRecords<Character>();
-                            string jsonCharactersString = JsonConvert.SerializeObject(records);
+                        var records = csv.GetRecords<Character>();
+                        string jsonCharactersString = JsonConvert.SerializeObject(records);
 
-                            await File.WriteAllTextAsync(csvFilePath.Replace(".csv", ".json"), jsonCharactersString);
-                        }
-                        catch (Exception ex)
-                        {
-                            await _logger.LogError("failed to Parse CSV Character (maybe bad format)");
-                            await _logger.LogError(ex.ToString());
-                        }
+                        await File.WriteAllTextAsync(csvFilePath.Replace(".csv", ".json"), jsonCharactersString);
                     }
-                    if (className == typeof(CsvEmployee).Name)
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            var records = csv.GetRecords<CsvEmployee>();
-                            var modifiedRecords = new List<JsonEmployee>();
-
-                            foreach (var record in records)
-                            {
-                                modifiedRecords.Add(new JsonEmployee(record));
-                            }
-
-                            string jsonEmployeesString = JsonConvert.SerializeObject(modifiedRecords);
-                            await File.WriteAllTextAsync(csvFilePath.Replace(".csv", ".json"), jsonEmployeesString);
-                        }
-                        catch (Exception ex)
-                        {
-                            await _logger.LogError("failed to Parse CSV Employee (maybe bad format)");
-                            await _logger.LogError(ex.ToString());
-                        }
+                        await _logger.LogError("failed to Parse CSV Character (maybe bad format)");
+                        await _logger.LogError(ex.ToString());
                     }
-                }  
+                }
+                if (className == typeof(CsvEmployee).Name)
+                {
+                    try
+                    {
+                        var records = csv.GetRecords<CsvEmployee>();
+                        var modifiedRecords = new List<JsonEmployee>();
+
+                        foreach (var record in records)
+                        {
+                            modifiedRecords.Add(new JsonEmployee(record));
+                        }
+
+                        string jsonEmployeesString = JsonConvert.SerializeObject(modifiedRecords);
+                        await File.WriteAllTextAsync(csvFilePath.Replace(".csv", ".json"), jsonEmployeesString);
+                    }
+                    catch (Exception ex)
+                    {
+                        await _logger.LogError("failed to Parse CSV Employee (maybe bad format)");
+                        await _logger.LogError(ex.ToString());
+                    }
+                }
+                 
             }
         }
 
