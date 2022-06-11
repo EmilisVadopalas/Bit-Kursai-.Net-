@@ -22,7 +22,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Networking
 
         private string _topoCentrasProcesorsBaseUrl = @"https://www.topocentras.lt/kompiuteriai-ir-plansetes/kompiuteriu-komponentai/procesoriai.html";
         private string _topoCentrasLimit = @"?limit=80";
-        private string _topoCentrasPage = @"&p=1";
+        private string _topoCentrasPage = @"&p=";
 
         private string _LrytasBaseUrl = @"https://www.lrytas.lt/naujausi";
         private string _LrytasPaginationParameter = @"?page=";
@@ -38,11 +38,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Networking
             //await GetDadJoke();
             //await Test10Jokes();
             //await ScrapeSomething();
-            await ScarpeLRytasHeadlines();
-
-
-            //await ScrapeTopoProcesors();
-            //await sodamkaoskijmfaspo();
+            //await ScarpeLRytasHeadlines();
+            await ScrapeTopoProcesors();
         }
 
         private async Task GetWebHeader()
@@ -214,11 +211,75 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Networking
 
         private async Task ScrapeTopoProcesors()
         {
-            var basePage = await ScrapePage($@"");
-            await File.WriteAllTextAsync("TopoCentras.html", basePage);
+            var processors = new List<ProcessorListing>();
+            var pageCounter = 1;
+
+            var basePage = await ScrapeJavaScriptPage($"{_topoCentrasProcesorsBaseUrl}{_topoCentrasLimit}{_topoCentrasPage}{pageCounter}");
+
+            var pageLimit = GetPageLimit(basePage);
+
+            processors.AddRange(GetProcessorsFromPage(basePage));
+
+            for (pageCounter = 2; pageCounter <= pageLimit; pageCounter++)
+            {
+                var nextPage = await ScrapeJavaScriptPage($"{_topoCentrasProcesorsBaseUrl}{_topoCentrasLimit}{_topoCentrasPage}{pageCounter}");
+
+                processors.AddRange(GetProcessorsFromPage(nextPage));
+            }
+
+            File.WriteAllText("TopoCentroProcesoriai.json", JsonConvert.SerializeObject(processors));
         }
 
-        private async Task sodamkaoskijmfaspo()
+        private int GetPageLimit(string page)
+        {
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(page);
+
+            var elements = htmlDocument.QuerySelectorAll(".Count-pageCount-LOv > span");
+
+            if (int.TryParse(elements[2].InnerHtml, out var pageLimit))
+            {
+                var pageCounter = 1;
+                pageLimit -= 80;
+
+                while(pageLimit > 0)
+                {
+                    pageLimit -= 80;
+                    pageCounter++;
+                }
+
+                return pageCounter;
+            }
+
+            return 1;           
+        }
+
+       
+
+        private IEnumerable<ProcessorListing> GetProcessorsFromPage(string page)
+        {
+            var processors = new List<ProcessorListing>();
+
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(page);
+
+            var elements = htmlDocument.QuerySelectorAll("article .ProductGridItem-productWrapper-2ip");
+
+            foreach (var element in elements)
+            {
+                var price = element.QuerySelector(".Price-price-27p").InnerText;
+                var name = element.QuerySelector(".ProductGridItem-productName-3ZD").InnerText;
+                var pictureUrl = element.QuerySelector(".ProductGridItem-imageContainer-pMi").FirstChild.GetAttributes("src").FirstOrDefault()?.Value ?? string.Empty;
+
+                var processorListing = new ProcessorListing(name, pictureUrl, price);
+
+                processors.Add(processorListing);
+            }
+
+            return processors;
+        }
+
+        private async Task<string> ScrapeJavaScriptPage(string url)
         {
             await new BrowserFetcher(Product.Chrome).DownloadAsync();
             using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
@@ -226,16 +287,11 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Networking
                 Headless = true,
                 Product = Product.Chrome
             });
+
             using var page = await browser.NewPageAsync();
-            await page.GoToAsync(_topoCentrasProcesorsBaseUrl + _topoCentrasLimit + _topoCentrasPage);
+            await page.GoToAsync(url);
 
-            var content = await page.GetContentAsync();
-
-
-
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(_topoCentrasProcesorsBaseUrl+ _topoCentrasLimit + _topoCentrasPage);
-            var somethibn = doc.DocumentNode.InnerHtml.ToString();
+            return await page.GetContentAsync();
         }
     }
 }
