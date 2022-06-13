@@ -269,7 +269,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Networking
             {
                 var price = element.QuerySelector(".Price-price-27p").InnerText;
                 var name = element.QuerySelector(".ProductGridItem-productName-3ZD").InnerText;
-                var pictureUrl = element.QuerySelector(".ProductGridItem-imageContainer-pMi").FirstChild.GetAttributes("src").FirstOrDefault()?.Value ?? string.Empty;
+                var pictureUrl = element.QuerySelector(".ProductGridItem-imageContainer-pMi").FirstChild.GetAttributeValue("src", string.Empty);
 
                 var processorListing = new ProcessorListing(name, pictureUrl, price);
 
