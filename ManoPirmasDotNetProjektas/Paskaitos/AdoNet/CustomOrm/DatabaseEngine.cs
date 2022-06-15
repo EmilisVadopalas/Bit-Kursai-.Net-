@@ -22,76 +22,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm
             _connectionString = settings.BookStoreConnection;
             _logger = logger;
         }
-        
-        public async Task<IEnumerable<T>> SelectAll<T>() where T : new()
-        {
-            //susikurem generic list
-            var items = new List<T>();
 
-            //Susirenkam specifines klases pavadinima ir properciu, pavadinimus
-            var type = typeof(T);
-            var properties = type.GetProperties();
-
-            //deklaruojam connectiona
-            using var conn = new SqlConnection(_connectionString);
-
-            //Sugeneruojam query Sql'ui/sql sakyni)
-            var SQ = new StringBuilder("Select ");
-
-            //klases parametrai
-            for (int i = 0; i < properties.Length; i++)
-            {
-                SQ.Append($" {(i == 0 ? "" : ",")}[{GetColumnName(properties[i])}] ");
-            }
-
-            SQ.Append($" FROM [{GetTableName(type)}]");
-
-            Console.WriteLine(SQ.ToString());
-
-            //deklaruojam SQL komanda            
-            var sqlCmd = new SqlCommand(SQ.ToString(), conn);
-
-            //Atidarom connectiona
-            await conn.OpenAsync();
-
-            try
-            {
-                //issikvieciam readeri
-                using var reader = await sqlCmd.ExecuteReaderAsync();
-
-                //nuskaitom visus duomenis is lentos
-                while (await reader.ReadAsync())
-                {
-                    try
-                    {
-                        var item = new T();
-
-                        for (int i = 0; i < properties.Length; i++)
-                        {
-                            properties[i].SetValue(item, reader.GetValue(i));
-                        }
-
-                        items.Add(item);
-                    }
-                    catch (Exception ex)
-                    {
-                        await _logger.LogError($"Error parsing from DataBase, Table: {type.Name}");
-                        await _logger.LogError(ex.Message);
-                        await _logger.LogError(ex.StackTrace);
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                await _logger.LogError($"Error reading from DataBase, Table: {type.Name}");
-                await _logger.LogError(ex.Message);
-                await _logger.LogError(ex.StackTrace);
-            }        
-
-            return items;
-        }
-
-        public async Task<IEnumerable<T>> Select<T>(string whereCondition) where T : new()
+        public async Task<IEnumerable<T>> Select<T>(string whereCondition = "") where T : new()
         {
 
             //susikurem generic list
@@ -115,7 +47,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm
 
             SQ.Append($" FROM [{GetTableName(type)}]");
 
-            SQ.Append($"WHERE {whereCondition}");
+            if (!string.IsNullOrEmpty(whereCondition))
+            {
+                SQ.Append($"WHERE {whereCondition}");
+            }
 
             Console.WriteLine(SQ.ToString());
 
