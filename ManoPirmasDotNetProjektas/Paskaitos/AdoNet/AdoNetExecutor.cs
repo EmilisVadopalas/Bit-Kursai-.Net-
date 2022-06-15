@@ -37,6 +37,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
 
             var x = await _dbEngine.Select<Book>();
 
+            var allAuthors = await _dbEngine.Select<Author>();
+
+            //await _dbEngine.Delete(allAuthors.ToArray()[1]);
+
             var y = await _dbEngine.Select<Book>("[KnygosID] > 25");
         }
 

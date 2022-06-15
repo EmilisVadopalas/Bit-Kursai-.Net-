@@ -2,7 +2,6 @@
 using ManoPirmasDotNetProjektas.Paskaitos.Settings;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlClient;
 using System.Linq;
@@ -25,7 +24,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm
 
         public async Task<IEnumerable<T>> Select<T>(string whereCondition = "") where T : new()
         {
-
             //susikurem generic list
             var items = new List<T>();
 
@@ -49,7 +47,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm
 
             if (!string.IsNullOrEmpty(whereCondition))
             {
-                SQ.Append($"WHERE {whereCondition}");
+                SQ.Append($" WHERE {whereCondition}");
             }
 
             Console.WriteLine(SQ.ToString());
@@ -99,7 +97,28 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm
 
         public async Task Delete<T>(T row)
         {
-            
+            var type = typeof(T);
+            var properties = type.GetProperties();
+
+            using var conn = new SqlConnection(_connectionString);
+
+            var SQ = new StringBuilder("Delete ");
+            SQ.Append($" FROM [{GetTableName(type)}]");
+            SQ.Append(" WHERE ");
+
+            //klases parametrai
+            for (int i = 0; i < properties.Length; i++)
+            {
+                SQ.Append($" {(i == 0 ? "" : " AND ")} [{GetColumnName(properties[i])}] = '{properties[i].GetValue(row).ToString()}' ");
+            }
+
+            Console.WriteLine(SQ.ToString());
+
+            var sqlCmd = new SqlCommand(SQ.ToString(), conn);
+
+            await conn.OpenAsync();
+
+            await sqlCmd.ExecuteNonQueryAsync();
         }
 
         public async Task Delete<T>(IEnumerable<T> rows)
@@ -117,23 +136,33 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm
 
         }
 
-        public async Task Update<T>(IEnumerable<T> rows)
-        {
-
-        }
-
-        public async Task Update<T>(T row)
-        {
-
-        }
-
-
         private string GetColumnName(PropertyInfo property) =>
             property.GetCustomAttributes(false).Select(x => 
                 ((ColumnAttribute)x).Name).FirstOrDefault() ?? property.Name;
 
-        private string GetTableName(Type type) => 
-            type.GetCustomAttributes(false).Select(x =>
-                ((TableAttribute)x).Name).FirstOrDefault() ?? type.Name;
+        private string GetTableName(Type type)
+        {
+            var xyy = type.GetCustomAttributes(false);
+
+            if (xyy == null)
+            {
+                return type.Name;
+            }
+            else 
+            {
+                return xyy.Select(x => 
+                {
+                    try
+                    {
+                        return ((TableAttribute)x).Name;
+                    }
+                    catch
+                    {
+                        return string.Empty;
+                    }                
+                }).Where(x => string.IsNullOrEmpty(x)).FirstOrDefault() ?? type.Name;
+            }   
+        }
+            
     }    
 }
