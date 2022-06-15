@@ -1,4 +1,5 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.AdoNet;
+using ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm;
 using ManoPirmasDotNetProjektas.Paskaitos.Exeptions;
 using ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files;
 using ManoPirmasDotNetProjektas.Paskaitos.Logger;
@@ -9,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Text;
+
+Console.OutputEncoding = Encoding.UTF8;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(app => app.AddJsonFile("appsettings.json"))
@@ -22,6 +26,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         //klase parenkama cia
         services.AddSingleton<ILoggerServise, LoggerServise>();
         services.AddSingleton<AppSettings>();
+        services.AddSingleton<DatabaseEngine>();
 
 
         //Clase parenkama is appsettings.json
