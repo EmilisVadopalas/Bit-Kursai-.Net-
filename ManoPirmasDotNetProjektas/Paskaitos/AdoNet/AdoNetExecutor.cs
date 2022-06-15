@@ -36,6 +36,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
             //}
 
             var x = await _dbEngine.SelectAll<Book>();
+
+            var y = await _dbEngine.Select<Book>("[KnygosID] > 25");
         }
 
         private async Task PrintBooks()
