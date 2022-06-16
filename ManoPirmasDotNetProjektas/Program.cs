@@ -1,10 +1,7 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.AdoNet;
 using ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm;
-using ManoPirmasDotNetProjektas.Paskaitos.Exeptions;
-using ManoPirmasDotNetProjektas.Paskaitos.IO_And_Files;
+using ManoPirmasDotNetProjektas.Paskaitos.EntityFramework;
 using ManoPirmasDotNetProjektas.Paskaitos.Logger;
-using ManoPirmasDotNetProjektas.Paskaitos.Networking;
-using ManoPirmasDotNetProjektas.Paskaitos.OPP;
 using ManoPirmasDotNetProjektas.Paskaitos.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,10 +16,12 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((host, services) =>
     {
         var config = host.Configuration;
-        
+
         //Clase parenkama is appsettings.json
         //services.AddSingleton(typeof(ILoggerServise), Type.GetType(config.GetRequiredSection("logger").Value));
-        
+
+        services.AddDbContext<BookStoreContext>();
+
         //klase parenkama cia
         services.AddSingleton<ILoggerServise, LoggerServise>();
         services.AddSingleton<AppSettings>();
@@ -33,7 +32,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         //services.AddScoped( typeof(ITema) , Type.GetType(config.GetRequiredSection("Executor").Value));        
 
         //klase parenkama cia
-        services.AddScoped<ITema, AdoNetExecutor>(); 
+        services.AddScoped<ITema, EntityFrameworkExecutor>();       
     })
     .Build();
 

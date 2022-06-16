@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
 {
@@ -7,6 +8,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
     public class Book
     {
         [Column("KnygosID")]
+        [Key]
         public int BookId { get; set; }
 
         [Column("Pavadinimas")]
@@ -15,8 +17,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
         [Column("Žanras")]
         public string Type { get; set; }
 
-        [Column("Puslapių kiekis")]
-        public int PuslapiųKiekis { get; set; }
+        [Column("Puslapių_kiekis")]
+        public int PageCount { get; set; }
 
         [Column("Originalo_kalba")]
         public string OriginalLanguage { get; set; }
