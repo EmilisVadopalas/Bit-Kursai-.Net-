@@ -21,31 +21,45 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.EntityFramework
 
         public async Task Run()
         {
-            await UpdateUnitTestBook();
+            //await DeleteBookByName("nauja knyga");
+
+            var book = await FindBookByName("Unit Testai");
+            book.Author = _bookContext.Authors.Where(a => a.Id == book.AuthorId).FirstOrDefault();
         }
 
-        public async Task UpdateUnitTestBook()
+        private async Task DeleteBookByName(string bookNameToDelete)
         {
-            var UnitTestBook = _bookContext.Books.Where(x => x.Name == "Unit Testai" ).FirstOrDefault();
+            var UnitTestBook = _bookContext.Books.Where(x => x.Name == bookNameToDelete).FirstOrDefault();
 
-            Console.WriteLine($"page count: {UnitTestBook.PageCount}");
-
-            UnitTestBook.PageCount = 999;
-
-            var newBook = new Book
+            if (UnitTestBook != null)
             {
-                Name = "nauja knyga",
-                Type = "moksline",
-                PageCount = 48,
-                OriginalLanguage = "Lietuviu",
-                AuthorId = 24
-            };
+                Console.WriteLine($"Book to be deleted: {UnitTestBook.Name}");
 
-            _bookContext.Books.Add(newBook);
+                _bookContext.Books.Remove(UnitTestBook);
 
-            Console.WriteLine($"page count: {UnitTestBook.PageCount}");
+                await _logger.LogDebug($"book \"{UnitTestBook.Name}\" has been deleted.");
 
-            await _bookContext.SaveChangesAsync();
+                await _bookContext.SaveChangesAsync();
+            }
+            else
+            {
+                Console.WriteLine($"There is not book in database with Name: \"{bookNameToDelete}\"");
+                await _logger.LogWarning($"There is not book in database with Name: \"{bookNameToDelete}\"");
+            }
+        }
+        private async Task<Book> FindBookByName(string bookName)
+        {
+            var book = _bookContext.Books.Where(book => book.Name == bookName).FirstOrDefault();
+
+            if(book is null)
+            {
+                Console.WriteLine($"Cannot find book with name {bookName}");
+                await _logger.LogDebug($"Cannot find book with name {bookName}");
+            }
+
+            Console.WriteLine(book);
+
+            return book;
         }
     }
 }

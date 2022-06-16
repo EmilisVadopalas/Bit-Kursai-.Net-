@@ -23,8 +23,21 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
         [Column("Originalo_kalba")]
         public string OriginalLanguage { get; set; }
 
+
         [Column("AutoriusID")]
         public int AuthorId { get; set; }
+        public Author Author { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"id: {BookId} \n" +
+                $"Name: {Name} \n" +
+                $"Type: {Type} \n" +
+                $"Pages: {PageCount} \n" +
+                $"Original language: {OriginalLanguage} \n" +
+                $"Authors id: {AuthorId}";
+        }
     }
 
 }

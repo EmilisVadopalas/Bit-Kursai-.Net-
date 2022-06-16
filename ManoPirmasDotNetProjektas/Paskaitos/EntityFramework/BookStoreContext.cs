@@ -28,7 +28,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.EntityFramework
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Author>(a => a.HasNoKey());
+            modelBuilder.Entity<Author>().Property(e => e.Sex)
+                .HasConversion(
+                    s => s.ToString(), // is klases i Duombaze
+                    s => s.ToLower() == "vyras" // is db i klase
+                        ? Lytis.Vyras 
+                        : Lytis.Moteris);
+
+            modelBuilder.Entity<Book>(b => b.HasKey(k => k.BookId));
         }
     }
 }
