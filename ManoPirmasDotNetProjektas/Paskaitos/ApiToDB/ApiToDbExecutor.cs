@@ -30,10 +30,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
 
         public async Task Run()
         {
-            var books = await GetBooksFromUrl(GenerateRandomBookUrl(2));
-            await AddAuthorsToBooks(books);
-            await AddAuthorToDatabase(books[0]);
-
+            var books = await GetBooksFromUrl(GenerateRandomBookUrl(10)); //sugeneruojam URL, padarom http GET Json parsinam i klase
+            await AddAuthorsToBooks(books); // Knygoms atsisiunciam ju autorius is API, sugeneruojam isparsina i autoriaus klase
+            await AddAuthorToDatabase(books); // Pridedam autorius i DB
+            await AddBooksToDataBase(books); // Pridedam knygas i DB
         }
 
         private string[] GenerateRandomBookUrl(int quantity)
@@ -185,6 +185,33 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             {
                 await AddAuthorToDatabase(book);
             }
+        }
+
+        private async Task AddBookToDataBase(BookDto book)
+        {
+            if (book is not null)
+            {
+                var bookdb = new AdoNet.Book(book);
+                _bookStoreContext.Add(bookdb);
+                await _bookStoreContext.SaveChangesAsync();
+                
+            }
+        }
+
+        private async Task AddBooksToDataBase(IEnumerable<BookDto> books)
+        {
+            var booklist = new List<AdoNet.Book>();
+
+            foreach (var book in books)
+            {
+                if (book is not null)
+                {
+                    booklist.Add(new AdoNet.Book(book));
+                }
+            }
+
+            _bookStoreContext.AddRange(booklist);
+            await _bookStoreContext.SaveChangesAsync();
         }
     }
 }

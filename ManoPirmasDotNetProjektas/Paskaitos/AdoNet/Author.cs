@@ -45,13 +45,16 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
 
                 for (int i = 1; i < names.Length; i++)
                 {
-                    Surname += names[i];
-                }                
+                    if ((Surname.Length + names[i].Length + 1) < 50) 
+                    { 
+                        Surname += $"{names[i]} ";
+                    }
+                }
             }
             else
             {
-                Name = string.IsNullOrEmpty(author.name) ? "Nezinomas" : author.name;
-                Surname = string.IsNullOrEmpty(author.name) ? "Nezinomas" : author.name;
+                Name = string.IsNullOrEmpty(author.name) ? "Nezinomas" : author.name.Substring(0, author.name.Length > 50 ? 50 : author.name.Length);
+                Surname = string.IsNullOrEmpty(author.name) ? "Nezinomas" : author.name.Substring(0, author.name.Length > 50 ? 50 : author.name.Length);
             }
 
             BirthDate = author?.date is not null && DateTime.TryParse(author.date, out var authorsDate) 

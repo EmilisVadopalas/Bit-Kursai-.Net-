@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManoPirmasDotNetProjektas.Paskaitos.ApiToDB;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
@@ -27,7 +28,25 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
         [Column("AutoriusID")]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
+        
+        public Book() { }
 
+        public Book(BookDto book)
+        {
+            Name = book?.title?.Substring(0, (book?.title?.Length ?? 0) > 50 ? 50 : (book?.title?.Length ?? 0)) ?? "nezinomas";
+            Type = book?.type?.key?.Substring(0, (book?.type?.key?.Length ?? 0) > 50 ? 50 : (book?.type?.key?.Length ?? 0)) ?? "nezinomas";
+            PageCount = book?.number_of_pages ?? 0;
+            OriginalLanguage = "Unknown";
+
+            if ((book?.AuthorDto?.Count ?? 0) == 0)
+            {
+                AuthorId = 1025;
+            }
+            else
+            {
+                AuthorId = book?.AuthorDto[0]?.DatabaseID ?? 1025;
+            }
+        }
 
         public override string ToString()
         {
