@@ -1,5 +1,6 @@
 ﻿using ManoPirmasDotNetProjektas.Paskaitos.AdoNet;
 using ManoPirmasDotNetProjektas.Paskaitos.AdoNet.CustomOrm;
+using ManoPirmasDotNetProjektas.Paskaitos.ApiToDB;
 using ManoPirmasDotNetProjektas.Paskaitos.EntityFramework;
 using ManoPirmasDotNetProjektas.Paskaitos.Logger;
 using ManoPirmasDotNetProjektas.Paskaitos.Settings;
@@ -32,7 +33,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         //services.AddScoped( typeof(ITema) , Type.GetType(config.GetRequiredSection("Executor").Value));        
 
         //klase parenkama cia
-        services.AddScoped<ITema, EntityFrameworkExecutor>();       
+        services.AddScoped<ITema, ApiToDbExecutor>();       
     })
     .Build();
 
