@@ -1,6 +1,11 @@
-﻿using System;
+﻿using ManoPirmasDotNetProjektas.Paskaitos.EntityFramework;
+using ManoPirmasDotNetProjektas.Paskaitos.Logger;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,20 +14,33 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
     internal class ApiToDbExecutor : ITema
     {
         private readonly string _booksEndpoint = "https://openlibrary.org/books/";
-        private readonly string _authorEndpoint = "https://openlibrary.org/authors/";
+        private readonly string _baseEndpoint = "https://openlibrary.org";
 
         private readonly int _bookLimit = 38247449;
 
+
+        private readonly BookStoreContext _bookStoreContext;
+        private readonly ILoggerServise _logger;
+
+        public ApiToDbExecutor(ILoggerServise logger, BookStoreContext bookStoreContext)
+        {
+            _logger = logger;
+            _bookStoreContext = bookStoreContext;
+        }
+
         public async Task Run()
-        {           
-            var ListofRandomBookUrl = GenerateRandomBookUrl(1000);
+        {
+            var books = await GetBooksFromUrl(GenerateRandomBookUrl(2));
+            await AddAuthorsToBooks(books);
+            await AddAuthorToDatabase(books[0]);
+
         }
 
         private string[] GenerateRandomBookUrl(int quantity)
         {
             var random = new Random();
 
-            var bookIds= new List<int>();
+            var bookIds = new List<int>();
 
             while (bookIds.Count() < quantity)
             {
@@ -43,5 +61,131 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
 
             return booksUrl;
         }
+
+        private async Task<BookDto> GetBookFromUrl(string url)
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var result = await client.GetAsync(url);
+                var body = await result.Content.ReadAsStringAsync();
+
+                try
+                {
+                    return JsonConvert.DeserializeObject<BookDto>(body);
+                }
+                catch (Exception ex)
+                {
+                    await _logger.LogError("cannot deserialize responce to BookDto");
+                    await _logger.LogError($"Body of response: {body}");
+                    await _logger.LogError(ex.Message);
+                    await _logger.LogError(ex.StackTrace);
+                }
+            }
+            catch (WebException ex)
+            {
+                await _logger.LogError($"Failed to reach {url}, status: ({ex.Status})");
+                await _logger.LogError(ex.Message);
+                await _logger.LogError(ex.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                await _logger.LogError($"Failed to reach {url}");
+                await _logger.LogError(ex.Message);
+                await _logger.LogError(ex.StackTrace);
+            }
+
+            return null;
+        }
+
+        private async Task<List<BookDto>> GetBooksFromUrl(string[] urls)
+        {
+            var books = new List<BookDto>();
+
+            foreach (string url in urls)
+            {
+                books.Add(await GetBookFromUrl(url));
+            }
+
+            return books;
+        }
+
+        private async Task AddAuthorToBook(BookDto book)
+        {
+            book.AuthorDto = new List<AuthorDto>();
+
+            if (book?.authors is not null)
+            {
+                foreach (var author in book.authors)
+                {
+                    var url = $"{_baseEndpoint}{author.key}.json";
+
+                    try
+                    {
+                        using var client = new HttpClient();
+                        var result = await client.GetAsync(url);
+                        var body = await result.Content.ReadAsStringAsync();
+
+                        try
+                        {
+                            book.AuthorDto.Add(JsonConvert.DeserializeObject<AuthorDto>(body));
+                        }
+                        catch (Exception ex)
+                        {
+                            await _logger.LogError("cannot deserialize responce to AuthorDto class");
+                            await _logger.LogError($"Body of response: {body}");
+                            await _logger.LogError(ex.Message);
+                            await _logger.LogError(ex.StackTrace);
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        await _logger.LogError($"Failed to reach {url}, status: ({ex.Status})");
+                        await _logger.LogError(ex.Message);
+                        await _logger.LogError(ex.StackTrace);
+                    }
+                    catch (Exception ex)
+                    {
+                        await _logger.LogError($"Failed to reach {url}");
+                        await _logger.LogError(ex.Message);
+                        await _logger.LogError(ex.StackTrace);
+                    }
+                }
+            }
+        }
+
+        private async Task AddAuthorsToBooks(List<BookDto> books)
+        {
+            foreach (var book in books)
+            {
+                await AddAuthorToBook(book);
+            }
+        }
+
+        private async Task AddAuthorToDatabase(BookDto book)
+        {
+            if (book?.AuthorDto is not null)
+            {
+                foreach (var authorsDto in book.AuthorDto)
+                {
+                    var author = new AdoNet.Author(authorsDto);
+
+                    _bookStoreContext.Add(author);
+                    await _bookStoreContext.SaveChangesAsync();
+
+                    authorsDto.DatabaseID = author.Id;
+
+                }
+            }
+        }
+
+        private async Task AddAuthorToDatabase(List<BookDto> books)
+        {
+            foreach(var book in books)
+            {
+                await AddAuthorToDatabase(book);
+            }
+        }
     }
 }
+
