@@ -25,6 +25,6 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
         public Created created { get; set; }
         public Last_Modified last_modified { get; set; }
         public List<AuthorDto> AuthorDto { get; set; }
-
+        public string error { get; set; }
     }
 }

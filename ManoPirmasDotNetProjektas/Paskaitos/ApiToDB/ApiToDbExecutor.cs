@@ -72,7 +72,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
 
                 try
                 {
-                    return JsonConvert.DeserializeObject<BookDto>(body);
+                    var book = JsonConvert.DeserializeObject<BookDto>(body);
+
+                    if (string.IsNullOrEmpty(book.error))
+                    {
+                        return book;
+                    }
+                    
+                    return null;
                 }
                 catch (Exception ex)
                 {
