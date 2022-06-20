@@ -1,7 +1,9 @@
-﻿using ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus;
+﻿using ManoPirmasDotNetProjektas.Paskaitos.AdoNet;
+using ManoPirmasDotNetProjektas.Paskaitos.Colections.Bus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +47,16 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Extensions
         public static BusRoute[] FindBuses2(this IEnumerable<BusRoute> busRoutes, string location)
         {
             return busRoutes.Where(busRoute => busRoute.BusStops.Any(busStop => busStop == location)).ToArray();
+        }
+
+        public static IEnumerable<Book> TopLongestBooks(this IEnumerable<Book> books, int quantity)
+        {        
+            return books.OrderByDescending(x => x.PageCount).Take(quantity);
+        }
+
+        public static IEnumerable<TSource> SelectTopBy<TSource, TKey>(this IEnumerable<TSource> objs, Expression<Func<TSource, TKey>> keySelector, int quantity)
+        {
+            return objs.OrderByDescending(keySelector.Compile()).Take(quantity);
         }
     }
 }

@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ManoPirmasDotNetProjektas.Paskaitos.Extensions;
+using Newtonsoft.Json;
+using ManoPirmasDotNetProjektas.Paskaitos.AdoNet;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
 {
@@ -33,6 +36,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
             ReadBooksLinq(20);
             ReadBooksLinqMini(20);
             ReadBooksLinqQuery(20);
+            ExtensionTesting();
 
             return Task.CompletedTask;
         }
@@ -108,5 +112,86 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
             Console.WriteLine();
         }
 
+        private void ExtensionTesting()
+        {
+            var booksfddasdasrs = _dbContext.Books;
+            var booksfdrs = _dbContext.Books.TopLongestBooks(20);
+            var books = _dbContext.Books.SelectTopBy(x => x.PageCount, 20);
+        }
+
+        private void BookMiniTasksWithLinq()
+        {
+            var lib = _dbContext.Books;
+            //rasti knygas kurios kurios turi daugiau negu X puslapiu
+            var books = lib.Where(x => x.PageCount > 2000);
+
+            //isrykioti knygas pagal puslapiu kieki
+            books = lib.OrderBy(x => x.PageCount);
+
+            //isrykioti knygas pagal puslapiu kieki ir pagal pavadinima
+            books = lib.OrderBy(x => x.PageCount).ThenBy(x => x.Name);
+
+            //pasirinkiti i masyva knygu tik knygu pavadinimus
+            var bookNames = lib.Select(x => x.Name);
+
+            //is knygos sugeneruoti annonymous objekta
+            var namePage = lib.Select(x => new { x.Name, x.PageCount });
+
+            //is knygos sugeneruoti jos json reprensentacija
+            var jsonBooks = lib.Select(x => JsonConvert.SerializeObject(x));
+
+            // rasti knyga trumpiausiu pavadinimu
+            var shortestNameBook = lib.OrderBy(x => x.Name.Length).FirstOrDefault();
+
+            //rasti knyga ilgiausiu pavadinimu
+            var LongestNameBook = lib.OrderByDescending(x => x.Name.Length).FirstOrDefault();
+
+            //rasti knygu puslapiu vidurki
+            var AvrgPageCount = lib.Average(x => x.PageCount);
+
+            //rasti knygu kieki
+            var booksCount = lib.Count();
+
+            //rasti ar bent viena knyga knyga yra 155 puslapiu
+            var doesAny = lib.Any(x => x.PageCount == 155);
+
+            //rasti ar visos knygos yra > 0 puslapiu
+            var doesAll = lib.All(x => x.PageCount > 0);
+
+            //rasti ar bent vienos knygos pavadinime yra tekstas 'pro'
+            var containsPro = lib.Any(x => x.Name.Contains("pro"));
+
+            //rasti knygas kuriu tekstuose yra 'pro'
+            books = lib.Where(x => x.Name.Contains("pro")); 
+
+            //joininti concatinti keliu knygu pavadinimus
+            var nameCon = string.Concat("|||||", lib.Select(x => x.Name));
+
+            //rasti knygu kieki ir irasyti i kintamaji
+            var count = lib.Count();
+
+            //paimti visas knygas minus (count - 2) (skip() - metodas) kaip ir Take() tik atvirksciai 
+            books = lib.Skip(count - 2);
+
+            //sudeti 10knygu i array 
+            Book[] knygos = lib.ToArray();
+
+            //is array konvertuoti i List<Books>
+            List<Book> knyhos = knygos.ToList();
+
+            //is  list konvertuoti atgal i array
+            knygos = knyhos.ToArray();
+
+            //iskviesti metododa ToList().ForEach({expression})
+            lib.Where(x => x.PageCount > 100).ToList().ForEach(x =>
+            {
+                Console.WriteLine($"{x.Name,-75} si knyga ilgesne nei 100 psl ({x.PageCount})");
+            });
+        }
+
     }
 }
+
+
+
+
