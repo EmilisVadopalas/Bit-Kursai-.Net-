@@ -38,6 +38,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
             ReadBooksLinqQuery(20);
             ExtensionTesting();
 
+            BookMiniTasksWithLinq();
+
             return Task.CompletedTask;
         }
 
