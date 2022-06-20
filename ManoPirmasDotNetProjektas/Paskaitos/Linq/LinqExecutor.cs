@@ -2,6 +2,7 @@
 using ManoPirmasDotNetProjektas.Paskaitos.Logger;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,11 +25,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
 
         public Task Run()
         {
-            ReadLargeFilesNoLinq();
-            Console.WriteLine();
-            ReadLargeFilesWithLinqQuerySyntax();
-            Console.WriteLine();
-            ReadLargeFilesWithLinqMethodSyntax();
+            //ReadLargeFilesNoLinq();
+            //Console.WriteLine();
+            //ReadLargeFilesWithLinqQuerySyntax();
+            //Console.WriteLine();
+            //ReadLargeFilesWithLinqMethodSyntax();
+            ReadBooksLinq(20);
+            ReadBooksLinqMini(20);
+            ReadBooksLinqQuery(20);
 
             return Task.CompletedTask;
         }
@@ -67,6 +71,42 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
             }
         }
 
+        private void ReadBooksLinq(int quantity)
+        {                       
+            var books = _dbContext.Books.OrderByDescending(x => x.PageCount).Take(quantity);
+
+            foreach (var book in books)
+            {
+                Console.WriteLine($"{book.Name,-80} psl: {book.PageCount}");
+            }
+
+            Console.WriteLine();
+        }
+
+        private void ReadBooksLinqMini(int quantity)
+        {
+            _dbContext.Books.OrderByDescending(x => x.PageCount).Take(quantity)
+                .AsParallel().ForAll(book => 
+                { 
+                    Console.WriteLine($"{book.Name,-80} psl: {book.PageCount}"); 
+                });
+
+            Console.WriteLine();
+        }
+
+        private void ReadBooksLinqQuery(int quantity)
+        {
+            var books = (from book in _dbContext.Books
+                        orderby book.PageCount descending
+                        select book).Take(quantity);
+
+            foreach (var book in books)
+            {
+                Console.WriteLine($"{book.Name,-80} psl: {book.PageCount}");
+            }
+
+            Console.WriteLine();
+        }
 
     }
 }
