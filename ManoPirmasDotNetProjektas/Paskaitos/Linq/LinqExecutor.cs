@@ -47,7 +47,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
 
             //JoinsReducersAndGroups();
 
-            FirstTask();
+            //FirstTask();
+            SecondTask();
 
             return Task.CompletedTask;
         }
@@ -319,21 +320,24 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
                     BookName = book.Name,
                     NumberOfPages = book.PageCount
                 })
-                .Where(x => x.BookName != "nezinomas" && x.NumberOfPages != 0)
+                .Where(x => x.BookName != "nezinomas" && x.NumberOfPages != 0 && x.AuthorsName != "Nezinomas").Take(100)
                 .ToList(); //pridejau filtra kad butu tik gerai is API nuskaitytos knygos, be nezinomu pavadinimu
 
             foreach(var book in books)
             {
                 Console.WriteLine($"\n{book.AuthorsName} {book.AuthorsSurname}");
                 Console.WriteLine($"{book.BookName} ({book.NumberOfPages})\n");
-            }
+            }                       
+        }
 
-            //same with querry syntax
-
+        private void SecondTask()
+        {
             var querrybooks = from b in _dbContext.Books
                               join a in _dbContext.Authors
                                   on b.AuthorId equals a.Id
-                              where b.Name != "nezinomas" && b.PageCount > 0
+                              where b.Name != "nezinomas"
+                                && b.PageCount > 0
+                                && a.Name != "nezinomas"
                               select new
                               {
                                   AuthorsName = a.Name,
@@ -342,7 +346,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
                                   NumberOfPages = b.PageCount
                               };
 
-            foreach (var book in querrybooks.ToList())
+            foreach (var book in querrybooks.Take(100).ToList())
             {
                 Console.WriteLine($"\n{book.AuthorsName} {book.AuthorsSurname}");
                 Console.WriteLine($"{book.BookName} ({book.NumberOfPages})\n");
