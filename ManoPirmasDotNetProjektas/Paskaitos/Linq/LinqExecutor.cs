@@ -309,15 +309,40 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
 
         private void FirstTask()
         {
-            var books = _dbContext.Books.Join(_dbContext.Authors, book => book.AuthorId, author => author.Id, (book, author) => new
-            {
-                AuthorsName = author.Name,
-                AuthorsSurname =author.Surname,
-                BookName = book.Name,
-                NumberOfPages = book.PageCount
-            }).Where(x => x.BookName != "nezinomas" && x.NumberOfPages != 0).ToList();
+            var books = _dbContext.Books.Join(_dbContext.Authors, // ka su kuo joininam
+                book => book.AuthorId, // pradzio pasirenkam prie ko joininsim
+                author => author.Id, // tada pasirenkam ka joininsim
+                (book, author) => new // tada is abieju obectu sukuriam nauja, arba esama klase, arba anonimini obj
+                {
+                    AuthorsName = author.Name,
+                    AuthorsSurname =author.Surname,
+                    BookName = book.Name,
+                    NumberOfPages = book.PageCount
+                })
+                .Where(x => x.BookName != "nezinomas" && x.NumberOfPages != 0)
+                .ToList(); //pridejau filtra kad butu tik gerai is API nuskaitytos knygos, be nezinomu pavadinimu
 
             foreach(var book in books)
+            {
+                Console.WriteLine($"\n{book.AuthorsName} {book.AuthorsSurname}");
+                Console.WriteLine($"{book.BookName} ({book.NumberOfPages})\n");
+            }
+
+            //same with querry syntax
+
+            var querrybooks = from b in _dbContext.Books
+                              join a in _dbContext.Authors
+                                  on b.AuthorId equals a.Id
+                              where b.Name != "nezinomas" && b.PageCount > 0
+                              select new
+                              {
+                                  AuthorsName = a.Name,
+                                  AuthorsSurname = a.Surname,
+                                  BookName = b.Name,
+                                  NumberOfPages = b.PageCount
+                              };
+
+            foreach (var book in querrybooks.ToList())
             {
                 Console.WriteLine($"\n{book.AuthorsName} {book.AuthorsSurname}");
                 Console.WriteLine($"{book.BookName} ({book.NumberOfPages})\n");
