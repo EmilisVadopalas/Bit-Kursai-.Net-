@@ -66,9 +66,76 @@ namespace ManoPirmasDotNetProjektas.Tests
 
         //Api Ok,  > 1 url
         [Test]
-        public void GetBooksFromUrl_CallsApiForManyUrl_ListOfBooks()
+        public async Task GetBooksFromUrl_CallsApiForManyUrl_ListOfBooks()
         {
+            var urls = new string[] { "test1of4", "test2of4", "test3of4", "test4of4" };
+            var book1 = new BookDto
+            {
+                type = null,
+                title = "test Book 1",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var book2 = new BookDto
+            {
+                type = null,
+                title = "test Book 2",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var book3 = new BookDto
+            {
+                type = null,
+                title = "test Book 3",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var book4 = new BookDto
+            {
+                type = null,
+                title = "test Book 4",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            _openLibraryAPI.Setup(x => x.GetBookFromUrl("test1of4")).ReturnsAsync(book1);
+            _openLibraryAPI.Setup(x => x.GetBookFromUrl("test2of4")).ReturnsAsync(book2);
+            _openLibraryAPI.Setup(x => x.GetBookFromUrl("test3of4")).ReturnsAsync(book3);
+            _openLibraryAPI.Setup(x => x.GetBookFromUrl("test4of4")).ReturnsAsync(book4);
 
+            var result = await _sut.GetBooksFromUrl(urls);
+
+            //ar iskviest buvo API
+            _openLibraryAPI.Verify(x => x.GetBookFromUrl("test1of4"), Times.Once);
+            _openLibraryAPI.Verify(x => x.GetBookFromUrl("test2of4"), Times.Once);
+            _openLibraryAPI.Verify(x => x.GetBookFromUrl("test3of4"), Times.Once);
+            _openLibraryAPI.Verify(x => x.GetBookFromUrl("test4of4"), Times.Once);
+
+            //Ar resultas toks kokio tikimes
+            result.Should().BeEquivalentTo(new List<BookDto>(new BookDto[] { book1, book2, book3, book4 }));
         }
 
         //Api ok, 0 ulr
