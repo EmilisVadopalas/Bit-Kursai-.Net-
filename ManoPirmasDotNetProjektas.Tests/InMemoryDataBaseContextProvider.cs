@@ -1,4 +1,5 @@
-﻿using ManoPirmasDotNetProjektas.Paskaitos.EntityFramework;
+﻿using ManoPirmasDotNetProjektas.Paskaitos.AdoNet;
+using ManoPirmasDotNetProjektas.Paskaitos.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManoPirmasDotNetProjektas.Tests
@@ -21,6 +22,29 @@ namespace ManoPirmasDotNetProjektas.Tests
             customSeed?.Invoke();
 
             dbContext.SaveChanges();
+        }
+
+        public static void CustomSeed(BookStoreContext bookStoreContext)
+        {
+            var pirmasAuth = new Author
+            {
+                Name = "nezinomas",
+                Surname = "autorius",
+                BirthDate = new DateTime(1771, 01, 01),
+                Sex = Lytis.Vyras,
+                NativeLanguage = "Lietuviu"
+            };
+
+            bookStoreContext.Authors.Add(pirmasAuth);
+
+            bookStoreContext.Books.Add(new Book
+            {
+                Name = "Unit Testai C#",
+                Type = "Mokymosi",
+                PageCount = 66,
+                OriginalLanguage = "Lietuviu",
+                AuthorId = pirmasAuth.Id
+            });
         }
     }
 }

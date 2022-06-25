@@ -28,7 +28,7 @@ namespace ManoPirmasDotNetProjektas.Tests
             _loggerServiseMock = new Mock<ILoggerServise>();
             _BookStoreContextMock = InMemoryDataBaseContextProvider.GetBookStoreContext();
 
-            _BookStoreContextMock.Seed(() => CustomSeed(_BookStoreContextMock));
+            _BookStoreContextMock.Seed(() => InMemoryDataBaseContextProvider.CustomSeed(_BookStoreContextMock));
 
             _sut = new LinqExecutor(_loggerServiseMock.Object, _BookStoreContextMock);
         }
@@ -89,27 +89,5 @@ namespace ManoPirmasDotNetProjektas.Tests
             result.Should().BeEquivalentTo(new List<Book>());
         }
 
-        private void CustomSeed(BookStoreContext bookStoreContext)
-        {
-            var pirmasAuth = new Author
-            {
-                Name = "nezinomas",
-                Surname = "autorius",
-                BirthDate = new DateTime(1771, 01, 01),
-                Sex = Lytis.Vyras,
-                NativeLanguage = "Lietuviu"
-            };
-            
-            bookStoreContext.Authors.Add(pirmasAuth);
-
-            bookStoreContext.Books.Add(new Book
-            {
-                Name = "Unit Testai C#",
-                Type = "Mokymosi",
-                PageCount = 66,
-                OriginalLanguage = "Lietuviu",
-                AuthorId = pirmasAuth.Id
-            });
-        }
     }
 }

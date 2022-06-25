@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
 {
-    internal class ApiToDbExecutor : ITema
+    public class ApiToDbExecutor : ITema
     {      
         private readonly BookStoreContext _bookStoreContext;
         private readonly ILoggerServise _logger;
@@ -35,7 +35,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             await AddBooksToDataBase(books); // Pridedam knygas i DB
         }       
 
-        private async Task<List<BookDto>> GetBooksFromUrl(string[] urls)
+        public async Task<List<BookDto>> GetBooksFromUrl(string[] urls)
         {
             var books = new List<BookDto>();
 
@@ -47,7 +47,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             return books;
         }
 
-        private async Task AddAuthorsToBooks(List<BookDto> books)
+        public async Task AddAuthorsToBooks(List<BookDto> books)
         {
             foreach (var book in books)
             {
@@ -55,7 +55,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             }
         }
 
-        private async Task AddAuthorToDatabase(BookDto book)
+        public async Task AddAuthorToDatabase(BookDto book)
         {
             if (book?.AuthorDto is not null)
             {
@@ -72,7 +72,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             }
         }
 
-        private async Task AddAuthorToDatabase(List<BookDto> books)
+        public async Task AddAuthorToDatabase(List<BookDto> books)
         {
             foreach(var book in books)
             {
@@ -80,7 +80,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             }
         }
 
-        private async Task AddBookToDataBase(BookDto book)
+        public async Task AddBookToDataBase(BookDto book)
         {
             if (book is not null)
             {
@@ -91,7 +91,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             }
         }
 
-        private async Task AddBooksToDataBase(IEnumerable<BookDto> books)
+        public async Task AddBooksToDataBase(IEnumerable<BookDto> books)
         {
             var booklist = new List<AdoNet.Book>();
 
