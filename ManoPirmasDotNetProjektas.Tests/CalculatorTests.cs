@@ -52,8 +52,6 @@ namespace ManoPirmasDotNetProjektas.Tests
         public void Divide_ShouldThrowDivideByZeroExecption_Execption(int a)
         {
             Assert.Throws<DivideByZeroException>(() => _sut.Divide(a, 0));
-        }
-
-        
+        }        
     }
 }
