@@ -12,98 +12,28 @@ using System.Threading.Tasks;
 namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
 {
     internal class ApiToDbExecutor : ITema
-    {
-        private readonly string _booksEndpoint = "https://openlibrary.org/books/";
-        private readonly string _baseEndpoint = "https://openlibrary.org";
-
-        private readonly int _bookLimit = 38247449;
-
-
+    {      
         private readonly BookStoreContext _bookStoreContext;
         private readonly ILoggerServise _logger;
+        private readonly IOpenLibraryAPI _openLibraryAPI;
 
-        public ApiToDbExecutor(ILoggerServise logger, BookStoreContext bookStoreContext)
+        public ApiToDbExecutor(
+            ILoggerServise logger, 
+            BookStoreContext bookStoreContext,
+            IOpenLibraryAPI openLibraryAPI)
         {
             _logger = logger;
             _bookStoreContext = bookStoreContext;
+            _openLibraryAPI = openLibraryAPI;
         }
 
         public async Task Run()
         {
-            var books = await GetBooksFromUrl(GenerateRandomBookUrl(10)); //sugeneruojam URL, padarom http GET Json parsinam i klase
+            var books = await GetBooksFromUrl(_openLibraryAPI.GenerateRandomBookUrl(10)); //sugeneruojam URL, padarom http GET Json parsinam i klase
             await AddAuthorsToBooks(books); // Knygoms atsisiunciam ju autorius is API, sugeneruojam isparsina i autoriaus klase
             await AddAuthorToDatabase(books); // Pridedam autorius i DB
             await AddBooksToDataBase(books); // Pridedam knygas i DB
-        }
-
-        public string[] GenerateRandomBookUrl(int quantity)
-        {
-            var random = new Random();
-
-            var bookIds = new List<int>();
-
-            while (bookIds.Count() < quantity)
-            {
-                int id = Convert.ToInt32(random.NextDouble() * (_bookLimit - 1) + 1);
-
-                if (!bookIds.Contains(id))
-                {
-                    bookIds.Add(id);
-                }
-            }
-
-            var booksUrl = new string[quantity];
-
-            for (int i = 0; i < quantity; i++)
-            {
-                booksUrl[i] = $"{_booksEndpoint}OL{bookIds[i]}M.json";
-            }
-
-            return booksUrl;
-        }
-
-        private async Task<BookDto> GetBookFromUrl(string url)
-        {
-            try
-            {
-                using var client = new HttpClient();
-                var result = await client.GetAsync(url);
-                var body = await result.Content.ReadAsStringAsync();
-
-                try
-                {
-                    var book = JsonConvert.DeserializeObject<BookDto>(body);
-
-                    if (string.IsNullOrEmpty(book.error))
-                    {
-                        return book;
-                    }
-                    
-                    return null;
-                }
-                catch (Exception ex)
-                {
-                    await _logger.LogError("cannot deserialize responce to BookDto");
-                    await _logger.LogError($"Body of response: {body}");
-                    await _logger.LogError(ex.Message);
-                    await _logger.LogError(ex.StackTrace);
-                }
-            }
-            catch (WebException ex)
-            {
-                await _logger.LogError($"Failed to reach {url}, status: ({ex.Status})");
-                await _logger.LogError(ex.Message);
-                await _logger.LogError(ex.StackTrace);
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogError($"Failed to reach {url}");
-                await _logger.LogError(ex.Message);
-                await _logger.LogError(ex.StackTrace);
-            }
-
-            return null;
-        }
+        }       
 
         private async Task<List<BookDto>> GetBooksFromUrl(string[] urls)
         {
@@ -111,61 +41,17 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
 
             foreach (string url in urls)
             {
-                books.Add(await GetBookFromUrl(url));
+                books.Add(await _openLibraryAPI.GetBookFromUrl(url));
             }
 
             return books;
-        }
-
-        private async Task AddAuthorToBook(BookDto book)
-        {
-            book.AuthorDto = new List<AuthorDto>();
-
-            if (book?.authors is not null)
-            {
-                foreach (var author in book.authors)
-                {
-                    var url = $"{_baseEndpoint}{author.key}.json";
-
-                    try
-                    {
-                        using var client = new HttpClient();
-                        var result = await client.GetAsync(url);
-                        var body = await result.Content.ReadAsStringAsync();
-
-                        try
-                        {
-                            book.AuthorDto.Add(JsonConvert.DeserializeObject<AuthorDto>(body));
-                        }
-                        catch (Exception ex)
-                        {
-                            await _logger.LogError("cannot deserialize responce to AuthorDto class");
-                            await _logger.LogError($"Body of response: {body}");
-                            await _logger.LogError(ex.Message);
-                            await _logger.LogError(ex.StackTrace);
-                        }
-                    }
-                    catch (WebException ex)
-                    {
-                        await _logger.LogError($"Failed to reach {url}, status: ({ex.Status})");
-                        await _logger.LogError(ex.Message);
-                        await _logger.LogError(ex.StackTrace);
-                    }
-                    catch (Exception ex)
-                    {
-                        await _logger.LogError($"Failed to reach {url}");
-                        await _logger.LogError(ex.Message);
-                        await _logger.LogError(ex.StackTrace);
-                    }
-                }
-            }
         }
 
         private async Task AddAuthorsToBooks(List<BookDto> books)
         {
             foreach (var book in books)
             {
-                await AddAuthorToBook(book);
+                await _openLibraryAPI.AddAuthorToBook(book);
             }
         }
 

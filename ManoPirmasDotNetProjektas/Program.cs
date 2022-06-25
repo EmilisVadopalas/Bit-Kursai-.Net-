@@ -28,6 +28,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ILoggerServise, LoggerServise>();
         services.AddSingleton<AppSettings>();
         services.AddSingleton<DatabaseEngine>();
+        services.AddTransient<IOpenLibraryAPI, OpenLibraryAPI>();
 
 
         //Clase parenkama is appsettings.json
