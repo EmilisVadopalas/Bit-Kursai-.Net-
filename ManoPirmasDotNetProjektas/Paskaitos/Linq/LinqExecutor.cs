@@ -87,16 +87,11 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
             }
         }
 
-        private void ReadBooksLinq(int quantity)
-        {                       
-            var books = _dbContext.Books.OrderByDescending(x => x.PageCount).Take(quantity);
+        public List<Book> ReadBooksLinq(int quantity)
+        {
+            _logger.LogInfo($"bus nuskaityta {quantity} knygu");
 
-            foreach (var book in books)
-            {
-                Console.WriteLine($"{book.Name,-80} psl: {book.PageCount}");
-            }
-
-            Console.WriteLine();
+            return _dbContext.Books.OrderByDescending(x => x.PageCount).Take(quantity).ToList();
         }
 
         private void ReadBooksLinqMini(int quantity)
@@ -308,9 +303,10 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
             Console.WriteLine(string.Join("\n", lDistinct));
         }
 
-        private void FirstTask()
+        public void FirstTask()
         {
-            var books = _dbContext.Books.Join(_dbContext.Authors, // ka su kuo joininam
+            var books = _dbContext.Books.Where(x => x.Name != "nezinomas" && x.PageCount != 0)
+                .Join(_dbContext.Authors.Where(x => x.Name != "Nezinomas"), // ka su kuo joininam
                 book => book.AuthorId, // pradzio pasirenkam prie ko joininsim
                 author => author.Id, // tada pasirenkam ka joininsim
                 (book, author) => new // tada is abieju obectu sukuriam nauja, arba esama klase, arba anonimini obj
@@ -319,9 +315,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
                     AuthorsSurname =author.Surname,
                     BookName = book.Name,
                     NumberOfPages = book.PageCount
-                })
-                .Where(x => x.BookName != "nezinomas" && x.NumberOfPages != 0 && x.AuthorsName != "Nezinomas").Take(100)
-                .ToList(); //pridejau filtra kad butu tik gerai is API nuskaitytos knygos, be nezinomu pavadinimu
+                }).Take(100); //pridejau filtra kad butu tik gerai is API nuskaitytos knygos, be nezinomu pavadinimu
 
             foreach(var book in books)
             {
@@ -337,16 +331,16 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Linq
                                   on b.AuthorId equals a.Id
                               where b.Name != "nezinomas"
                                 && b.PageCount > 0
-                                && a.Name != "nezinomas"
-                              select new
-                              {
+                                && a.Name != "Nezinomas"
+                              select 
+                              new {
                                   AuthorsName = a.Name,
                                   AuthorsSurname = a.Surname,
                                   BookName = b.Name,
                                   NumberOfPages = b.PageCount
                               };
 
-            foreach (var book in querrybooks.Take(100).ToList())
+            foreach (var book in querrybooks.Take(100))
             {
                 Console.WriteLine($"\n{book.AuthorsName} {book.AuthorsSurname}");
                 Console.WriteLine($"{book.BookName} ({book.NumberOfPages})\n");

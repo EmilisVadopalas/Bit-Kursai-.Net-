@@ -38,6 +38,16 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.Colections
             Console.WriteLine(generic.GetType().Name);
         }
 
+        public string ForTest(string aa)
+        {
+            return $"{aa} test";
+        }
+
+        public int Square(int toSquare)
+        {
+            return toSquare * toSquare;
+        }
+
         public void Dictionaries()
         {
             var busR1 = new BusRoute("A1", new string[] { "99", "2", "11" });

@@ -24,7 +24,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.EntityFramework
             //await DeleteBookByName("nauja knyga");
 
             var book = await FindBookByName("Unit Testai");
-            book.Author = _bookContext.Authors.Where(a => a.Id == book.AuthorId).FirstOrDefault();
+            //book.Author = _bookContext.Authors.Where(a => a.Id == book.AuthorId).FirstOrDefault();
         }
 
         private async Task DeleteBookByName(string bookNameToDelete)

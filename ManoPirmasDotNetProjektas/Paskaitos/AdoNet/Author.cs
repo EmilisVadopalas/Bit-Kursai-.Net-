@@ -26,11 +26,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
         public Lytis Sex { get; set; }
 
         [Column("Gimtoji_kalba")]
-        public string NativeLanguage { get; set; }
-
-
-        public IEnumerable<Book> Books { get; set; }
-
+        public string NativeLanguage { get; set; }    
 
         public Author(){}
 

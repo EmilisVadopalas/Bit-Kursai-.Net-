@@ -36,7 +36,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.ApiToDB
             await AddBooksToDataBase(books); // Pridedam knygas i DB
         }
 
-        private string[] GenerateRandomBookUrl(int quantity)
+        public string[] GenerateRandomBookUrl(int quantity)
         {
             var random = new Random();
 

@@ -21,11 +21,20 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.EntityFramework
             _configuration = configuration;
         }
 
+        public BookStoreContext(DbContextOptions<BookStoreContext> cOptions)
+            :base(cOptions)
+        {
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("BookStoreConnection"));
+            if (_configuration is not null)
+            {
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("BookStoreConnection"));
+            }
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Author>().Property(e => e.Sex)

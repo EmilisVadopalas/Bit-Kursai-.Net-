@@ -4,13 +4,13 @@ using ManoPirmasDotNetProjektas.Extensions;
 
 namespace ManoPirmasDotNetProjektas.Paskaitos
 {
-    internal static class Basic
+    internal class Basic
     {
         /// <summary>
         /// sitas metodas iskvies uzduotis kurias darem per pirma paskaita, kurioje aptareme C# pagrindus.
         /// </summary>
         /// <param name="param">tiesiog parametras</param>
-        public static void PirmosPaskaitosUzduotys(string param = "default tekstas")
+        public void PirmosPaskaitosUzduotys(string param = "default tekstas")
         {
             // 1 uzduotis: deklaruoti ir inicijuoti kintamuosius.
             // kintamieji:
@@ -104,7 +104,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
         /// <summary>
         /// sitas metodas iskvies uzduotis kurias darem per antra paskaita, kurioje aptareme C# pagrindus.
         /// </summary>
-        public static void AntrosPaskaitosUzduotys()
+        public void AntrosPaskaitosUzduotys()
         {
             ///
             ///IFs
@@ -608,7 +608,7 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
         /// <summary>
         /// sitas metodas iskvies uzduotis kurias darem per trecia paskaita, kurioje aptareme C# pagrindus.
         /// </summary>
-        public static void TreciosPaskaitosUzduotys()
+        public void TreciosPaskaitosUzduotys()
         {
             ///
             /// ARRAYS
@@ -763,14 +763,14 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
         }
 
         //1. Sukurti metoda kuris isprintina paduota teksta, i konsole
-        public static void PirmaUzduotisKetvirtosPaskaitos(string tekstas)
+        public void PirmaUzduotisKetvirtosPaskaitos(string tekstas)
         {
             Console.WriteLine(tekstas);
         }
 
         //2. sukurti kelis metodus topaciu pavadinimu bet skirtingais parametrais
         // overloading (funkcija is pirmos uzduoties papildyti, dviem stringais, arba stringais ir intais
-        public static void PirmaUzduotisKetvirtosPaskaitos(string tekstas, int kiekis)
+        public void PirmaUzduotisKetvirtosPaskaitos(string tekstas, int kiekis)
         {
             for (int i = 0; i < kiekis; i++)
             {
@@ -780,13 +780,13 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
 
         //3. sukurti metoda kuris paima int'o referenca ir su juo atlieka veiksmus, (return type void), bet tuopaciu pakeicia ta kintimaji
         // (ref raktazodis)
-        public static void TreciaUzduotisKetvirtosPaskaitos(ref int skaicius)
+        public void TreciaUzduotisKetvirtosPaskaitos(ref int skaicius)
         {
             skaicius = skaicius * skaicius;
         }
 
         //4. Parasyti funkcija su out parametru
-        public static bool KetvirtaUzduotisKetvirtosPaskaitos(int kiekis, out string daugiauMaziauLygu)
+        public bool KetvirtaUzduotisKetvirtosPaskaitos(int kiekis, out string daugiauMaziauLygu)
         {
             daugiauMaziauLygu = string.Empty;
 
@@ -811,19 +811,19 @@ namespace ManoPirmasDotNetProjektas.Paskaitos
         }
 
         //5. parasyti funkcija su tuple return tipu
-        public static (bool, string, int) PenktaUzduotisKetvirtosPaskaitos(bool a, string b, int c)
+        public (bool, string, int) PenktaUzduotisKetvirtosPaskaitos(bool a, string b, int c)
         {
             return (a, b, c);
         }
 
         //6. parasyti funkcija su varArgs, (params raktazodis)
-        public static int SestaUzduotisKetvirtosPaskaitos(params int[] arguments)
+        public int SestaUzduotisKetvirtosPaskaitos(params int[] arguments)
         {
             return arguments.Suma();
         }
 
         //7. Expresion body funkcija (kaip JS buvo Arrow funkcijos)
-        public static void SeptintaUzduotisKetvirtosPaskaitos(string justPrintMe) => 
+        public void SeptintaUzduotisKetvirtosPaskaitos(string justPrintMe) => 
             Console.WriteLine(justPrintMe);
 
         #region Privates         

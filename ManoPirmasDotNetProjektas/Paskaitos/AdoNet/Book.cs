@@ -24,10 +24,8 @@ namespace ManoPirmasDotNetProjektas.Paskaitos.AdoNet
         [Column("Originalo_kalba")]
         public string OriginalLanguage { get; set; }
 
-
         [Column("AutoriusID")]
         public int AuthorId { get; set; }
-        public Author Author { get; set; }
         
         public Book() { }
 
