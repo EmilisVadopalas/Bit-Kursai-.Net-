@@ -25,7 +25,6 @@ namespace ManoPirmasDotNetProjektas.Tests
         [TestCase(0, 0, 0)]
         [TestCase(12, -12, 0)]
         [TestCase(1000000000, 1000000000, 2000000000)]
-        //[TestCase(10000000000, 10000000000, 20000000000), Ignore("Needs seperate overload method for longs")]
         public void Add_ReturnSumOfTwoIntegerss_Integer(int a,int b, int resultShould)
         {
             var result = _sut.Add(a,b);
