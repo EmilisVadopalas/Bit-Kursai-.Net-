@@ -238,7 +238,7 @@ namespace ManoPirmasDotNetProjektas.Tests
         public async Task GetBooksFromUrl_CallsApiForManyUrlAndAllReturnNulls_ListOfBooks()
         {
             var urls = new string[] { "test1of4", "test2of4", "test3of4", "test4of4" };
-            BookDto book = null; 
+            BookDto book = null;
             _openLibraryAPI.Setup(x => x.GetBookFromUrl("test1of4")).ReturnsAsync(book);
             _openLibraryAPI.Setup(x => x.GetBookFromUrl("test2of4")).ReturnsAsync(book);
             _openLibraryAPI.Setup(x => x.GetBookFromUrl("test3of4")).ReturnsAsync(book);
@@ -256,6 +256,355 @@ namespace ManoPirmasDotNetProjektas.Tests
             result.Should().BeEquivalentTo(new List<BookDto>(new BookDto[] { book, book, book, book }));
         }
 
+        #endregion
+
+        #region AddAuthorsToBooks
+
+        //1 book one author
+        [Test]
+        public async Task AddAuthorsToBooks_AddsOneAuthorToBook_Task()
+        {
+            var book = new BookDto
+            {
+                type = null,
+                title = "test Book",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var booksAuthor = new AuthorDto
+            {
+                name = "testuotojas",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 1,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var resultBook = new BookDto
+            {
+                type = null,
+                title = "test Book",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1,
+                AuthorDto = new List<AuthorDto>(new AuthorDto[1] { booksAuthor })
+            };
+            var listBooks = new List<BookDto>(new BookDto[] { book });
+            _openLibraryAPI.Setup(x => x.AddAuthorToBook(book)).Callback(() =>
+            {
+                book.AuthorDto = new List<AuthorDto>(new AuthorDto[1] { booksAuthor });
+            });
+
+            await _sut.AddAuthorsToBooks(listBooks);
+
+            _openLibraryAPI.Verify(x => x.AddAuthorToBook(book), Times.Once);
+            listBooks.FirstOrDefault().Should().BeEquivalentTo(resultBook);
+        }
+
+        //1 book zero authors
+        [Test]
+        public async Task AddAuthorsToBooks_AddsZeroAuthorsToOneBook_Task()
+        {
+            var book = new BookDto
+            {
+                type = null,
+                title = "test Book",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            AuthorDto booksAuthor = null;
+            var resultBook = new BookDto
+            {
+                type = null,
+                title = "test Book",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1,
+                AuthorDto = new List<AuthorDto>(new AuthorDto[1] { booksAuthor })
+            };
+            var listBooks = new List<BookDto>(new BookDto[] { book });
+            _openLibraryAPI.Setup(x => x.AddAuthorToBook(book)).Callback(() =>
+            {
+                book.AuthorDto = new List<AuthorDto>(new AuthorDto[1] { booksAuthor });
+            });
+
+            await _sut.AddAuthorsToBooks(listBooks);
+
+            _openLibraryAPI.Verify(x => x.AddAuthorToBook(book), Times.Once);
+            listBooks.FirstOrDefault().Should().BeEquivalentTo(resultBook);
+        }
+
+        //1 book many authors
+        [Test]
+        public async Task AddAuthorsToBooks_AddsManyAuthorsToOneBook_Task()
+        {
+            var book = new BookDto
+            {
+                type = null,
+                title = "test Book",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var booksAuthor1 = new AuthorDto
+            {
+                name = "testuotojas 1",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 1,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var booksAuthor2 = new AuthorDto
+            {
+                name = "testuotojas 2",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 2,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var booksAuthor3 = new AuthorDto
+            {
+                name = "testuotojas 3",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 3,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var resultBook = new BookDto
+            {
+                type = null,
+                title = "test Book",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1,
+                AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor1, booksAuthor2, booksAuthor3 })
+            };
+            var listBooks = new List<BookDto>(new BookDto[] { book });
+            _openLibraryAPI.Setup(x => x.AddAuthorToBook(book)).Callback(() =>
+            {
+                book.AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor1, booksAuthor2, booksAuthor3 });
+            });
+
+            await _sut.AddAuthorsToBooks(listBooks);
+
+            _openLibraryAPI.Verify(x => x.AddAuthorToBook(book), Times.Once);
+            listBooks.FirstOrDefault().Should().BeEquivalentTo(resultBook);
+        }
+
+        //many books diferent authors 0,1,many
+        [Test]
+        public async Task AddAuthorsToBooks_AddsManyOneZeroAuthorsToManyBook_Task()
+        {
+            var book1 = new BookDto
+            {
+                type = null,
+                title = "test Book 1",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var book2 = new BookDto
+            {
+                type = null,
+                title = "test Book 2",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var book3 = new BookDto
+            {
+                type = null,
+                title = "test Book 3",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1
+            };
+            var booksAuthor11 = new AuthorDto
+            {
+                name = "testuotojas 11",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 1,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var booksAuthor12 = new AuthorDto
+            {
+                name = "testuotojas 12",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 2,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var booksAuthor13 = new AuthorDto
+            {
+                name = "testuotojas 13",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 3,
+                revision = 16,
+                DatabaseID = 541
+            };
+            var booksAuthor2 = new AuthorDto
+            {
+                name = "testuotojas 2",
+                personal_name = "testeris",
+                last_modified = null,
+                key = "author id 1",
+                date = "1999-09-06",
+                type = null,
+                id = 4,
+                revision = 16,
+                DatabaseID = 541
+            };
+            AuthorDto booksAuthor3 = null;
+            var resultBook1 = new BookDto
+            {
+                type = null,
+                title = "test Book 1",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1,
+                AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor11, booksAuthor12, booksAuthor13 })
+            };
+            var resultBook2 = new BookDto
+            {
+                type = null,
+                title = "test Book 2",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1,
+                AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor2 })
+            };
+            var resultBook3 = new BookDto
+            {
+                type = null,
+                title = "test Book 3",
+                authors = null,
+                publish_date = "2022-06-06",
+                source_records = null,
+                number_of_pages = 20,
+                physical_format = "Physical Book",
+                key = "5155",
+                latest_revision = 1,
+                revision = 1,
+                AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor3 })
+            };
+            var listBooks = new List<BookDto>(new BookDto[] { book1, book2, book3 });
+            _openLibraryAPI.Setup(x => x.AddAuthorToBook(book1)).Callback(() =>
+            {
+                book1.AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor11, booksAuthor12, booksAuthor13 });
+            });
+            _openLibraryAPI.Setup(x => x.AddAuthorToBook(book2)).Callback(() =>
+            {
+                book2.AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor2 });
+            });
+            _openLibraryAPI.Setup(x => x.AddAuthorToBook(book3)).Callback(() =>
+            {
+                book3.AuthorDto = new List<AuthorDto>(new AuthorDto[] { booksAuthor3 });
+            });
+
+            await _sut.AddAuthorsToBooks(listBooks);
+
+            _openLibraryAPI.Verify(x => x.AddAuthorToBook(book1), Times.Once);
+            _openLibraryAPI.Verify(x => x.AddAuthorToBook(book2), Times.Once);
+            _openLibraryAPI.Verify(x => x.AddAuthorToBook(book3), Times.Once);
+            listBooks.Should().BeEquivalentTo(new List<BookDto>(new BookDto[] { resultBook1, resultBook2, resultBook3 }));
+        }
+
+        //zero books
+        [Test]
+        public async Task AddAuthorsToBooks_DoesNothingWhenZeroBook_Task()
+        {
+            var listBooks = new List<BookDto>();
+            var resultlist = new List<BookDto>();
+
+            await _sut.AddAuthorsToBooks(listBooks);
+
+            listBooks.Should().BeEquivalentTo(resultlist);
+        }
         #endregion
     }
 }
