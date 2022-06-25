@@ -54,7 +54,7 @@ namespace ManoPirmasDotNetProjektas.Tests
         [Test]
         public void ReadBooksLinq_ReadZeroBookFromDB_IEnumerableBook()
         {
-            _loggerServiseMock.Setup(x => x.LogInfo($"bus nuskaityta {-5} knygu")).Throws(new Exception("test error"));
+            //_loggerServiseMock.Setup(x => x.LogInfo($"bus nuskaityta {-5} knygu")).Throws(new Exception("test error"));
             var resultBook = new Book
             {
                 BookId = 1,
